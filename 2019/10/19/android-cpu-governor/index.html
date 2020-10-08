@@ -1,0 +1,538 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>从安卓探究Linux内核CPU调速器 - TimZhong&#39;s Blog</title>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+  
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link  rel="stylesheet" href="/css/main.css" />
+<!-- 自定义样式保持在最底部 -->
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-10-19 13:58">
+      2019年10月19日 下午
+    </time>
+  </div>
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23
+       分钟
+    </span>
+  
+  
+  
+</div>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    
+      
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>生活离不开手机，安卓占据了手机系统的半壁江山。手机cpu频率是手机性能的重要指标之一，目前顶级梯队的骁龙855芯片中“大核”频率已经达到了2.96GHz，即使它使用7nm工艺制造，运行在如此高频必然需要较高的核心电压，也同时会增加耗电。为了提高能耗比，除了物理上改进cpu设计，软件上优化软件算法……还有一个重要的措施————使用CPU调速器（Governor）。</p>
+<a id="more"></a>
+<h2 id="0x01-cpu如何手动调速"><a href="#0x01-cpu如何手动调速" class="headerlink" title="0x01 cpu如何手动调速"></a>0x01 cpu如何手动调速</h2><p>本文实验均在lineageOS进行(关闭高通热插拔与跳频设置)。本地化系统（如miui，flyme，emui等）或高通的热插拔技术可能会干预cpu频率，无法简单地进行手动调频。</p>
+<pre><code class="hljs awk"><span class="hljs-regexp">//</span>对cpu0进行调整
+cd <span class="hljs-regexp">/sys/</span>devices<span class="hljs-regexp">/system/</span>cpu<span class="hljs-regexp">/cpu0/</span>cpufreq/
+<span class="hljs-regexp">//</span>调整cpu0最大频率
+echo <span class="hljs-number">2200000</span> &gt; scaling_max_freq
+<span class="hljs-regexp">//</span>调整cpu最小频率
+echo <span class="hljs-number">1596000</span> &gt; scaling_min_freq
+<span class="hljs-regexp">//</span>若将cpu最大最小频率设置为相同频率，即锁定cpu频率。</code></pre>
+<h2 id="0x02-什么是cpu调速器"><a href="#0x02-什么是cpu调速器" class="headerlink" title="0x02 什么是cpu调速器"></a>0x02 什么是cpu调速器</h2><p>机器处在相对空闲的状态下，此时CPU不需要运行在高频率上，调速器会降低cpu频率从而省电。当机器需要进行大量计算时，调速器会升高cpu频率以防止应用出现卡顿。广义上讲，AI优化也是一种调速器，因为现在手机厂商所谓AI优化很大一部分优化效果归功于对cpu频率的精准控制（当然AI优化也不全是调速器，还有动态分辨率调整之类的其他技术）。<br>简单来说，调速器就是根据负载情况自动化调节cpu频率的工具。</p>
+<h2 id="0x03-有哪些常见的cpu调速器"><a href="#0x03-有哪些常见的cpu调速器" class="headerlink" title="0x03 有哪些常见的cpu调速器"></a>0x03 有哪些常见的cpu调速器</h2><blockquote>
+<p>【interactive】交互模式（在安卓使用最广泛的调速器）<br>【conservative】保守模式<br>【performance】高性能模式<br>【powersave】省电模式</p>
+</blockquote>
+<!--more-->
+<blockquote>
+<p>【Wheatley】惠特利模式<br>【lionheart】狮心模式<br>【smartass】聪明模式<br>【smartassV2】聪明V2模式</p>
+</blockquote>
+<h2 id="0x04-如何用好调速器"><a href="#0x04-如何用好调速器" class="headerlink" title="0x04 如何用好调速器"></a>0x04 如何用好调速器</h2><p><strong>（以interactive调速器为例）——调速器参数调整的学问</strong></p>
+<h3 id="1-above-hispeed-delay"><a href="#1-above-hispeed-delay" class="headerlink" title="1.above_hispeed_delay:"></a>1.above_hispeed_delay:</h3><p>核心频率超过hispeed_freq时，升频延迟时间(above_hispeed_delay)(单位uS)<br>(example:40000 1400000:30000)<br>hispeed_freq&lt;频率&lt;1.4GHz，且连续40000uS达到目标负载，才进行升频。<br>频率&gt;1.4GHz，且连续30000uS达到目标负载，才进行升频。</p>
+<h3 id="2-boost"><a href="#2-boost" class="headerlink" title="2.boost:"></a>2.<code>boost</code>:</h3><p>如果非0则将频率设定为hispeed_freq，用于应对瞬间大量任务。</p>
+<h3 id="3-boostpulse-duration"><a href="#3-boostpulse-duration" class="headerlink" title="3.boostpulse_duration"></a>3.<code>boostpulse_duration</code></h3><p>boost时间限制(单位uS)</p>
+<h3 id="4-go-hispeed-load"><a href="#4-go-hispeed-load" class="headerlink" title="4.go_hispeed_load:"></a>4.<code>go_hispeed_load</code>:</h3><p>example: (90)<br>在最低频状态，且负载达到 <code>go_hispeed_load</code> 即90%时，CPU直接提频到hispeed_freq。</p>
+<h3 id="5-hispeed-freq"><a href="#5-hispeed-freq" class="headerlink" title="5.hispeed_freq:"></a>5.<code>hispeed_freq</code>:</h3><p>example:(1728000)(即1728MHz)<br>设定<code>hispeed_freq</code>。</p>
+<h3 id="6-min-sample-time"><a href="#6-min-sample-time" class="headerlink" title="6.min_sample_time:"></a>6.<code>min_sample_time</code>:</h3><p>example: (40000)<br>需要保持当前频率多久才进行降频(单位uS)。</p>
+<h3 id="7-sampling-down-factor"><a href="#7-sampling-down-factor" class="headerlink" title="7.sampling_down_factor:"></a>7.<code>sampling_down_factor</code>:</h3><p>example: (1(default))</p>
+<h3 id="8-target-loads"><a href="#8-target-loads" class="headerlink" title="8.target_loads:"></a>8.<code>target_loads</code>:</h3><p>example: (85<br>         1200000:75<br>         1500000:85)<br>    负载达到85时进行升频。频率为1.2GHz-1.5GHz时负载75%进行升频。频率&gt;1.5GHz时负载85%进行升频。<br><img src="https://ae01.alicdn.com/kf/U203dd8a106004dcfb8ac9e73a1df0e8bu.png" srcset="/img/loading.gif" alt="1.jpg"><br><img src="https://ae01.alicdn.com/kf/Udeb78d7d2fb34897a515bbaa72f478ae1.png" srcset="/img/loading.gif" alt="2.jpg"></p>
+<p><strong>注：<code>go_hispeed_load</code>优先级高于<code>target_loads</code>优先级。</strong></p>
+<hr>
+<h2 id="补充：实际案例"><a href="#补充：实际案例" class="headerlink" title="补充：实际案例"></a>补充：实际案例</h2><p><strong>用实际案例解释各个调速器参数</strong></p>
+<h3 id="安卓手机打开软件时的cpu频率折线图"><a href="#安卓手机打开软件时的cpu频率折线图" class="headerlink" title="安卓手机打开软件时的cpu频率折线图"></a>安卓手机打开软件时的cpu频率折线图</h3><p><strong>(单位为0.1s)</strong><br><img src="https://img.timzhong.top/images/2019/10/23/JQuaCVNMZBWXXi3W.png" srcset="/img/loading.gif" alt="3.jpg"></p>
+<ul>
+<li>上图为软件打开时的cpu频率曲线，可以看到cpu瞬间提频至1.7GHz(<code>hispeed_freq</code>)</li>
+<li>但此时软件还在加载过程中，负载依然很高，延迟大约200ms(above_hispeed_delay)进行升频。升至最高频率1.98GHz</li>
+<li>最终软件完全加载完毕，仍然保持当前频率(<code>min_sample_time</code>)，后降频至300MHz。</li>
+<li>进入软件后进行滑动，ui绘制需要较多资源，cpu瞬间升至1.7GHz(<code>hispeed_freq</code>)。</li>
+</ul>
+<p><strong>个人见解：</strong></p>
+<ol>
+<li><p>为了省电：</p>
+<ol>
+<li>将<code>hispeed</code>降低，将<code>target_loads</code>提高(cpu快速进入一个较低的频率，然后缓慢升频)</li>
+</ol>
+</li>
+<li><p>为了性能：</p>
+<ol>
+<li>一是提高<code>hispeed</code>，当负载升高时，cpu快速进入高频，保证响应速度(保证突发性能)。提高<code>target_load</code>和<code>above_hispeed_delay</code>防止过快升频，为省电考虑。</li>
+<li>二是降低<code>hispeed</code>，降低<code>target_load</code>和<code>above_hispeed_delay</code>缓慢提升频率，保证正常升频。</li>
+</ol>
+</li>
+</ol>
+<p><strong>拓展：引入前台应用/时间/用户动作(如拿起手机，是否连续触摸)等多维度信息来调整调速器参数</strong></p>
+<hr>
+<p>2019-10-21更新</p>
+<h2 id="0x05-调速器代码逻辑简析"><a href="#0x05-调速器代码逻辑简析" class="headerlink" title="0x05 调速器代码逻辑简析"></a>0x05 调速器代码逻辑简析</h2><p>——从代码理解调速器逻辑(<strong>博主能力有限，正在研究代码中，持续更新</strong></p>
+<p>综合两文做了一些修改和补充，原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xujianqun/article/details/7681011">https://blog.csdn.net/xujianqun/article/details/7681011</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014089131/article/details/68490573">https://blog.csdn.net/u014089131/article/details/68490573</a></p>
+<h3 id="如何判断跳频（跳到hispeed-freq的实现）"><a href="#如何判断跳频（跳到hispeed-freq的实现）" class="headerlink" title="如何判断跳频（跳到hispeed_freq的实现）"></a>如何判断跳频（跳到<code>hispeed_freq</code>的实现）</h3><pre><code class="hljs xl"><span class="hljs-function"><span class="hljs-title">if</span> (cpu_load &gt;= tunables-&gt;</span><span class="hljs-function"><span class="hljs-title">go_hispeed_load</span> || tunables-&gt;</span>boosted) &#123;
+	<span class="hljs-function"><span class="hljs-title">if</span> (pcpu-&gt;</span><span class="hljs-function"><span class="hljs-title">policy</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">cur</span> &lt; tunables-&gt;</span>hispeed_freq &amp;&amp;
+	    cpu_load &lt;= MAX_LOCAL_LOAD) &#123;<span class="hljs-comment">//当前频率未达到最大频率，可以直接设置为最大频率</span>
+		<span class="hljs-function"><span class="hljs-title">new_freq</span> = tunables-&gt;</span>hispeed_freq;
+	&#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//此时需要选择比hispeed_freq更大的频率</span>
+		new_freq = choose_freq(pcpu, loadadjfreq);
+		<span class="hljs-function"><span class="hljs-title">if</span> (new_freq &lt; tunables-&gt;</span>hispeed_freq)
+			<span class="hljs-function"><span class="hljs-title">new_freq</span> = tunables-&gt;</span>hispeed_freq;
+	&#125;
+&#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//choose_freq 设定新的频率,此时需要降频处理</span>
+	new_freq = choose_freq(pcpu, loadadjfreq);
+&#125;</code></pre>
+<p><strong>把代码转换成语言描述就是</strong></p>
+<p>1、如果负载超过阈值(或开启boost)，就直接升频到<code>hispeed</code>。<br>2、如果负载超过阈值,频率也大于<code>hispeed</code>(或开启boost)，就调用choose_freq确定目标频率”最大频率*负载”。<br>3、如果负载没有超过阈值(未开启boost)，需要降频，就调用choose_freq确定目标频率”当前频率负载”，至于判断是否执行降频请继续向下阅读。</p>
+<h3 id="如何确定目标频率具体数值？-choose-freq的实现"><a href="#如何确定目标频率具体数值？-choose-freq的实现" class="headerlink" title="如何确定目标频率具体数值？(choose_freq的实现)"></a>如何确定目标频率具体数值？(choose_freq的实现)</h3><p>注：loadadjfreq算法</p>
+<pre><code class="hljs zephir">cputime_speedadj = (u64)sched_get_busy(data) * pcpu-&gt;policy-&gt;cpuinfo.max_freq;
+loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>)cputime_speedadj * <span class="hljs-number">100</span>;<span class="hljs-comment">//内核不支持浮点运算</span>
+     <span class="hljs-comment">/*</span>
+<span class="hljs-comment">     choose_freq函数用来选频，使选频后的系统workload小于或等于target load</span>
+<span class="hljs-comment">     核心思想是：选择最小的频率来满足target load</span>
+<span class="hljs-comment">     loadadjfreq一段时间内工作量</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> choose_freq(struct cpufreq_interactive_cpuinfo *pcpu,
+		<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> loadadjfreq)
+    &#123;
+	<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> freq = pcpu-&gt;policy-&gt;cur;<span class="hljs-comment">//当前频率</span>
+	<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> prevfreq, freqmin, freqmax;
+	<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> tl;<span class="hljs-comment">//target load</span>
+	<span class="hljs-keyword">int</span> index;
+ 
+	freqmin = <span class="hljs-number">0</span>;
+	freqmax = UINT_MAX;
+ 
+	<span class="hljs-keyword">do</span> &#123;
+		prevfreq = freq;
+		<span class="hljs-comment">//计算当前频率对应的workload</span>
+		tl = freq_to_targetload(pcpu-&gt;policy-&gt;governor_data, freq);
+ 
+		<span class="hljs-comment">/*</span>
+<span class="hljs-comment">		 * Find the lowest frequency where the computed load is less</span>
+<span class="hljs-comment">		 * than or equal to the target load.</span>
+<span class="hljs-comment">		 */</span>
+		<span class="hljs-comment">//从freq_table中获取最优频率对应的index，取大于等于loadadjfreq / tl　(target freq)的最小值</span>
+		<span class="hljs-keyword">if</span> (cpufreq_frequency_table_target(
+			    pcpu-&gt;policy, pcpu-&gt;freq_table, loadadjfreq / tl,
+			    CPUFREQ_RELATION_L, &amp;index))
+			<span class="hljs-keyword">break</span>;
+		freq = pcpu-&gt;freq_table[index].frequency;<span class="hljs-comment">//**计算出的目标频率，调速器核心之一**</span>
+ 
+		<span class="hljs-keyword">if</span> (freq &gt; prevfreq) &#123;<span class="hljs-comment">//需要提高频率</span>
+			<span class="hljs-comment">/* The previous frequency is too low. */</span>
+			freqmin = prevfreq;
+ 
+			<span class="hljs-keyword">if</span> (freq &gt;= freqmax) &#123;<span class="hljs-comment">//如果目标频率高于最大频率，取最大频率</span>
+				<span class="hljs-comment">/*</span>
+<span class="hljs-comment">				 * Find the highest frequency that is less</span>
+<span class="hljs-comment">				 * than freqmax.</span>
+<span class="hljs-comment">				 */</span>
+				<span class="hljs-keyword">if</span> (cpufreq_frequency_table_target(
+					    pcpu-&gt;policy, pcpu-&gt;freq_table,
+					    freqmax - <span class="hljs-number">1</span>, CPUFREQ_RELATION_H,
+					    &amp;index))
+					<span class="hljs-keyword">break</span>;
+				freq = pcpu-&gt;freq_table[index].frequency;
+ 
+				<span class="hljs-keyword">if</span> (freq == freqmin) &#123;<span class="hljs-comment">//这种情况就是锁频的情况，最大频率==最小频率</span>
+					<span class="hljs-comment">/*</span>
+<span class="hljs-comment">					 * The first frequency below freqmax</span>
+<span class="hljs-comment">					 * has already been found to be too</span>
+<span class="hljs-comment">					 * low.  freqmax is the lowest speed</span>
+<span class="hljs-comment">					 * we found that is fast enough.</span>
+<span class="hljs-comment">					 */</span>
+					freq = freqmax;
+					<span class="hljs-keyword">break</span>;
+				&#125;
+			&#125;
+		&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (freq &lt; prevfreq) &#123;<span class="hljs-comment">//需要降低频率</span>
+			<span class="hljs-comment">/* The previous frequency is high enough. */</span>
+			freqmax = prevfreq;
+ 
+			<span class="hljs-keyword">if</span> (freq &lt;= freqmin) &#123;<span class="hljs-comment">//目标频率比最低频率还小，取最小频率</span>
+				<span class="hljs-comment">/*</span>
+<span class="hljs-comment">				 * Find the lowest frequency that is higher</span>
+<span class="hljs-comment">				 * than freqmin.</span>
+<span class="hljs-comment">				 */</span>
+				<span class="hljs-keyword">if</span> (cpufreq_frequency_table_target(
+					    pcpu-&gt;policy, pcpu-&gt;freq_table,
+					    freqmin + <span class="hljs-number">1</span>, CPUFREQ_RELATION_L,
+					    &amp;index))
+					<span class="hljs-keyword">break</span>;
+				freq = pcpu-&gt;freq_table[index].frequency;
+ 
+				<span class="hljs-comment">/*</span>
+<span class="hljs-comment">				 * If freqmax is the first frequency above</span>
+<span class="hljs-comment">				 * freqmin then we have already found that</span>
+<span class="hljs-comment">				 * this speed is fast enough.</span>
+<span class="hljs-comment">				 */</span>
+				<span class="hljs-keyword">if</span> (freq == freqmax)<span class="hljs-comment">//锁频的情况，最大频率==最小频率</span>
+					<span class="hljs-keyword">break</span>;
+			&#125;
+		&#125;
+ 
+		<span class="hljs-comment">/* If same frequency chosen as previous then done. */</span>
+	&#125; <span class="hljs-keyword">while</span> (freq != prevfreq);
+ 
+	<span class="hljs-keyword">return</span> freq;
+    &#125;</code></pre>
+<h2 id="待更新：-在应用频率前，调速器还做了那些事？"><a href="#待更新：-在应用频率前，调速器还做了那些事？" class="headerlink" title="待更新： 在应用频率前，调速器还做了那些事？"></a>待更新： 在应用频率前，调速器还做了那些事？</h2><p><strong>2019-10-21待更新</strong></p>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/android/">android</a>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/governor/">governor</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/22/ipip-tunnel/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">如何使用ipip tunnel</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/18/cloudflare-Edge-SSL/">
+                        <span class="hidden-mobile">如何开通并使用Cloudflare SSL证书</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+      </div>
+    
+  </div>
+</div>
+<!-- Custom -->
+    
+  </main>
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+    
+    
+  </div>
+</footer>
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+<!-- Plugins -->
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "从安卓探究Linux内核CPU调速器&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+</body>
+</html>

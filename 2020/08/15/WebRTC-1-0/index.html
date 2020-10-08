@@ -1,0 +1,495 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>WebRTC入门 - TimZhong&#39;s Blog</title>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+  
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link  rel="stylesheet" href="/css/main.css" />
+<!-- 自定义样式保持在最底部 -->
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-15 16:08">
+      2020年8月15日 下午
+    </time>
+  </div>
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.1k 字
+    </span>
+  
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      47
+       分钟
+    </span>
+  
+  
+  
+</div>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    
+      
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>WebRTC的全称是Web Real-Time Communication，Web实时通讯。这个API可以让浏览器与服务器甚至两个浏览器之间建立实时通信信道。WebRTC允许两个浏览器不经过服务器互相传输数据，因此WebRTC可以轻松做到低延迟与高可用。本文将简单介绍这个强大的API。<br>实时通讯大家应该都不陌生，从QQ到直播弹幕到在线网络游戏，都有实时通讯技术的身影。大家都用过的peer to peer(p2p)模式的产品，比如bt下载，电驴下载。这些应用通常都需要安装独立客户端，有时需要更新才可以使用。但是你有没有想过在浏览器中也可以做到这两点，这就引出了本文的主角————Web Real-Time Communication(WebRTC)。本文将用简单易懂的语言介绍这个强大的API。</p>
+<h1 id="1-什么是WebRTC"><a href="#1-什么是WebRTC" class="headerlink" title="1. 什么是WebRTC"></a>1. 什么是WebRTC</h1><p>WebRTC的全称是Web Real-Time Communication，Web实时通讯。这个API可以让浏览器与服务器甚至两个浏览器之间建立实时通信信道。WebRTC允许两个浏览器不经过服务器互相传输数据，因此WebRTC可以轻松做到低延迟与高可用。本文将简单介绍这个强大的API。<br><img src="https://img.timzhong.top/images/2020/08/16/WebRTC_Logo.jpg" srcset="/img/loading.gif" alt="WebRTC Logo"></p>
+<a id="more"></a>
+<p>举几个WebRTC的经典使用场景的例子：腾讯课堂利用WebRTC实现课堂视频的推送与播放，聊天区的消息发送与推送；远程会议使用WebRTC实现视频双向传输。或许你有疑惑，就这？其他技术就不能实现这些功能？网页实时通信依赖各种标准，大部分标准并没有把即时通信纳入考量范围，所以即时通讯API的选择相对有限。诚然，Flash确实可以很好地实现上面所说的功能，但是Flash效率低下，在2020年Flash早已停止更新，浏览器也开始逐渐屏蔽Flash。WebRTC API被纳入W3C标准，目前主流的浏览器均支持该API，所以网页实时通讯以及p2p的重任就落在WebRTC身上。</p>
+<h1 id="2-WebRTC历史"><a href="#2-WebRTC历史" class="headerlink" title="2. WebRTC历史"></a>2. WebRTC历史</h1><blockquote>
+<p>2010年5月，Google以6820万美元收购VoIP软件开发商Global IP Solutions的GIPS引擎，并改为名为“WebRTC”。<br>WebRTC使用GIPS引擎，实现了基于网页的视频会议，并支持722，PCM，ILBC，ISAC等编码，同时使用谷歌自家的VP8视频解码器；同时支持RTP/SRTP传输等。<br>2012年1月，谷歌已经把这款软件集成到Chrome浏览器中。同时FreeSWITCH项目宣称支持iSAC audio codec。<br>现在WebRTC已经几乎被所有主流浏览器兼容。</p>
+</blockquote>
+<h1 id="3-WebRTC基本概念"><a href="#3-WebRTC基本概念" class="headerlink" title="3. WebRTC基本概念"></a>3. WebRTC基本概念</h1><h2 id="candidate"><a href="#candidate" class="headerlink" title="candidate"></a>candidate</h2><p><code>candidate</code>描述了自己的 网络类型 地址等一些用于互联的参数</p>
+<p>简单来说 <code>candidate</code>包装用于两端建立连接的信息，让两端可以互相知道对方的网络信息以及webrtc配置。下面是一个常见的candidate。</p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">candidate</span>: &quot;<span class="hljs-selector-tag">candidate</span><span class="hljs-selector-pseudo">:2353526612</span> 1 <span class="hljs-selector-tag">udp</span> 2122260223 192<span class="hljs-selector-class">.168</span><span class="hljs-selector-class">.6</span><span class="hljs-selector-class">.2</span> 51053 <span class="hljs-selector-tag">typ</span> <span class="hljs-selector-tag">host</span> <span class="hljs-selector-tag">generation</span> 0 <span class="hljs-selector-tag">ufrag</span> <span class="hljs-selector-tag">Q4Ir</span> <span class="hljs-selector-tag">network-id</span> 2&quot;,</code></pre>
+<h2 id="Session-会话"><a href="#Session-会话" class="headerlink" title="Session(会话)"></a>Session(会话)</h2><p>Session(会话)是WebRTC中重要的概念，打个比方，我跟小明打电话，我们之间就是建立了会话。在WebRTC中，会话就是两端建立连接并且能互相传递信息的基础。</p>
+<h2 id="Sdp-会话描述"><a href="#Sdp-会话描述" class="headerlink" title="Sdp(会话描述)"></a>Sdp(会话描述)</h2><p>Sdp的全称是SessionDescription，相信看名字就知道Sdp是什么作用了。<br>具体一点讲，Sdp包装了会话的所有信息<br>下面是一个真实的sdp数据，不需要过于关注细节。数据仅用于展示Sdp的作用，本文与这个数据关系并不大。(/doge)</p>
+<ol>
+<li>安全描述：秘钥交换，让WebRTC连接可以在加密的环境下进行，提高了安全性。</li>
+<li>流媒体描述：描述了自己的视频音频等数据的信息，比如编码</li>
+<li>网络信息</li>
+<li>服务质量：简单来说就是初步检测网络卡不卡</li>
+</ol>
+<pre><code class="hljs apache"><span class="hljs-attribute">v</span>=<span class="hljs-number">0</span>
+<span class="hljs-attribute">o</span>=- <span class="hljs-number">7678841878411856999</span> <span class="hljs-number">2</span> IN IP<span class="hljs-number">4</span> <span class="hljs-number">127.0.0.1</span>
+<span class="hljs-attribute">s</span>=-
+<span class="hljs-attribute">t</span>=<span class="hljs-number">0</span> <span class="hljs-number">0</span>
+<span class="hljs-attribute">a</span>=group:BUNDLE <span class="hljs-number">0</span>
+<span class="hljs-attribute">a</span>=msid-semantic: WMS <span class="hljs-number">57</span>ec<span class="hljs-number">53</span>c<span class="hljs-number">9</span>-a<span class="hljs-number">162</span>-<span class="hljs-number">4022</span>-a<span class="hljs-number">88</span>b-<span class="hljs-number">5280</span>a<span class="hljs-number">8670166</span>
+<span class="hljs-attribute">m</span>=video <span class="hljs-number">9</span> UDP/TLS/RTP/SAVPF <span class="hljs-number">96</span> <span class="hljs-number">97</span> <span class="hljs-number">125</span> <span class="hljs-number">107</span> <span class="hljs-number">114</span> <span class="hljs-number">115</span> <span class="hljs-number">116</span>
+<span class="hljs-attribute">c</span>=IN IP<span class="hljs-number">4</span> <span class="hljs-number">0.0.0.0</span>
+<span class="hljs-attribute">a</span>=rtcp:<span class="hljs-number">9</span> IN IP<span class="hljs-number">4</span> <span class="hljs-number">0.0.0.0</span>
+<span class="hljs-attribute">a</span>=ice-ufrag:hFeI
+<span class="hljs-attribute">a</span>=ice-pwd:r<span class="hljs-number">9</span>YLgLYvZjA<span class="hljs-number">9</span>NmNQ<span class="hljs-number">6</span>P<span class="hljs-number">9</span>cuzmP
+<span class="hljs-attribute">a</span>=ice-options:trickle
+<span class="hljs-attribute">a</span>=fingerprint:sha-<span class="hljs-number">256</span> <span class="hljs-number">9</span>E:<span class="hljs-number">7</span>D:<span class="hljs-number">5</span>C:<span class="hljs-number">7</span>E:<span class="hljs-number">35</span>:<span class="hljs-number">0</span>E:<span class="hljs-number">3</span>A:CF:<span class="hljs-number">4</span>E:E<span class="hljs-number">6</span>:<span class="hljs-number">13</span>:F<span class="hljs-number">9</span>:<span class="hljs-number">8</span>E:E<span class="hljs-number">5</span>:A<span class="hljs-number">9</span>:<span class="hljs-number">18</span>:<span class="hljs-number">8</span>B:<span class="hljs-number">37</span>:C<span class="hljs-number">6</span>:<span class="hljs-number">38</span>:ED:<span class="hljs-number">25</span>:B<span class="hljs-number">4</span>:<span class="hljs-number">59</span>:D<span class="hljs-number">7</span>:F<span class="hljs-number">6</span>:D<span class="hljs-number">6</span>:<span class="hljs-number">3</span>C:<span class="hljs-number">38</span>:AE:<span class="hljs-number">17</span>:<span class="hljs-number">3</span>D
+<span class="hljs-attribute">a</span>=setup:active
+<span class="hljs-attribute">a</span>=mid:<span class="hljs-number">0</span>
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">14</span> urn:ietf:params:rtp-hdrext:toffset
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">2</span> http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">13</span> urn:<span class="hljs-number">3</span>gpp:video-orientation
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">3</span> http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-<span class="hljs-number">01</span>
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">12</span> http://www.webrtc.org/experiments/rtp-hdrext/playout-delay
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">11</span> http://www.webrtc.org/experiments/rtp-hdrext/video-content-type
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">7</span> http://www.webrtc.org/experiments/rtp-hdrext/video-timing
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">8</span> http://tools.ietf.org/html/draft-ietf-avtext-framemarking-<span class="hljs-number">07</span>
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">9</span> http://www.webrtc.org/experiments/rtp-hdrext/color-space
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">4</span> urn:ietf:params:rtp-hdrext:sdes:mid
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">5</span> urn:ietf:params:rtp-hdrext:sdes:rtp-stream-id
+<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">6</span> urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id
+<span class="hljs-attribute">a</span>=sendrecv
+<span class="hljs-attribute">a</span>=msid:<span class="hljs-number">57</span>ec<span class="hljs-number">53</span>c<span class="hljs-number">9</span>-a<span class="hljs-number">162</span>-<span class="hljs-number">4022</span>-a<span class="hljs-number">88</span>b-<span class="hljs-number">5280</span>a<span class="hljs-number">8670166</span> d<span class="hljs-number">719</span>b<span class="hljs-number">4</span>cb-<span class="hljs-number">27</span>e<span class="hljs-number">5</span>-<span class="hljs-number">4</span>e<span class="hljs-number">7</span>f-a<span class="hljs-number">548</span>-ca<span class="hljs-number">9</span>c<span class="hljs-number">96</span>c<span class="hljs-number">141</span>a<span class="hljs-number">0</span>
+<span class="hljs-attribute">a</span>=rtcp-mux
+<span class="hljs-attribute">a</span>=rtcp-rsize
+<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">96</span> VP<span class="hljs-number">8</span>/<span class="hljs-number">90000</span>
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> goog-remb
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> transport-cc
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> ccm fir
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> nack
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> nack pli
+<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">97</span> rtx/<span class="hljs-number">90000</span>
+<span class="hljs-attribute">a</span>=fmtp:<span class="hljs-number">97</span> apt=<span class="hljs-number">96</span>
+<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">125</span> H<span class="hljs-number">264</span>/<span class="hljs-number">90000</span>
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> goog-remb
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> transport-cc
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> ccm fir
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> nack
+<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> nack pli
+<span class="hljs-attribute">a</span>=fmtp:<span class="hljs-number">125</span> level-asymmetry-allowed=<span class="hljs-number">1</span>;packetization-mode=<span class="hljs-number">1</span>;profile-level-id=<span class="hljs-number">42</span>e<span class="hljs-number">01</span>f
+<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">107</span> rtx/<span class="hljs-number">90000</span>
+<span class="hljs-attribute">a</span>=fmtp:<span class="hljs-number">107</span> apt=<span class="hljs-number">125</span>
+<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">114</span> red/<span class="hljs-number">90000</span>
+<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">115</span> rtx/<span class="hljs-number">90000</span>
+<span class="hljs-attribute">a</span>=fmtp:<span class="hljs-number">115</span> apt=<span class="hljs-number">114</span>
+<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">116</span> ulpfec/<span class="hljs-number">90000</span>
+<span class="hljs-attribute">a</span>=ssrc-group:FID <span class="hljs-number">3521319142</span> <span class="hljs-number">925057533</span>
+<span class="hljs-attribute">a</span>=ssrc:<span class="hljs-number">3521319142</span> cname:<span class="hljs-number">5</span>uGqECGiizeRCDiO
+<span class="hljs-attribute">a</span>=ssrc:<span class="hljs-number">925057533</span> cname:<span class="hljs-number">5</span>uGqECGiizeRCDiO</code></pre>
+<h2 id="Offer-发起-者"><a href="#Offer-发起-者" class="headerlink" title="Offer(发起(者))"></a>Offer(发起(者))</h2><p>继续打个比方，我给小明打了个电话，我就是发起者。因为WebRTC的相当一部分技术是来自一家voip厂商，所以这里面也少不了传统电话的影子，这个概念也成为了我初学WebRTC时的一个障碍。</p>
+<h2 id="Answer-接受-者"><a href="#Answer-接受-者" class="headerlink" title="Answer(接受(者))"></a>Answer(接受(者))</h2><p>跟<code>Offer</code>一样，小明接到了我的电话，他是是接受者。在WebRTC会话建立的时候，两端需要对号入座，一个人作为发起者另一个人作为接受者。</p>
+<h2 id="signal-信令"><a href="#signal-信令" class="headerlink" title="signal(信令)"></a>signal(信令)</h2><p>信令是<code>candidate</code>和<code>Sdp</code>的载体。<br>这么说可能很难理解信令是什么，想象一个场景，我准备<strong>邮寄一本书</strong>给远方朋友，但是我只有这个朋友的<strong>住址</strong>，这就意味着我不能直接通知他过来拿书。这时我需要把书包装好贴上快递单，把快递当做传书的载体，交给快递员，通过寄快递的方式把书送到他手上。<br>回看WebRTC的<code>信令</code>就很类似这个快递包裹，浏览器把对方的识别码（类似qq号码，微信号）和要发送的<code>candidate</code>和<code>Sdp</code>打包然后”邮寄”给对方。</p>
+<h2 id="信令服务器"><a href="#信令服务器" class="headerlink" title="信令服务器"></a>信令服务器</h2><p><code>信令服务器</code>相当于”快递公司”。<br>两台机器互相不知道对方的时候，就需要一个<code>信令服务器</code>把<code>信令</code>准确无误地传给接受者。</p>
+<h1 id="4-会话是如何建立的？"><a href="#4-会话是如何建立的？" class="headerlink" title="4. 会话是如何建立的？"></a>4. 会话是如何建立的？</h1><p>先假设有两台接入互联网的电脑，一台电脑放在上海，另一台电脑放在广州。我在广州而小明在上海，我们互相知道对方的”号码”，而且我们与<code>信令服务器</code>的连接畅通无阻。我发起了一个通话。</p>
+<p>这两台机器建立<code>会话</code>之前，浏览器不知道对方的ip地址。</p>
+<ol>
+<li>我发起通话，建立了一个<code>会话A</code>，并且把自己加入<code>会话A</code></li>
+<li>我把<code>candidate</code>和<code>Sdp</code>以及小明的”号码”发送给<code>信令服务器</code></li>
+<li><code>信令服务器</code>拿到我的信令，准确无误地把这个信令发给了小明</li>
+<li>小明收到了我的<code>candidate</code>和<code>Sdp</code>，创建并加入了一个<code>会话B</code>。并且根据我的<code>Sdp</code>把我也加入<code>会话B</code></li>
+<li>小明<code>candidate</code>和<code>Sdp</code>以及我的”号码”发送给<code>信令服务器</code></li>
+<li><code>信令服务器</code>拿到小明的信令，准确无误地把这个信令发给了我</li>
+<li>我收到了小明的<code>candidate</code>和<code>Sdp</code>，根据小明的<code>Sdp</code>把小明也加入<code>会话A</code></li>
+<li>此时，会话建立成功了，即使信令服务器突然关机，我与小明也可以继续通话。</li>
+</ol>
+<p><img src="https://img.timzhong.top/images/2020/08/16/WebRTC_connection.png" srcset="/img/loading.gif" alt="简化的WebRTC连接建立时序图"></p>
+<p>要注意的是，这里所说的流程是简化版，在实际的WebRTC会话建立过程中，信令交换是频繁的。<code>candidate</code>的交换往往会发生多次。</p>
+<h1 id="5-互联的秘密—NAT与打洞"><a href="#5-互联的秘密—NAT与打洞" class="headerlink" title="5. 互联的秘密—NAT与打洞"></a>5. 互联的秘密—NAT与打洞</h1><h2 id="5-1-NAT技术"><a href="#5-1-NAT技术" class="headerlink" title="5.1 NAT技术"></a>5.1 NAT技术</h2><h3 id="关于NAT"><a href="#关于NAT" class="headerlink" title="关于NAT"></a>关于NAT</h3><blockquote>
+<p>NAT英文全称是“Network Address Translation”，中文意思是“网络地址转换”，它是一个IETF(Internet Engineering Task Force, Internet工程任务组)标准，允许一个整体机构以一个公用IP（Internet Protocol）地址出现在Internet上。顾名思义，它是一种把内部私有网络地址（IP地址）翻译成合法网络IP地址的技术，如下图所示。因此我们可以认为，NAT在一定程度上，能够有效的解决公网地址不足的问题。</p>
+</blockquote>
+<p>用一个简单的例子来理解NAT。每个ip地址有65536个端口，NAT可以理解为一个端口调度员。<br>比如运营商给路由器分配了一个可以被公网访问的ipv4地址<code>1.2.3.4</code>，路由器给家中的设备分配了<code>192.168.1.x</code>的地址。<br>在上网的过程中，假设<code>设备A</code>使用了<code>192.168.1.2:50000</code>（ip地址为192.168.1.2，端口为50000），路由器把<code>192.168.1.2:50000</code>映射到<code>1.2.3.4:56666</code>，设备B使用了<code>192.168.1.3:50000</code>，路由器把<code>192.168.1.3:50000</code>映射到<code>1.2.3.4:56667</code>。<br>这个时候服务器与<code>1.2.3.4:56667</code>通讯，路由器会转发给设备B，服务器与<code>1.2.3.4:56666</code>通讯，路由器会转发给A。<br>这样就实现了使用一个ip让多台设备同时连接互联网。</p>
+<h3 id="NAT带来的好处"><a href="#NAT带来的好处" class="headerlink" title="NAT带来的好处"></a>NAT带来的好处</h3><p>首先是增加了ipv4承载的设备数量。ipv4的IP地址只有32位，实际可用地址大约只有30多亿个。就在2019年，ipv4已经被完全分配完毕，这就意味着已经没有更多ipv4地址。NAT的作用是网络地址转换，可以让多台设备共享一个ip连接互联网，这就让30多亿个ipv4地址可以支撑远高于30多亿台设备。<br>其次是让网络更加安全，因为存在内网到公网的映射，使得计算机只有较少数量的端口可以被公网访问，降低了被攻击的可能性。如果一台机器拥有一个公网ip，而且没有开启防火墙。这就意味着这台机器65535个端口都可以被公网访问，假设445端口的smb服务出现漏洞，攻击者可以直接利用445端口攻击设备。但是有了NAT的存在，445端口默认不会被映射到公网，只有局域网设备可以访问，攻击难度倍增。</p>
+<h3 id="NAT带来的坏处"><a href="#NAT带来的坏处" class="headerlink" title="NAT带来的坏处"></a>NAT带来的坏处</h3><p>NAT带来的坏处也很明显，ip与设备不再是一对一的关系，而是一对多的关系，当公网的一台<code>设备A</code>想准确地访问一台在不同局域网的<code>设备B</code>时，就算知道了<code>设备B</code>的公网ip地址，<code>设备A</code>也无从下手，因为它不知道<code>设备B</code>的公网ip地址1.2.3.4的哪个端口被映射到<code>设备B</code>。因为NAT阻止了两台设备相互连接，所以WebRTC之类的p2p连接就无法建立。</p>
+<h3 id="NAT类型"><a href="#NAT类型" class="headerlink" title="NAT类型"></a>NAT类型</h3><h4 id="NAT类型检测"><a href="#NAT类型检测" class="headerlink" title="NAT类型检测"></a>NAT类型检测</h4><p>NAT是一种从内网ip到公网ip的映射关系，其中映射的规则可以被分为四个类型，这就叫做NAT类型。如果你拥有PS4游戏机，在网络设置中可以查看当前网络的NAT类型。Windows系统的电脑也可以安装”NAT类型检测”软件实现网络NAT类型的查看。</p>
+<h4 id="NAT两大类型"><a href="#NAT两大类型" class="headerlink" title="NAT两大类型"></a>NAT两大类型</h4><p>NAT一共有四种类型，两大类型：锥形NAT与对称NAT，其中123类型都属于锥形NAT，只不过随着序号的增大安全策略更加严格。4属于对称NAT。<br>有一个实际例子：<br><img src="https://img.timzhong.top/images/2020/08/16/NAT_pic1.png" srcset="/img/loading.gif" alt="NAT例子"><br><img src="https://img.timzhong.top/images/2020/08/16/NAT_pic2.png" srcset="/img/loading.gif" alt="NAT例子"></p>
+<h4 id="1-Full-Cone（全锥形）"><a href="#1-Full-Cone（全锥形）" class="headerlink" title="1. Full Cone（全锥形）"></a>1. Full Cone（全锥形）</h4><p>全锥形就是没有任何限制的锥形</p>
+<h4 id="2-Restricted-Cone（IP受限锥型）"><a href="#2-Restricted-Cone（IP受限锥型）" class="headerlink" title="2. Restricted Cone（IP受限锥型）"></a>2. Restricted Cone（IP受限锥型）</h4><p>引入了一个限制，只转发主动连接过的ip发来的包。<br>举例：<br>基于图1情景，<code>设备A</code>与<code>服务器1</code>交换过数据，但是从来未与<code>服务器2</code>交换过数据。此时<code>服务器2</code>连接1.2.3.4:56666，路由器拒绝转发来自<code>服务器2</code>的所有包。</p>
+<h4 id="3-Port-Restricted-Cone（PORT受限锥型）"><a href="#3-Port-Restricted-Cone（PORT受限锥型）" class="headerlink" title="3. Port Restricted Cone（PORT受限锥型）"></a>3. Port Restricted Cone（PORT受限锥型）</h4><p>在Restricted Cone（IP受限锥型）的基础上再引入端口限制。<br>举例：<br>基于图1情景，假设<code>设备A</code>只与<code>服务器1</code>的10000端口交换过数据，此时<code>服务器1</code>使用10001端口向1.2.3.4:56666发送数据，路由器拒绝转发来自<code>服务器1</code> 10001端口的包。</p>
+<h4 id="4-Symmetric（对称型）"><a href="#4-Symmetric（对称型）" class="headerlink" title="4. Symmetric（对称型）"></a>4. Symmetric（对称型）</h4><p>对称型如上文图2所示，NAT前的端口号与NAT后的端口号是一对多的关系，而且每个映射都遵循Port Restricted Cone（PORT受限锥型）的规则。</p>
+<h2 id="5-2-打洞—突破NAT互联"><a href="#5-2-打洞—突破NAT互联" class="headerlink" title="5.2 打洞—突破NAT互联"></a>5.2 打洞—突破NAT互联</h2><h3 id="关于打洞"><a href="#关于打洞" class="headerlink" title="关于打洞"></a>关于打洞</h3><p>打洞的原理很简单，<code>设备A</code>与一台服务器建立连接，此时路由器会建立一个NAT映射，接着记录<code>设备A</code>的NAT信息（比如NAT前的IP地址和端口，NAT后的IP地址和端口）。有了这些信息，其他机器就可以准确地从NAT后的IP地址和端口访问<code>设备A</code>。</p>
+<h3 id="打洞协议：STUN和TURN"><a href="#打洞协议：STUN和TURN" class="headerlink" title="打洞协议：STUN和TURN"></a>打洞协议：STUN和TURN</h3><p>打洞协议STUN的作用是让处于NAT里的设备获取自己NAT后的可以被公网访问的IP和端口号，以及NAT类型。<br>TURN是中继穿透NAT，顾名思义，TURN充当了两方通信的中继，所以数据会全部经过TURN服务器。</p>
+<h3 id="简单理解STUN的实现方式"><a href="#简单理解STUN的实现方式" class="headerlink" title="简单理解STUN的实现方式"></a>简单理解STUN的实现方式</h3><p>上面说到打洞过程，因为<code>设备A</code>只能获取到NAT<strong>前</strong>的ip与端口号，而服务器可以获取到<code>设备A</code>NAT<strong>后</strong>的ip与端口号，所以服务器把获取到的信息返回给<code>设备A</code>，<code>设备A</code>自然可以获取到自己NAT后的IP与端口</p>
+<h1 id="6-信令服务器"><a href="#6-信令服务器" class="headerlink" title="6. 信令服务器"></a>6. 信令服务器</h1><p>信令服务器有两个作用，一是交换网络环境信息，二是交换会话信息。<br>信令服务器的实现多种多样，常见的解决方案是WebSocket或者HTTP长连接。</p>
+<h2 id="6-1-交换网络环境信息"><a href="#6-1-交换网络环境信息" class="headerlink" title="6.1 交换网络环境信息"></a>6.1 交换网络环境信息</h2><p>了解了NAT与打洞后，再着眼于前文的<code>candidate</code>，<code>candidate</code>实际上携带了自己NAT前后的ip与端口信息，这里称为网络环境信息。<code>设备A</code>把自己NAT前后的ip与端口信息通过信令服务器发送给<code>设备B</code>，<code>设备B</code>可以直接与<code>设备A</code>NAT后的ip与端口建立连接，从而实现<code>设备A</code>与<code>设备B</code>的直接连接。当然，<code>设备B</code>也会将自己的网络环境信息发送给<code>设备A</code>，即使一方的网络环境无法建立直接连接，另一方合适的网络环境也可以让这次连接顺利进行。</p>
+<h2 id="6-2-交换会话信息"><a href="#6-2-交换会话信息" class="headerlink" title="6.2 交换会话信息"></a>6.2 交换会话信息</h2><p><code>Sdp</code>(会话描述)包含了会话的基本信息，<code>Sdp</code>(会话描述)通过信令服务器发送给另一端，使另一端可以顺利初始化会话。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>读完这篇文章相信你对WebRTC也有一些初步的认识，WebRTC是多项技术的集合体，需要掌握多方面的知识才能发挥出它的强大之处。如果让我把WebRTC分成几个主要部分，我认为WebRTC可以分为连接部分与多媒体部分，本文主要介绍了WebRTC的基本概念以及连接部分，如果你也对有无限可能性的Web实时通讯感兴趣，可以关注我的博客，WebRTC旅程刚刚开始。</p>
+<p><strong>预告：</strong></p>
+<ol>
+<li>WebRTC多媒体介绍</li>
+<li>WebRTC实践：动手写一个视频通话网站</li>
+<li>WebRTC dataChannel妙用</li>
+<li>WebRTC实践：写一个远程快传网站</li>
+</ol>
+<!-- # 6. 视频与音频模块的强大之处
+# 7. dataChannel妙用 -->
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/WebRTC/">WebRTC</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/WebRTC/">WebRTC</a>
+                    
+                      <a class="hover-with-bg" href="/tags/NodeJS/">NodeJS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">简单教程</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%BE%AE%E8%BD%AF%E5%AD%A6%E7%94%9F%E4%BF%B1%E4%B9%90%E9%83%A8%E6%96%87%E7%AB%A0/">微软学生俱乐部文章</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/17/blog-without-server/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">低至2元/年！搭建个人博客</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/07/TChat-diary/">
+                        <span class="hidden-mobile">T Chat开发日记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+      </div>
+    
+  </div>
+</div>
+<!-- Custom -->
+    
+  </main>
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+    
+    
+  </div>
+</footer>
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+<!-- Plugins -->
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "WebRTC入门&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+</body>
+</html>

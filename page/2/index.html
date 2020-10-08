@@ -1,0 +1,611 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>TimZhong&#39;s Blog</title>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link  rel="stylesheet" href="/css/main.css" />
+<!-- 自定义样式保持在最底部 -->
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <header style="height: 90vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+            
+          </div>
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/01/12/centos-resize-disk/">CentOS调整分区大小</a>
+      <a href="/2020/01/12/centos-resize-disk/" class="index-excerpt">
+        
+        
+          
+        
+        <div>0x00 前言最近在折腾树莓派，向sd卡写入镜像以后，linux系统根目录只有1.4G，sd卡大小为16G。本篇文章使用fdisk与resize2fs进行分区大小调整。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-01-12
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux/">Linux</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">linux</a>
+            
+              <a href="/tags/centos/">centos</a>
+            
+              <a href="/tags/disk/">disk</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/12/17/3DLC-1-2/">3DLC 1.2 — 分析电影中橙青色调</a>
+      <a href="/2019/12/17/3DLC-1-2/" class="index-excerpt">
+        
+        
+          
+        
+        <div>为什么好莱坞大片偏爱“橙青色调”?   &lt;–非常值得一读文章来自影视工业网，作者HomeBoy Cine Studio，一家电影调色公司。文章展示了大量运用橙青色调的镜头，讲述了橙青色调的起源与发展。这篇文章的重点放在如何利用颜色矢量示波器分析这种颜色风格。
+一、橙青色调的作用与历史引用文章中几段精辟的话
+1、橙青色调在电影制作中的优势：
+橙青色调的潮流是由对比色的关系所驱动的。如果你让演</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-12-17
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PhotoEditing/">PhotoEditing</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/3dLutsCreator/">3dLutsCreator</a>
+            
+              <a href="/tags/3DLC/">3DLC</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/12/16/3DLC-1-1/">3DLC 1.1 — 矢量示波器 介绍</a>
+      <a href="/2019/12/16/3DLC-1-1/" class="index-excerpt">
+        
+        
+          
+        
+        <div>这是3dLutCreate（简称3DLC）频道第一篇文章，看到矢量示波器别慌，不是那个keysight示波器，也跟向量没太多关系。本文将从新手角度直观地上手矢量示波器，无抽象难懂内容。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-12-16
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PhotoEditing/">PhotoEditing</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/3dLutsCreator/">3dLutsCreator</a>
+            
+              <a href="/tags/3DLC/">3DLC</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/12/16/3DLC-1-0/">Tim的调色分析频道——简介</a>
+      <a href="/2019/12/16/3DLC-1-0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最近博主在摸索3dLutsCreator（下称3DLC），在这之前相当长时间内我使用的主要调色工具是HSL。
+频道文章思路/构架基于博主初次使用的体验到现在对这个工具的理解以及一些实际样例。正因博主正在初次接触很多功能，把这种体验转换为教程，希望更能引起读者共鸣。
+3DLC有什么特点？   3DLC的一个突出特点就是数据可视化，相比LR，PS等软件一是提供了更多的可视化工具，比如色相矢量图，平均值</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-12-16
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PhotoEditing/">PhotoEditing</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/3dLutsCreator/">3dLutsCreator</a>
+            
+              <a href="/tags/3DLC/">3DLC</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/12/12/disable-Temporary-ipv6/">windows禁用IPV6临时地址的方法</a>
+      <a href="/2019/12/12/disable-Temporary-ipv6/" class="index-excerpt">
+        
+        
+          
+        
+        <div>0x00最近想定制一下ipv6地址，成为宿舍最’臭’的ip，但是修改后发现地址仍然没有改变，于是想到禁用windows的ipv6临时地址。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-12-12
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Network/">Network</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/network/">network</a>
+            
+              <a href="/tags/ipv6/">ipv6</a>
+            
+              <a href="/tags/windows/">windows</a>
+            
+              <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/10/26/wifi-test-iperf/">你知道你的wifi实际能跑多快吗？——iperf局域网测速工具简单介绍</a>
+      <a href="/2019/10/26/wifi-test-iperf/" class="index-excerpt">
+        
+        
+          
+        
+        <div>0x00 前言说到网速，许多人都知道打开https://speedtest.net 就可以测试，但是这是测的宽带速度。有多少人知道你所在的局域网速度是多少呢？看路由器包装上标识的速率”1200M”，又或者打开wifi设置查看wifi连接速率……然而，这些方法并不能准确地测试网络速度。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-10-26
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Network/">Network</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">简单教程</a>
+            
+              <a href="/tags/network/">network</a>
+            
+              <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+            
+              <a href="/tags/iperf/">iperf</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/10/22/ipip-tunnel/">如何使用ipip tunnel</a>
+      <a href="/2019/10/22/ipip-tunnel/" class="index-excerpt">
+        
+        
+          
+        
+        <div>0x00 前言小明是一名双一流带学的学生，有一天他发现自己的服务器ssh连不上了。他找到了舍友小俊，小俊拿出手机打开热点，ssh果然连上了。调试完服务器后，小明越想越不爽：每次调试都得开热点太麻烦了。第二天，小明不满大门口会堵车，当他骑车从隧道飞驰而过时他灵机一动，想到了一个解决方案。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-10-22
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Network/">Network</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">linux</a>
+            
+              <a href="/tags/network/">network</a>
+            
+              <a href="/tags/ipip/">ipip</a>
+            
+              <a href="/tags/ipip-tunnel/">ipip tunnel</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/10/19/android-cpu-governor/">从安卓探究Linux内核CPU调速器</a>
+      <a href="/2019/10/19/android-cpu-governor/" class="index-excerpt">
+        
+        
+          
+        
+        <div>0x00 前言生活离不开手机，安卓占据了手机系统的半壁江山。手机cpu频率是手机性能的重要指标之一，目前顶级梯队的骁龙855芯片中“大核”频率已经达到了2.96GHz，即使它使用7nm工艺制造，运行在如此高频必然需要较高的核心电压，也同时会增加耗电。为了提高能耗比，除了物理上改进cpu设计，软件上优化软件算法……还有一个重要的措施————使用CPU调速器（Governor）。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-10-19
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux/">Linux</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/android/">android</a>
+            
+              <a href="/tags/linux/">linux</a>
+            
+              <a href="/tags/governor/">governor</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/10/18/cloudflare-Edge-SSL/">如何开通并使用Cloudflare SSL证书</a>
+      <a href="/2019/10/18/cloudflare-Edge-SSL/" class="index-excerpt">
+        
+        
+          
+        
+        <div>0x00 前言很多人都会使用cloudflare提供的dns服务，他家也同时有免费/付费的cdn服务，许多国外网站都会选择使用cloudflare cdn，(本文不讨论cloudflare大陆版)…</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-10-18
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Network/">Network</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/cloudflare/">cloudflare</a>
+            
+              <a href="/tags/web/">web</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+    
+    
+  </div>
+</footer>
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+<!-- Plugins -->
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "TimZhong's Blog powered by Hexo&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+</body>
+</html>

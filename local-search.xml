@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>pve-direct-pcie</title>
+    <link href="/2020/09/27/pve-direct-pcie/"/>
+    <url>/2020/09/27/pve-direct-pcie/</url>
+    
+    <content type="html"><![CDATA[<h1 id="pve虚拟机pcie直通教程"><a href="#pve虚拟机pcie直通教程" class="headerlink" title="pve虚拟机pcie直通教程"></a>pve虚拟机pcie直通教程</h1><h2 id="1-开启iommu"><a href="#1-开启iommu" class="headerlink" title="1. 开启iommu"></a>1. 开启iommu</h2><ol><li>先进入bios打开VT-d虚拟化选项。</li><li>修改启动参数</li></ol><p><strong>编辑<code>/etc/default/grub</code></strong></p><pre><code class="hljs gradle">nano <span class="hljs-regexp">/etc/</span><span class="hljs-keyword">default</span>/grub</code></pre><p>找到：<code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet&quot;</code><br>替换为<code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet intel_iommu=on&quot;</code><br>如果是amd平台替换为<code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet amd_iommu=on&quot;</code><br>替换后执行以下命令更新grub：</p><pre><code class="hljs ebnf"><span class="hljs-attribute">update-grub</span></code></pre><h2 id="2-加载模块"><a href="#2-加载模块" class="headerlink" title="2. 加载模块"></a>2. 加载模块</h2><p><strong>编辑<code>/etc/modules</code></strong></p><pre><code class="hljs awk">nano <span class="hljs-regexp">/etc/m</span>odules</code></pre><p>添加以下几个模块，直接复制即可。</p><pre><code class="hljs">vfiovfio_iommu_type1vfio_pcivfio_virqfd</code></pre><h2 id="3-阻止驱动加载（显卡直通时才需要操作）"><a href="#3-阻止驱动加载（显卡直通时才需要操作）" class="headerlink" title="3. 阻止驱动加载（显卡直通时才需要操作）"></a>3. 阻止驱动加载（显卡直通时才需要操作）</h2><p>因为pve启动时会尝试加载显卡驱动，为了避免pve占用显卡，需要阻止pve的显卡驱动加载。</p><h3 id="3-1-添加驱动黑名单"><a href="#3-1-添加驱动黑名单" class="headerlink" title="3.1 添加驱动黑名单"></a>3.1 添加驱动黑名单</h3><p>编辑<code>/etc/modprobe.d/blacklist.conf</code></p><pre><code class="hljs awk">nano <span class="hljs-regexp">/etc/m</span>odprobe.d/blacklist.conf </code></pre><p>添加以下内容</p><pre><code class="hljs mipsasm"><span class="hljs-keyword">blacklist </span>radeon<span class="hljs-keyword">blacklist </span>nouveau<span class="hljs-keyword">blacklist </span>snd_hda_intel<span class="hljs-keyword">blacklist </span>snd_hda_codec_hdmi<span class="hljs-keyword">blacklist </span>i915</code></pre><h3 id="3-2-添加显卡到直通设备中"><a href="#3-2-添加显卡到直通设备中" class="headerlink" title="3.2 添加显卡到直通设备中"></a>3.2 添加显卡到直通设备中</h3><p>查看所有pci设备。</p><pre><code class="hljs ebnf"><span class="hljs-attribute">lspci</span></code></pre><p>找到显卡后记下硬件id，形式是<code>xxxx:xxxx</code>，比如G5400的核心显卡的硬件id是<code>8086:3e90</code>。<br>编辑<code>/etc/modprobe.d/vfio.conf</code></p><pre><code class="hljs awk">nano <span class="hljs-regexp">/etc/m</span>odprobe.d/vfio.conf</code></pre><p>添加以下内容<strong>注意！！！！把8086:3e90换成你的显卡的硬件id</strong></p><pre><code class="hljs apache"><span class="hljs-attribute"><span class="hljs-nomarkup">options</span></span> vfio-pci ids=<span class="hljs-number">8086</span>:<span class="hljs-number">3</span>e<span class="hljs-number">90</span></code></pre><h2 id="4-重启"><a href="#4-重启" class="headerlink" title="4. 重启"></a>4. 重启</h2><p>一定要确认机器正常重启，重启后屏幕会卡在第二行好像是initramfs（写博客的时候机器不在手边，不记得具体显示什么了，下次折腾的时候再补充。反正屏幕卡住说明阻止了驱动加载）</p><h2 id="5-配置虚拟机"><a href="#5-配置虚拟机" class="headerlink" title="5. 配置虚拟机"></a>5. 配置虚拟机</h2><ol><li>机器设置为q35</li><li>点击添加设备，PCI设备，找到显卡对应的设备。</li><li>打开<code>全部功能</code> <code>PCI Express</code></li><li>启动机器，安装驱动</li></ol><p>效果图：<br><img src="https://img.timzhong.top/images/2020/09/27/1.PNG" alt="1"><br><img src="https://img.timzhong.top/images/2020/09/27/2.PNG" alt="2"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Proxmox VE</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>direct pcie</tag>
+      
+      <tag>iommu</tag>
+      
+      <tag>pve</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>低至2元/年！搭建个人博客</title>
+    <link href="/2020/08/17/blog-without-server/"/>
+    <url>/2020/08/17/blog-without-server/</url>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>博主目前的博客每年总成本预计在30元以内，因此本篇文章就来分享一下低成本且访问快的博客搭建方法。</p><a id="more"></a><p>面向读者：刚入门的博客新手，觉得现有博客成本太高的博主，觉得现有博客维护麻烦的博主。</p><h2 id="选用静态博客"><a href="#选用静态博客" class="headerlink" title="选用静态博客"></a>选用静态博客</h2><p>博客可以分为静态博客和动态博客。静态博客是将博客提前转换成HTML CSS JS静态文件的博客构建形式。动态博客是指使用php，nodejs等服务端软件提供博客页面的博客构建形式。</p><p>静态博客与动态博客各有优缺点<br>动态博客优点：功能强大，提供注册登录评论等等功能。<br>动态博客缺点：需要服务器成本高，服务器维护比较伤脑筋。<br>静态博客优点：成本低，最低可以做到0元。性能强大+安全+省心，放在腾讯或者阿里云的对象存储上，就算百万pv也丝毫不卡。<br>静态博客缺点：功能相比动态博客弱，评论等功能仍然需要服务器。</p><p>本篇文章的目的是低成本构建访问快的博客，所以选择静态博客肯定是最佳选择。常见的静态博客有<strong>Jekyll</strong>(推荐!),<strong>Hexo</strong>(推荐!),Octopress,Hugo,Middleman……本博客使用Hexo构建。</p><h2 id="购买低价域名"><a href="#购买低价域名" class="headerlink" title="购买低价域名"></a>购买低价域名</h2><p>阿里云，腾讯云等平台购买域名首年都相当便宜，很多1元/年的自选域名可供选择。</p><h2 id="使用对象存储代替服务器"><a href="#使用对象存储代替服务器" class="headerlink" title="使用对象存储代替服务器"></a>使用对象存储代替服务器</h2><p>在构建低成本博客中，对象存储的作用与服务器比较相似，它负责存储博客的文件，有点类似网盘的作用。但是网盘只能存储文件，不能通过链接直接访问文件，更加不能绑定一个域名让读者访问时显示一个网页。对象存储还负责提供静态网站的访问功能，把文件上传到对象存储，并且配置静态网页托管，此时博客就已经可以正常访问了。</p><p>光说不做有点抽象，本文使用阿里云OSS展示如何使用对象存储搭建个人博客。</p><ol><li>打开阿里云官网，注册登录。</li><li>搜索OSS，并且开通OSS服务。</li><li>点击创建Bucket，输入<code>名称</code>，<code>区域</code>选择中国香港，<code>存储类型</code>设为标准储存，<code>同城冗余存储</code>设为关闭，<code>版本控制</code>设为不开通，<code>读写权限</code>设置为公共读，<code>服务端加密方式</code>设为无，<code>实时日志查询</code>设为不开通，<code>定时备份</code>设为不开通。然后确定。</li><li>点击进入新建的Bucket的概览页，上传本地已经构建好的静态博客。</li><li>设置域名访问，进入<code>传输管理</code>页，点击<code>绑定域名</code>，把自己的域名输入进去。如果是在阿里云购买的域名可以打开下面<code>自动添加CNAME记录</code>的开关。如果是其他地方购买的域名可以手动添加一条CNAME解析，阿里云提供了详细的教程。</li><li>开启SSL(可选) 给域名购买一个免费证书，然后点击<code>域名管理页</code>的<code>证书托管</code>，把买的证书填入。</li><li>进入<code>基础设置</code>页，启用<code>静态页面</code>。</li></ol><p>大功告成，直接访问你的域名，就可以看到博客了。</p><h2 id="使用CDN加速同时降低成本"><a href="#使用CDN加速同时降低成本" class="headerlink" title="使用CDN加速同时降低成本"></a>使用CDN加速同时降低成本</h2><p>如果域名完成了备案可以使用中国大陆区域CDN进一步提高速度降低成本。如果没有备案不建议使用CDN，成本可能会增加，速度提升也很有限。</p><p>以中国大陆区域的OSS和CDN为例，OSS的流量费为0.5元/GB，而且速度有时不时很理想。使用CDN后的费用为0.15元/GB的OSS回源流量费用（只有博客更新时可能产生回源费用）+0.29元/GB的CDN费用，总体来看1GB流量的价格为0.29-0.44之间，而且速度相当快。</p><p>就阿里云来说，CDN的使用相当简单，按照操作可以一键绑定OSS，这里就不做教程演示了。</p><h2 id="成本核算"><a href="#成本核算" class="headerlink" title="成本核算"></a>成本核算</h2><p>以一年4GB流量计算：</p><ol><li>域名1元/年</li><li>对象存储使用阿里云OSS中国香港地区，每个月有5GB免费流量和5GB免费存储，相当于0元/年</li><li>CDN使用阿里云CDN，中国大陆加速0.29/GB，4G需要1.16元。<br>总计2.16元/年，我并不是标题党，这种比较正常的使用量的确可以做到2元一年。</li></ol><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>博客的精髓是文章而不是博客本身，如果你是一个不想折腾，不想花太多钱，想偶尔记录一下自己的想法，想产出一些能帮助读者的优秀文章的博主或者准博主，很可以试试这套方案。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Hexo</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>OSS</tag>
+      
+      <tag>Object Storage</tag>
+      
+      <tag>CDN</tag>
+      
+      <tag>Hexo</tag>
+      
+      <tag>Blog</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>WebRTC入门</title>
+    <link href="/2020/08/15/WebRTC-1-0/"/>
+    <url>/2020/08/15/WebRTC-1-0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>WebRTC的全称是Web Real-Time Communication，Web实时通讯。这个API可以让浏览器与服务器甚至两个浏览器之间建立实时通信信道。WebRTC允许两个浏览器不经过服务器互相传输数据，因此WebRTC可以轻松做到低延迟与高可用。本文将简单介绍这个强大的API。<br>实时通讯大家应该都不陌生，从QQ到直播弹幕到在线网络游戏，都有实时通讯技术的身影。大家都用过的peer to peer(p2p)模式的产品，比如bt下载，电驴下载。这些应用通常都需要安装独立客户端，有时需要更新才可以使用。但是你有没有想过在浏览器中也可以做到这两点，这就引出了本文的主角————Web Real-Time Communication(WebRTC)。本文将用简单易懂的语言介绍这个强大的API。</p><h1 id="1-什么是WebRTC"><a href="#1-什么是WebRTC" class="headerlink" title="1. 什么是WebRTC"></a>1. 什么是WebRTC</h1><p>WebRTC的全称是Web Real-Time Communication，Web实时通讯。这个API可以让浏览器与服务器甚至两个浏览器之间建立实时通信信道。WebRTC允许两个浏览器不经过服务器互相传输数据，因此WebRTC可以轻松做到低延迟与高可用。本文将简单介绍这个强大的API。<br><img src="https://img.timzhong.top/images/2020/08/16/WebRTC_Logo.jpg" alt="WebRTC Logo"></p><a id="more"></a><p>举几个WebRTC的经典使用场景的例子：腾讯课堂利用WebRTC实现课堂视频的推送与播放，聊天区的消息发送与推送；远程会议使用WebRTC实现视频双向传输。或许你有疑惑，就这？其他技术就不能实现这些功能？网页实时通信依赖各种标准，大部分标准并没有把即时通信纳入考量范围，所以即时通讯API的选择相对有限。诚然，Flash确实可以很好地实现上面所说的功能，但是Flash效率低下，在2020年Flash早已停止更新，浏览器也开始逐渐屏蔽Flash。WebRTC API被纳入W3C标准，目前主流的浏览器均支持该API，所以网页实时通讯以及p2p的重任就落在WebRTC身上。</p><h1 id="2-WebRTC历史"><a href="#2-WebRTC历史" class="headerlink" title="2. WebRTC历史"></a>2. WebRTC历史</h1><blockquote><p>2010年5月，Google以6820万美元收购VoIP软件开发商Global IP Solutions的GIPS引擎，并改为名为“WebRTC”。<br>WebRTC使用GIPS引擎，实现了基于网页的视频会议，并支持722，PCM，ILBC，ISAC等编码，同时使用谷歌自家的VP8视频解码器；同时支持RTP/SRTP传输等。<br>2012年1月，谷歌已经把这款软件集成到Chrome浏览器中。同时FreeSWITCH项目宣称支持iSAC audio codec。<br>现在WebRTC已经几乎被所有主流浏览器兼容。</p></blockquote><h1 id="3-WebRTC基本概念"><a href="#3-WebRTC基本概念" class="headerlink" title="3. WebRTC基本概念"></a>3. WebRTC基本概念</h1><h2 id="candidate"><a href="#candidate" class="headerlink" title="candidate"></a>candidate</h2><p><code>candidate</code>描述了自己的 网络类型 地址等一些用于互联的参数</p><p>简单来说 <code>candidate</code>包装用于两端建立连接的信息，让两端可以互相知道对方的网络信息以及webrtc配置。下面是一个常见的candidate。</p><pre><code class="hljs css"><span class="hljs-selector-tag">candidate</span>: &quot;<span class="hljs-selector-tag">candidate</span><span class="hljs-selector-pseudo">:2353526612</span> 1 <span class="hljs-selector-tag">udp</span> 2122260223 192<span class="hljs-selector-class">.168</span><span class="hljs-selector-class">.6</span><span class="hljs-selector-class">.2</span> 51053 <span class="hljs-selector-tag">typ</span> <span class="hljs-selector-tag">host</span> <span class="hljs-selector-tag">generation</span> 0 <span class="hljs-selector-tag">ufrag</span> <span class="hljs-selector-tag">Q4Ir</span> <span class="hljs-selector-tag">network-id</span> 2&quot;,</code></pre><h2 id="Session-会话"><a href="#Session-会话" class="headerlink" title="Session(会话)"></a>Session(会话)</h2><p>Session(会话)是WebRTC中重要的概念，打个比方，我跟小明打电话，我们之间就是建立了会话。在WebRTC中，会话就是两端建立连接并且能互相传递信息的基础。</p><h2 id="Sdp-会话描述"><a href="#Sdp-会话描述" class="headerlink" title="Sdp(会话描述)"></a>Sdp(会话描述)</h2><p>Sdp的全称是SessionDescription，相信看名字就知道Sdp是什么作用了。<br>具体一点讲，Sdp包装了会话的所有信息<br>下面是一个真实的sdp数据，不需要过于关注细节。数据仅用于展示Sdp的作用，本文与这个数据关系并不大。(/doge)</p><ol><li>安全描述：秘钥交换，让WebRTC连接可以在加密的环境下进行，提高了安全性。</li><li>流媒体描述：描述了自己的视频音频等数据的信息，比如编码</li><li>网络信息</li><li>服务质量：简单来说就是初步检测网络卡不卡</li></ol><pre><code class="hljs apache"><span class="hljs-attribute">v</span>=<span class="hljs-number">0</span><span class="hljs-attribute">o</span>=- <span class="hljs-number">7678841878411856999</span> <span class="hljs-number">2</span> IN IP<span class="hljs-number">4</span> <span class="hljs-number">127.0.0.1</span><span class="hljs-attribute">s</span>=-<span class="hljs-attribute">t</span>=<span class="hljs-number">0</span> <span class="hljs-number">0</span><span class="hljs-attribute">a</span>=group:BUNDLE <span class="hljs-number">0</span><span class="hljs-attribute">a</span>=msid-semantic: WMS <span class="hljs-number">57</span>ec<span class="hljs-number">53</span>c<span class="hljs-number">9</span>-a<span class="hljs-number">162</span>-<span class="hljs-number">4022</span>-a<span class="hljs-number">88</span>b-<span class="hljs-number">5280</span>a<span class="hljs-number">8670166</span><span class="hljs-attribute">m</span>=video <span class="hljs-number">9</span> UDP/TLS/RTP/SAVPF <span class="hljs-number">96</span> <span class="hljs-number">97</span> <span class="hljs-number">125</span> <span class="hljs-number">107</span> <span class="hljs-number">114</span> <span class="hljs-number">115</span> <span class="hljs-number">116</span><span class="hljs-attribute">c</span>=IN IP<span class="hljs-number">4</span> <span class="hljs-number">0.0.0.0</span><span class="hljs-attribute">a</span>=rtcp:<span class="hljs-number">9</span> IN IP<span class="hljs-number">4</span> <span class="hljs-number">0.0.0.0</span><span class="hljs-attribute">a</span>=ice-ufrag:hFeI<span class="hljs-attribute">a</span>=ice-pwd:r<span class="hljs-number">9</span>YLgLYvZjA<span class="hljs-number">9</span>NmNQ<span class="hljs-number">6</span>P<span class="hljs-number">9</span>cuzmP<span class="hljs-attribute">a</span>=ice-options:trickle<span class="hljs-attribute">a</span>=fingerprint:sha-<span class="hljs-number">256</span> <span class="hljs-number">9</span>E:<span class="hljs-number">7</span>D:<span class="hljs-number">5</span>C:<span class="hljs-number">7</span>E:<span class="hljs-number">35</span>:<span class="hljs-number">0</span>E:<span class="hljs-number">3</span>A:CF:<span class="hljs-number">4</span>E:E<span class="hljs-number">6</span>:<span class="hljs-number">13</span>:F<span class="hljs-number">9</span>:<span class="hljs-number">8</span>E:E<span class="hljs-number">5</span>:A<span class="hljs-number">9</span>:<span class="hljs-number">18</span>:<span class="hljs-number">8</span>B:<span class="hljs-number">37</span>:C<span class="hljs-number">6</span>:<span class="hljs-number">38</span>:ED:<span class="hljs-number">25</span>:B<span class="hljs-number">4</span>:<span class="hljs-number">59</span>:D<span class="hljs-number">7</span>:F<span class="hljs-number">6</span>:D<span class="hljs-number">6</span>:<span class="hljs-number">3</span>C:<span class="hljs-number">38</span>:AE:<span class="hljs-number">17</span>:<span class="hljs-number">3</span>D<span class="hljs-attribute">a</span>=setup:active<span class="hljs-attribute">a</span>=mid:<span class="hljs-number">0</span><span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">14</span> urn:ietf:params:rtp-hdrext:toffset<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">2</span> http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">13</span> urn:<span class="hljs-number">3</span>gpp:video-orientation<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">3</span> http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-<span class="hljs-number">01</span><span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">12</span> http://www.webrtc.org/experiments/rtp-hdrext/playout-delay<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">11</span> http://www.webrtc.org/experiments/rtp-hdrext/video-content-type<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">7</span> http://www.webrtc.org/experiments/rtp-hdrext/video-timing<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">8</span> http://tools.ietf.org/html/draft-ietf-avtext-framemarking-<span class="hljs-number">07</span><span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">9</span> http://www.webrtc.org/experiments/rtp-hdrext/color-space<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">4</span> urn:ietf:params:rtp-hdrext:sdes:mid<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">5</span> urn:ietf:params:rtp-hdrext:sdes:rtp-stream-id<span class="hljs-attribute">a</span>=extmap:<span class="hljs-number">6</span> urn:ietf:params:rtp-hdrext:sdes:repaired-rtp-stream-id<span class="hljs-attribute">a</span>=sendrecv<span class="hljs-attribute">a</span>=msid:<span class="hljs-number">57</span>ec<span class="hljs-number">53</span>c<span class="hljs-number">9</span>-a<span class="hljs-number">162</span>-<span class="hljs-number">4022</span>-a<span class="hljs-number">88</span>b-<span class="hljs-number">5280</span>a<span class="hljs-number">8670166</span> d<span class="hljs-number">719</span>b<span class="hljs-number">4</span>cb-<span class="hljs-number">27</span>e<span class="hljs-number">5</span>-<span class="hljs-number">4</span>e<span class="hljs-number">7</span>f-a<span class="hljs-number">548</span>-ca<span class="hljs-number">9</span>c<span class="hljs-number">96</span>c<span class="hljs-number">141</span>a<span class="hljs-number">0</span><span class="hljs-attribute">a</span>=rtcp-mux<span class="hljs-attribute">a</span>=rtcp-rsize<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">96</span> VP<span class="hljs-number">8</span>/<span class="hljs-number">90000</span><span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> goog-remb<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> transport-cc<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> ccm fir<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> nack<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">96</span> nack pli<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">97</span> rtx/<span class="hljs-number">90000</span><span class="hljs-attribute">a</span>=fmtp:<span class="hljs-number">97</span> apt=<span class="hljs-number">96</span><span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">125</span> H<span class="hljs-number">264</span>/<span class="hljs-number">90000</span><span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> goog-remb<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> transport-cc<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> ccm fir<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> nack<span class="hljs-attribute">a</span>=rtcp-fb:<span class="hljs-number">125</span> nack pli<span class="hljs-attribute">a</span>=fmtp:<span class="hljs-number">125</span> level-asymmetry-allowed=<span class="hljs-number">1</span>;packetization-mode=<span class="hljs-number">1</span>;profile-level-id=<span class="hljs-number">42</span>e<span class="hljs-number">01</span>f<span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">107</span> rtx/<span class="hljs-number">90000</span><span class="hljs-attribute">a</span>=fmtp:<span class="hljs-number">107</span> apt=<span class="hljs-number">125</span><span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">114</span> red/<span class="hljs-number">90000</span><span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">115</span> rtx/<span class="hljs-number">90000</span><span class="hljs-attribute">a</span>=fmtp:<span class="hljs-number">115</span> apt=<span class="hljs-number">114</span><span class="hljs-attribute">a</span>=rtpmap:<span class="hljs-number">116</span> ulpfec/<span class="hljs-number">90000</span><span class="hljs-attribute">a</span>=ssrc-group:FID <span class="hljs-number">3521319142</span> <span class="hljs-number">925057533</span><span class="hljs-attribute">a</span>=ssrc:<span class="hljs-number">3521319142</span> cname:<span class="hljs-number">5</span>uGqECGiizeRCDiO<span class="hljs-attribute">a</span>=ssrc:<span class="hljs-number">925057533</span> cname:<span class="hljs-number">5</span>uGqECGiizeRCDiO</code></pre><h2 id="Offer-发起-者"><a href="#Offer-发起-者" class="headerlink" title="Offer(发起(者))"></a>Offer(发起(者))</h2><p>继续打个比方，我给小明打了个电话，我就是发起者。因为WebRTC的相当一部分技术是来自一家voip厂商，所以这里面也少不了传统电话的影子，这个概念也成为了我初学WebRTC时的一个障碍。</p><h2 id="Answer-接受-者"><a href="#Answer-接受-者" class="headerlink" title="Answer(接受(者))"></a>Answer(接受(者))</h2><p>跟<code>Offer</code>一样，小明接到了我的电话，他是是接受者。在WebRTC会话建立的时候，两端需要对号入座，一个人作为发起者另一个人作为接受者。</p><h2 id="signal-信令"><a href="#signal-信令" class="headerlink" title="signal(信令)"></a>signal(信令)</h2><p>信令是<code>candidate</code>和<code>Sdp</code>的载体。<br>这么说可能很难理解信令是什么，想象一个场景，我准备<strong>邮寄一本书</strong>给远方朋友，但是我只有这个朋友的<strong>住址</strong>，这就意味着我不能直接通知他过来拿书。这时我需要把书包装好贴上快递单，把快递当做传书的载体，交给快递员，通过寄快递的方式把书送到他手上。<br>回看WebRTC的<code>信令</code>就很类似这个快递包裹，浏览器把对方的识别码（类似qq号码，微信号）和要发送的<code>candidate</code>和<code>Sdp</code>打包然后”邮寄”给对方。</p><h2 id="信令服务器"><a href="#信令服务器" class="headerlink" title="信令服务器"></a>信令服务器</h2><p><code>信令服务器</code>相当于”快递公司”。<br>两台机器互相不知道对方的时候，就需要一个<code>信令服务器</code>把<code>信令</code>准确无误地传给接受者。</p><h1 id="4-会话是如何建立的？"><a href="#4-会话是如何建立的？" class="headerlink" title="4. 会话是如何建立的？"></a>4. 会话是如何建立的？</h1><p>先假设有两台接入互联网的电脑，一台电脑放在上海，另一台电脑放在广州。我在广州而小明在上海，我们互相知道对方的”号码”，而且我们与<code>信令服务器</code>的连接畅通无阻。我发起了一个通话。</p><p>这两台机器建立<code>会话</code>之前，浏览器不知道对方的ip地址。</p><ol><li>我发起通话，建立了一个<code>会话A</code>，并且把自己加入<code>会话A</code></li><li>我把<code>candidate</code>和<code>Sdp</code>以及小明的”号码”发送给<code>信令服务器</code></li><li><code>信令服务器</code>拿到我的信令，准确无误地把这个信令发给了小明</li><li>小明收到了我的<code>candidate</code>和<code>Sdp</code>，创建并加入了一个<code>会话B</code>。并且根据我的<code>Sdp</code>把我也加入<code>会话B</code></li><li>小明<code>candidate</code>和<code>Sdp</code>以及我的”号码”发送给<code>信令服务器</code></li><li><code>信令服务器</code>拿到小明的信令，准确无误地把这个信令发给了我</li><li>我收到了小明的<code>candidate</code>和<code>Sdp</code>，根据小明的<code>Sdp</code>把小明也加入<code>会话A</code></li><li>此时，会话建立成功了，即使信令服务器突然关机，我与小明也可以继续通话。</li></ol><p><img src="https://img.timzhong.top/images/2020/08/16/WebRTC_connection.png" alt="简化的WebRTC连接建立时序图"></p><p>要注意的是，这里所说的流程是简化版，在实际的WebRTC会话建立过程中，信令交换是频繁的。<code>candidate</code>的交换往往会发生多次。</p><h1 id="5-互联的秘密—NAT与打洞"><a href="#5-互联的秘密—NAT与打洞" class="headerlink" title="5. 互联的秘密—NAT与打洞"></a>5. 互联的秘密—NAT与打洞</h1><h2 id="5-1-NAT技术"><a href="#5-1-NAT技术" class="headerlink" title="5.1 NAT技术"></a>5.1 NAT技术</h2><h3 id="关于NAT"><a href="#关于NAT" class="headerlink" title="关于NAT"></a>关于NAT</h3><blockquote><p>NAT英文全称是“Network Address Translation”，中文意思是“网络地址转换”，它是一个IETF(Internet Engineering Task Force, Internet工程任务组)标准，允许一个整体机构以一个公用IP（Internet Protocol）地址出现在Internet上。顾名思义，它是一种把内部私有网络地址（IP地址）翻译成合法网络IP地址的技术，如下图所示。因此我们可以认为，NAT在一定程度上，能够有效的解决公网地址不足的问题。</p></blockquote><p>用一个简单的例子来理解NAT。每个ip地址有65536个端口，NAT可以理解为一个端口调度员。<br>比如运营商给路由器分配了一个可以被公网访问的ipv4地址<code>1.2.3.4</code>，路由器给家中的设备分配了<code>192.168.1.x</code>的地址。<br>在上网的过程中，假设<code>设备A</code>使用了<code>192.168.1.2:50000</code>（ip地址为192.168.1.2，端口为50000），路由器把<code>192.168.1.2:50000</code>映射到<code>1.2.3.4:56666</code>，设备B使用了<code>192.168.1.3:50000</code>，路由器把<code>192.168.1.3:50000</code>映射到<code>1.2.3.4:56667</code>。<br>这个时候服务器与<code>1.2.3.4:56667</code>通讯，路由器会转发给设备B，服务器与<code>1.2.3.4:56666</code>通讯，路由器会转发给A。<br>这样就实现了使用一个ip让多台设备同时连接互联网。</p><h3 id="NAT带来的好处"><a href="#NAT带来的好处" class="headerlink" title="NAT带来的好处"></a>NAT带来的好处</h3><p>首先是增加了ipv4承载的设备数量。ipv4的IP地址只有32位，实际可用地址大约只有30多亿个。就在2019年，ipv4已经被完全分配完毕，这就意味着已经没有更多ipv4地址。NAT的作用是网络地址转换，可以让多台设备共享一个ip连接互联网，这就让30多亿个ipv4地址可以支撑远高于30多亿台设备。<br>其次是让网络更加安全，因为存在内网到公网的映射，使得计算机只有较少数量的端口可以被公网访问，降低了被攻击的可能性。如果一台机器拥有一个公网ip，而且没有开启防火墙。这就意味着这台机器65535个端口都可以被公网访问，假设445端口的smb服务出现漏洞，攻击者可以直接利用445端口攻击设备。但是有了NAT的存在，445端口默认不会被映射到公网，只有局域网设备可以访问，攻击难度倍增。</p><h3 id="NAT带来的坏处"><a href="#NAT带来的坏处" class="headerlink" title="NAT带来的坏处"></a>NAT带来的坏处</h3><p>NAT带来的坏处也很明显，ip与设备不再是一对一的关系，而是一对多的关系，当公网的一台<code>设备A</code>想准确地访问一台在不同局域网的<code>设备B</code>时，就算知道了<code>设备B</code>的公网ip地址，<code>设备A</code>也无从下手，因为它不知道<code>设备B</code>的公网ip地址1.2.3.4的哪个端口被映射到<code>设备B</code>。因为NAT阻止了两台设备相互连接，所以WebRTC之类的p2p连接就无法建立。</p><h3 id="NAT类型"><a href="#NAT类型" class="headerlink" title="NAT类型"></a>NAT类型</h3><h4 id="NAT类型检测"><a href="#NAT类型检测" class="headerlink" title="NAT类型检测"></a>NAT类型检测</h4><p>NAT是一种从内网ip到公网ip的映射关系，其中映射的规则可以被分为四个类型，这就叫做NAT类型。如果你拥有PS4游戏机，在网络设置中可以查看当前网络的NAT类型。Windows系统的电脑也可以安装”NAT类型检测”软件实现网络NAT类型的查看。</p><h4 id="NAT两大类型"><a href="#NAT两大类型" class="headerlink" title="NAT两大类型"></a>NAT两大类型</h4><p>NAT一共有四种类型，两大类型：锥形NAT与对称NAT，其中123类型都属于锥形NAT，只不过随着序号的增大安全策略更加严格。4属于对称NAT。<br>有一个实际例子：<br><img src="https://img.timzhong.top/images/2020/08/16/NAT_pic1.png" alt="NAT例子"><br><img src="https://img.timzhong.top/images/2020/08/16/NAT_pic2.png" alt="NAT例子"></p><h4 id="1-Full-Cone（全锥形）"><a href="#1-Full-Cone（全锥形）" class="headerlink" title="1. Full Cone（全锥形）"></a>1. Full Cone（全锥形）</h4><p>全锥形就是没有任何限制的锥形</p><h4 id="2-Restricted-Cone（IP受限锥型）"><a href="#2-Restricted-Cone（IP受限锥型）" class="headerlink" title="2. Restricted Cone（IP受限锥型）"></a>2. Restricted Cone（IP受限锥型）</h4><p>引入了一个限制，只转发主动连接过的ip发来的包。<br>举例：<br>基于图1情景，<code>设备A</code>与<code>服务器1</code>交换过数据，但是从来未与<code>服务器2</code>交换过数据。此时<code>服务器2</code>连接1.2.3.4:56666，路由器拒绝转发来自<code>服务器2</code>的所有包。</p><h4 id="3-Port-Restricted-Cone（PORT受限锥型）"><a href="#3-Port-Restricted-Cone（PORT受限锥型）" class="headerlink" title="3. Port Restricted Cone（PORT受限锥型）"></a>3. Port Restricted Cone（PORT受限锥型）</h4><p>在Restricted Cone（IP受限锥型）的基础上再引入端口限制。<br>举例：<br>基于图1情景，假设<code>设备A</code>只与<code>服务器1</code>的10000端口交换过数据，此时<code>服务器1</code>使用10001端口向1.2.3.4:56666发送数据，路由器拒绝转发来自<code>服务器1</code> 10001端口的包。</p><h4 id="4-Symmetric（对称型）"><a href="#4-Symmetric（对称型）" class="headerlink" title="4. Symmetric（对称型）"></a>4. Symmetric（对称型）</h4><p>对称型如上文图2所示，NAT前的端口号与NAT后的端口号是一对多的关系，而且每个映射都遵循Port Restricted Cone（PORT受限锥型）的规则。</p><h2 id="5-2-打洞—突破NAT互联"><a href="#5-2-打洞—突破NAT互联" class="headerlink" title="5.2 打洞—突破NAT互联"></a>5.2 打洞—突破NAT互联</h2><h3 id="关于打洞"><a href="#关于打洞" class="headerlink" title="关于打洞"></a>关于打洞</h3><p>打洞的原理很简单，<code>设备A</code>与一台服务器建立连接，此时路由器会建立一个NAT映射，接着记录<code>设备A</code>的NAT信息（比如NAT前的IP地址和端口，NAT后的IP地址和端口）。有了这些信息，其他机器就可以准确地从NAT后的IP地址和端口访问<code>设备A</code>。</p><h3 id="打洞协议：STUN和TURN"><a href="#打洞协议：STUN和TURN" class="headerlink" title="打洞协议：STUN和TURN"></a>打洞协议：STUN和TURN</h3><p>打洞协议STUN的作用是让处于NAT里的设备获取自己NAT后的可以被公网访问的IP和端口号，以及NAT类型。<br>TURN是中继穿透NAT，顾名思义，TURN充当了两方通信的中继，所以数据会全部经过TURN服务器。</p><h3 id="简单理解STUN的实现方式"><a href="#简单理解STUN的实现方式" class="headerlink" title="简单理解STUN的实现方式"></a>简单理解STUN的实现方式</h3><p>上面说到打洞过程，因为<code>设备A</code>只能获取到NAT<strong>前</strong>的ip与端口号，而服务器可以获取到<code>设备A</code>NAT<strong>后</strong>的ip与端口号，所以服务器把获取到的信息返回给<code>设备A</code>，<code>设备A</code>自然可以获取到自己NAT后的IP与端口</p><h1 id="6-信令服务器"><a href="#6-信令服务器" class="headerlink" title="6. 信令服务器"></a>6. 信令服务器</h1><p>信令服务器有两个作用，一是交换网络环境信息，二是交换会话信息。<br>信令服务器的实现多种多样，常见的解决方案是WebSocket或者HTTP长连接。</p><h2 id="6-1-交换网络环境信息"><a href="#6-1-交换网络环境信息" class="headerlink" title="6.1 交换网络环境信息"></a>6.1 交换网络环境信息</h2><p>了解了NAT与打洞后，再着眼于前文的<code>candidate</code>，<code>candidate</code>实际上携带了自己NAT前后的ip与端口信息，这里称为网络环境信息。<code>设备A</code>把自己NAT前后的ip与端口信息通过信令服务器发送给<code>设备B</code>，<code>设备B</code>可以直接与<code>设备A</code>NAT后的ip与端口建立连接，从而实现<code>设备A</code>与<code>设备B</code>的直接连接。当然，<code>设备B</code>也会将自己的网络环境信息发送给<code>设备A</code>，即使一方的网络环境无法建立直接连接，另一方合适的网络环境也可以让这次连接顺利进行。</p><h2 id="6-2-交换会话信息"><a href="#6-2-交换会话信息" class="headerlink" title="6.2 交换会话信息"></a>6.2 交换会话信息</h2><p><code>Sdp</code>(会话描述)包含了会话的基本信息，<code>Sdp</code>(会话描述)通过信令服务器发送给另一端，使另一端可以顺利初始化会话。</p><h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>读完这篇文章相信你对WebRTC也有一些初步的认识，WebRTC是多项技术的集合体，需要掌握多方面的知识才能发挥出它的强大之处。如果让我把WebRTC分成几个主要部分，我认为WebRTC可以分为连接部分与多媒体部分，本文主要介绍了WebRTC的基本概念以及连接部分，如果你也对有无限可能性的Web实时通讯感兴趣，可以关注我的博客，WebRTC旅程刚刚开始。</p><p><strong>预告：</strong></p><ol><li>WebRTC多媒体介绍</li><li>WebRTC实践：动手写一个视频通话网站</li><li>WebRTC dataChannel妙用</li><li>WebRTC实践：写一个远程快传网站</li></ol><!-- # 6. 视频与音频模块的强大之处# 7. dataChannel妙用 -->]]></content>
+    
+    
+    <categories>
+      
+      <category>WebRTC</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>WebRTC</tag>
+      
+      <tag>NodeJS</tag>
+      
+      <tag>简单教程</tag>
+      
+      <tag>微软学生俱乐部文章</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>T Chat开发日记</title>
+    <link href="/2020/08/07/TChat-diary/"/>
+    <url>/2020/08/07/TChat-diary/</url>
+    
+    <content type="html"><![CDATA[<h3 id="2020-07-20"><a href="#2020-07-20" class="headerlink" title="2020-07-20"></a>2020-07-20</h3><p>   这是第一次更新开发日记，经过大约10天开发，目前前端后端基本功能已经可以正常使用。基础的多媒体传输，大文件传输，文本传输，以及成员列表同步已经完成。</p><p>   主要问题主要是软件效率以及兼容性方面，因为没有选择使用框架，浏览器兼容特别是safari兼容让人一言难尽，这两天引入的hammerjs触屏库在safari也没能正常工作。</p><p>   后端主要问题在内存占用方面，聊天服务器内存占用以及稳定性相对较好。但是文件服务器使用multer中间件，在传输大型文件时内存占用飙升，影响服务器性能，关于post文件流处理还需要进一步学习。</p><h3 id="2020-07-21"><a href="#2020-07-21" class="headerlink" title="2020-07-21"></a>2020-07-21</h3><p>   原本TChat是用common js编写，随着规模逐渐变大，换用typescript很有必要，今天花几个小时把原来的项目用typescript重写，目前基础功能完美移植，下一步需要针对新的协议修改前端代码</p><h3 id="2020-07-22"><a href="#2020-07-22" class="headerlink" title="2020-07-22"></a>2020-07-22</h3><p>   这次后端重构和重新设计通信协议，前端也需要重新设计接收模块，趁这个机会将原本比较混乱的代码也重构一下。把消息收发，自动重连，消息预处理封装成一个TChatService类，解耦合更利于今后的升级与维护。这个类是通讯的核心模块，提供onMessage,onConfig,onAlert,onNetworkChange四个事件，构造器参数url,retryLimit。</p><ol><li>url – 服务器地址</li><li>retryLimit – 失败重连次数</li><li>onMessage – 收到消息时触发</li><li>onConfig – 收到配置信息时触发（比如成员列表的变动事件，重命名事件</li><li>onAlert – 收到弹出消息提醒请求</li><li>onNetworkChange – 与服务器连接断开时触发</li></ol><p>可以算是前端的一次大升级，协议相关bug相信也能解决不少。</p><h3 id="2020-07-29"><a href="#2020-07-29" class="headerlink" title="2020-07-29"></a>2020-07-29</h3><p>   最近两天又开始继续重构过程，后端趋于稳定，前端因为不打算使用框架，所以只能拆分不同的功能模块，最终主程序通过ui类暴露的接口控制所有ui。因为使用ts开发，编译后的js模块在浏览器环境无法直接运行，于是使用webpack打包各个模块。打包后也尽可能地减少了https请求次数。</p><p>   v 0.1.1</p><ul><li>add 图片，音频，视频消息的支持</li><li>fix 修复ctrl+v无法粘贴</li><li>fix 一些隐性的类型bug</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>日记</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>diary</tag>
+      
+      <tag>T Chat</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>第一篇Hexo博客</title>
+    <link href="/2020/08/06/first-hexo-blog/"/>
+    <url>/2020/08/06/first-hexo-blog/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-升级缘由"><a href="#1-升级缘由" class="headerlink" title="1. 升级缘由"></a>1. 升级缘由</h2><p>第一次使用Hexo，在github上搜索hexo-theme，最终选择了一个美观的主题Fluid。原本使用的博客是typecho，更换Hexo的原因也很简单，Hexo部署与维护比typecho方便很多。当然升级也需要一段时间把原来的博文迁移到Hexo…</p><a id="more"></a><p>typecho需要使用服务器运行php+mysql，而Hexo只需要编译后部署到对象储存或者Github Page上，成本与效率都更加优秀。再配合阿里的cdn加速，静态博客性价比极高。</p><h2 id="2-标签入门"><a href="#2-标签入门" class="headerlink" title="2. 标签入门"></a>2. 标签入门</h2><p>看文档学了下常用的一些标签</p><ol><li>插入链接 link 文本 url… <a href="https://baidu.com/" title="" target="">百度链接</a></li><li>插入图片 img [class names] url(or path) [width] [height] title alt<br>暂时不放图了</li><li>代码标签 codeblock<pre><code class="hljs isbl"><span class="hljs-function"><span class="hljs-title">alert</span>(<span class="hljs-string">&#x27;Hello World!&#x27;</span>);</span></code></pre></li><li>代码文件引入 include_code<figure class="highlight javascript"><figcaption><span>test.js</span><a href="/code/first-hexo-blog/test.js">view raw</a></figcaption><table><tr><td class="code"><pre><code class="hljs javascript">alert(<span class="hljs-string">&#x27;Hello World!&#x27;</span>);<br></code></pre></td></tr></table></figure></li></ol><a href="https://hexo.io/zh-cn/docs/tag-plugins" title="" target="">更多标签使用请看官方文档</a><h2 id="3-迁移过程"><a href="#3-迁移过程" class="headerlink" title="3. 迁移过程"></a>3. 迁移过程</h2><p>后续会把原本的博客迁移到hexo中</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Hexo</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Hexo</tag>
+      
+      <tag>Blog</tag>
+      
+      <tag>Fluid</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>VSCode 基础C/C++调试环境配置</title>
+    <link href="/2020/07/02/vscode-c-cpp-config/"/>
+    <url>/2020/07/02/vscode-c-cpp-config/</url>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>现在的新版本VSCode在启动C/C++调试的时候不会自动创建tasks.json，会出现提示找不到xxx.exe或者xxx.out的问题。本文从0开始配置vscode的C/C++调试配置。linux与windows都有相应教程。</p><a id="more"></a><h2 id="0x01-Windows"><a href="#0x01-Windows" class="headerlink" title="0x01 Windows"></a>0x01 Windows</h2><ol><li>下载<code>mingw</code>并且安装<code>gcc</code> <code>g++</code> <code>gdb</code></li><li>在vscode打开的文件夹下新建<code>.vscode</code>文件夹</li><li>创建<code>tasks.json</code> 并且把以下内容复制到<code>tasks.json</code></li></ol><pre><code class="hljs json">&#123;    <span class="hljs-comment">// See https://go.microsoft.com/fwlink/?LinkId=733558</span>    <span class="hljs-comment">// for the documentation about the tasks.json format</span>    <span class="hljs-attr">&quot;version&quot;</span>: <span class="hljs-string">&quot;2.0.0&quot;</span>,    <span class="hljs-attr">&quot;tasks&quot;</span>: [        &#123;            <span class="hljs-attr">&quot;label&quot;</span>: <span class="hljs-string">&quot;C/C++: g++.exe build active file&quot;</span>,            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;shell&quot;</span>,            <span class="hljs-attr">&quot;group&quot;</span>: &#123;                <span class="hljs-attr">&quot;kind&quot;</span>: <span class="hljs-string">&quot;build&quot;</span>,                <span class="hljs-attr">&quot;isDefault&quot;</span>: <span class="hljs-literal">true</span>            &#125;,            <span class="hljs-attr">&quot;presentation&quot;</span>: &#123;                <span class="hljs-attr">&quot;echo&quot;</span>: <span class="hljs-literal">true</span>,                <span class="hljs-attr">&quot;reveal&quot;</span>: <span class="hljs-string">&quot;always&quot;</span>,                <span class="hljs-attr">&quot;focus&quot;</span>: <span class="hljs-literal">false</span>,                <span class="hljs-attr">&quot;panel&quot;</span>: <span class="hljs-string">&quot;shared&quot;</span>            &#125;,            <span class="hljs-attr">&quot;windows&quot;</span>: &#123;                <span class="hljs-attr">&quot;command&quot;</span>: <span class="hljs-string">&quot;g++&quot;</span>,                <span class="hljs-attr">&quot;args&quot;</span>: [                    <span class="hljs-string">&quot;-ggdb&quot;</span>,                    <span class="hljs-string">&quot;\&quot;$&#123;file&#125;\&quot;&quot;</span>,                    <span class="hljs-string">&quot;--std=c++11&quot;</span>,                    <span class="hljs-string">&quot;-o&quot;</span>,                    <span class="hljs-string">&quot;\&quot;$&#123;fileDirname&#125;\\out\\$&#123;fileBasenameNoExtension&#125;.exe\&quot;&quot;</span>                ]            &#125;        &#125;    ]&#125;</code></pre><ol start="4"><li>创建<code>launch.json</code></li></ol><pre><code class="hljs json">&#123;    <span class="hljs-comment">// 使用 IntelliSense 了解相关属性。 </span>    <span class="hljs-comment">// 悬停以查看现有属性的描述。</span>    <span class="hljs-comment">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span>    <span class="hljs-attr">&quot;version&quot;</span>: <span class="hljs-string">&quot;0.2.0&quot;</span>,    <span class="hljs-attr">&quot;configurations&quot;</span>: [        &#123;            <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;g++.exe - 生成和调试活动文件&quot;</span>,            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;cppdbg&quot;</span>,            <span class="hljs-attr">&quot;request&quot;</span>: <span class="hljs-string">&quot;launch&quot;</span>,            <span class="hljs-attr">&quot;program&quot;</span>: <span class="hljs-string">&quot;$&#123;fileDirname&#125;\\out\\$&#123;fileBasenameNoExtension&#125;.exe&quot;</span>,            <span class="hljs-attr">&quot;args&quot;</span>: [],            <span class="hljs-attr">&quot;stopAtEntry&quot;</span>: <span class="hljs-literal">false</span>,            <span class="hljs-attr">&quot;cwd&quot;</span>: <span class="hljs-string">&quot;$&#123;workspaceFolder&#125;&quot;</span>,            <span class="hljs-attr">&quot;environment&quot;</span>: [],            <span class="hljs-attr">&quot;externalConsole&quot;</span>: <span class="hljs-literal">false</span>,            <span class="hljs-attr">&quot;MIMode&quot;</span>: <span class="hljs-string">&quot;gdb&quot;</span>,            <span class="hljs-attr">&quot;miDebuggerPath&quot;</span>: <span class="hljs-string">&quot;C:\\MinGW\\bin\\gdb.exe&quot;</span>,            <span class="hljs-attr">&quot;setupCommands&quot;</span>: [                &#123;                    <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;为 gdb 启用整齐打印&quot;</span>,                    <span class="hljs-attr">&quot;text&quot;</span>: <span class="hljs-string">&quot;-enable-pretty-printing&quot;</span>,                    <span class="hljs-attr">&quot;ignoreFailures&quot;</span>: <span class="hljs-literal">true</span>                &#125;            ],            <span class="hljs-attr">&quot;preLaunchTask&quot;</span>: <span class="hljs-string">&quot;C/C++: g++.exe build active file&quot;</span>        &#125;    ]&#125;</code></pre><ol start="5"><li>然后就可以按f5进行调试了。</li></ol><h2 id="0x02-Linux"><a href="#0x02-Linux" class="headerlink" title="0x02 Linux"></a>0x02 Linux</h2><ol><li><p>首先安装编译器<a href="https://blog.timzhong.top/archives/29.html">我的ubuntu编译环境</a></p></li><li><p>同windows，创建<code>.vscode</code>文件夹</p></li><li><p>创建 <code>c_cpp_properties.json </code></p><pre><code class="hljs json">&#123;    <span class="hljs-attr">&quot;configurations&quot;</span>: [        &#123;            <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Linux&quot;</span>,            <span class="hljs-attr">&quot;includePath&quot;</span>: [                <span class="hljs-string">&quot;$&#123;workspaceFolder&#125;&quot;</span>            ],            <span class="hljs-attr">&quot;defines&quot;</span>: [],            <span class="hljs-attr">&quot;compilerPath&quot;</span>: <span class="hljs-string">&quot;/usr/bin/gcc&quot;</span>,            <span class="hljs-attr">&quot;cStandard&quot;</span>: <span class="hljs-string">&quot;c11&quot;</span>,            <span class="hljs-attr">&quot;cppStandard&quot;</span>: <span class="hljs-string">&quot;c++17&quot;</span>,            <span class="hljs-attr">&quot;intelliSenseMode&quot;</span>: <span class="hljs-string">&quot;gcc-x64&quot;</span>        &#125;    ],    <span class="hljs-attr">&quot;version&quot;</span>: <span class="hljs-number">4</span>&#125;</code></pre></li><li><p>创建<code>launch.json</code></p><pre><code class="hljs json">&#123;    <span class="hljs-comment">// 使用 IntelliSense 了解相关属性。 </span>    <span class="hljs-comment">// 悬停以查看现有属性的描述。</span>    <span class="hljs-comment">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span>    <span class="hljs-attr">&quot;version&quot;</span>: <span class="hljs-string">&quot;0.2.0&quot;</span>,    <span class="hljs-attr">&quot;configurations&quot;</span>: [           &#123;            <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;(gdb) 启动&quot;</span>,            <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;cppdbg&quot;</span>,            <span class="hljs-attr">&quot;request&quot;</span>: <span class="hljs-string">&quot;launch&quot;</span>,            <span class="hljs-attr">&quot;program&quot;</span>: <span class="hljs-string">&quot;$&#123;workspaceFolder&#125;/out/$&#123;fileBasenameNoExtension&#125;.out&quot;</span>,            <span class="hljs-attr">&quot;args&quot;</span>: [],            <span class="hljs-attr">&quot;stopAtEntry&quot;</span>: <span class="hljs-literal">false</span>,            <span class="hljs-attr">&quot;cwd&quot;</span>: <span class="hljs-string">&quot;$&#123;workspaceFolder&#125;&quot;</span>,            <span class="hljs-attr">&quot;environment&quot;</span>: [],            <span class="hljs-attr">&quot;externalConsole&quot;</span>: <span class="hljs-literal">false</span>,            <span class="hljs-attr">&quot;MIMode&quot;</span>: <span class="hljs-string">&quot;gdb&quot;</span>,            <span class="hljs-attr">&quot;setupCommands&quot;</span>: [                &#123;                    <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;为 gdb 启用整齐打印&quot;</span>,                    <span class="hljs-attr">&quot;text&quot;</span>: <span class="hljs-string">&quot;-enable-pretty-printing&quot;</span>,                    <span class="hljs-attr">&quot;ignoreFailures&quot;</span>: <span class="hljs-literal">true</span>                &#125;            ],            <span class="hljs-attr">&quot;preLaunchTask&quot;</span>: <span class="hljs-string">&quot;build&quot;</span>        &#125;    ]&#125;</code></pre></li><li><p>创建<code>tasks.json</code></p><pre><code class="hljs json">&#123;    <span class="hljs-comment">// See https://go.microsoft.com/fwlink/?LinkId=733558</span>    <span class="hljs-comment">// for the documentation about the tasks.json format</span>    <span class="hljs-attr">&quot;version&quot;</span>: <span class="hljs-string">&quot;2.0.0&quot;</span>,    <span class="hljs-attr">&quot;tasks&quot;</span>: [        &#123;            <span class="hljs-attr">&quot;label&quot;</span>: <span class="hljs-string">&quot;build&quot;</span>,             <span class="hljs-attr">&quot;command&quot;</span>: <span class="hljs-string">&quot;g++&quot;</span>,             <span class="hljs-attr">&quot;args&quot;</span>: [                <span class="hljs-string">&quot;$&#123;file&#125;&quot;</span>,                <span class="hljs-string">&quot;-o&quot;</span>,                 <span class="hljs-string">&quot;$&#123;fileDirname&#125;/out/$&#123;fileBasenameNoExtension&#125;.out&quot;</span>,                <span class="hljs-string">&quot;-g&quot;</span>,                 <span class="hljs-string">&quot;-static-libgcc&quot;</span>,                 <span class="hljs-string">&quot;-std=c++17&quot;</span>             ],             <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;shell&quot;</span>,             <span class="hljs-attr">&quot;group&quot;</span>: &#123;                <span class="hljs-attr">&quot;kind&quot;</span>: <span class="hljs-string">&quot;build&quot;</span>,                <span class="hljs-attr">&quot;isDefault&quot;</span>: <span class="hljs-literal">true</span>             &#125;,            <span class="hljs-attr">&quot;presentation&quot;</span>: &#123;                <span class="hljs-attr">&quot;echo&quot;</span>: <span class="hljs-literal">true</span>,                <span class="hljs-attr">&quot;reveal&quot;</span>: <span class="hljs-string">&quot;always&quot;</span>,                 <span class="hljs-attr">&quot;focus&quot;</span>: <span class="hljs-literal">false</span>,                 <span class="hljs-attr">&quot;panel&quot;</span>: <span class="hljs-string">&quot;shared&quot;</span>             &#125;,            <span class="hljs-attr">&quot;problemMatcher&quot;</span>: <span class="hljs-string">&quot;$gcc&quot;</span>         &#125;    ]&#125;</code></pre></li><li><p>完成</p></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>unknown categories</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>新手教程</tag>
+      
+      <tag>开发环境</tag>
+      
+      <tag>vscode</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>WSL Ubuntu18.04个人环境配置</title>
+    <link href="/2020/07/01/my-ubuntu-env/"/>
+    <url>/2020/07/01/my-ubuntu-env/</url>
+    
+    <content type="html"><![CDATA[<h1 id="我的ubuntu环境"><a href="#我的ubuntu环境" class="headerlink" title="我的ubuntu环境"></a>我的ubuntu环境</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着开发工具增多，windows的响应速度相比linux要低不少，因此使用wsl折衷方案，但是wsl的备份相对虚拟机就麻烦许多，所以开这篇文章更新我需要用到的常用依赖和工具。</p><a id="more"></a><p>##0x01</p><h3 id="1-C-C-环境配置"><a href="#1-C-C-环境配置" class="headerlink" title="1. C/C++环境配置"></a>1. C/C++环境配置</h3><ol><li>依赖安装</li></ol><pre><code class="hljs mipsasm">sudo apt <span class="hljs-keyword">install </span><span class="hljs-keyword">build-essential </span>gdb</code></pre><ol start="2"><li>VSCode配置<br>直接抄就可以用-&gt;<strong><a href="https://blog.timzhong.top/archives/%2030%20.html">VSCode调试配置</a></strong></li></ol><h3 id="2-nodejs环境配置"><a href="#2-nodejs环境配置" class="headerlink" title="2. nodejs环境配置"></a>2. nodejs环境配置</h3><ol><li>基础环境配置</li></ol><pre><code class="hljs cmake">sudo apt <span class="hljs-keyword">install</span> npmsudo npm <span class="hljs-keyword">install</span> n -g <span class="hljs-comment">#安装node更新器</span>sudo n lts <span class="hljs-comment">#安装LTS版本</span></code></pre><ol start="2"><li>另外可以顺便安装yarn代替npm</li></ol><pre><code class="hljs awk">npm install -g yarn --registry=https:<span class="hljs-regexp">//</span>registry.npm.taobao.org</code></pre><ol start="3"><li>如果想换国内源</li></ol><pre><code class="hljs arduino">yarn <span class="hljs-built_in">config</span> <span class="hljs-built_in">set</span> registry https:<span class="hljs-comment">//registry.npm.taobao.org -g</span>yarn <span class="hljs-built_in">config</span> <span class="hljs-built_in">set</span> sass_binary_site http:<span class="hljs-comment">//cdn.npm.taobao.org/dist/node-sass -g</span></code></pre><h3 id="3-python"><a href="#3-python" class="headerlink" title="3. python"></a>3. python</h3><p>ubuntu18.04自带就不用装了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+      <tag>新手教程</tag>
+      
+      <tag>ubuntu</tag>
+      
+      <tag>wsl</tag>
+      
+      <tag>开发环境</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>群晖本地激活Active Backup for Business</title>
+    <link href="/2020/03/25/Synology-active-backup-pack/"/>
+    <url>/2020/03/25/Synology-active-backup-pack/</url>
+    
+    <content type="html"><![CDATA[<h2 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a>0x00</h2><p>#数据无价，本文介绍的方法仅用于测试！生产环境部署请支持正版。</p><a id="more"></a><h2 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h2><p>在浏览器依次输入下面两条链接</p><blockquote><p>http://<code>URL</code> : <code>PORT</code>/webapi/auth.cgi?api=SYNO.API.Auth&amp;method=Login&amp;version=1&amp;account=<code>USER</code>&amp;passwd=<code>PASSWOED</code></p></blockquote><blockquote><p>http://<code>URL</code> : <code>PORT</code>/webapi/entry.cgi?api=SYNO.ActiveBackup.Activation&amp;method=set&amp;version=1&amp;activated=true&amp;serial_number=”<code>本机序列号</code>“</p></blockquote><p>将 <code>URL</code> <code>PORT</code> <code>USER</code> <code>PASSWOED</code> <code>本机序列号</code> 五项进行替换，本机序列号可以在“控制面板-&gt;系统-&gt;产品序列号”找到。</p><p>如果输入第二条链接后显示以下内容说明激活成功。</p><blockquote><p>{“data”:{“activated”:true},”success”:true} </p></blockquote> ]]></content>
+    
+    
+    <categories>
+      
+      <category>群辉</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>群辉</tag>
+      
+      <tag>Backup for Business</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>如何解决Centos最小镜像安装后无法联网</title>
+    <link href="/2020/02/27/centos-dhclient/"/>
+    <url>/2020/02/27/centos-dhclient/</url>
+    
+    <content type="html"><![CDATA[<p>虚拟机安装centos后无法联网往往不是虚拟机网卡设置问题，而是centos没有默认dhcp获取ip。只需要一行代码启动dhcp。</p><p>手动运行</p><pre><code class="hljs ebnf"><span class="hljs-attribute">dhclient</span></code></pre><p>临时获取ip，正常联网，记得有空把网口配置一下。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+      <tag>centos</tag>
+      
+      <tag>network</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>树莓派raspbian切换armv8内核</title>
+    <link href="/2020/02/25/raspbian-armv8-kernel/"/>
+    <url>/2020/02/25/raspbian-armv8-kernel/</url>
+    
+    <content type="html"><![CDATA[<p>官方raspbian-buster镜像（2020-2-13）已经自带了armv8内核，但默认载入armv7内核。只需要在config.txt末尾添加两行代码就可以切换成64位内核。</p><a id="more"></a><pre><code class="hljs jboss-cli"><span class="hljs-keyword">cd</span> <span class="hljs-string">/boot</span>vim config.txt</code></pre><p>**然后在文件末尾添加</p><pre><code class="hljs ini"><span class="hljs-attr">arm_64bit</span>=<span class="hljs-number">1</span><span class="hljs-attr">kernel</span>=kernel8.img**</code></pre><p>退出，重启后执行</p><pre><code class="hljs ebnf"><span class="hljs-attribute">uname -a</span></code></pre><p>有aarch64字样说明切换成功。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+      <tag>raspbian</tag>
+      
+      <tag>raspberry</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>CentOS调整分区大小</title>
+    <link href="/2020/01/12/centos-resize-disk/"/>
+    <url>/2020/01/12/centos-resize-disk/</url>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>最近在折腾树莓派，向sd卡写入镜像以后，linux系统根目录只有1.4G，sd卡大小为16G。本篇文章使用fdisk与resize2fs进行分区大小调整。</p><a id="more"></a><h2 id="0x01-准备工作"><a href="#0x01-准备工作" class="headerlink" title="0x01 准备工作"></a>0x01 准备工作</h2><p>使用ssh连接，停止数据库等服务，获得root权限。</p><h2 id="0x02-开始操作"><a href="#0x02-开始操作" class="headerlink" title="0x02 开始操作"></a>0x02 开始操作</h2><p>找到磁盘文件，通常是/dev/sda0</p><pre><code class="hljs awk">fdisk <span class="hljs-regexp">/dev/</span>sda0   <span class="hljs-regexp">//</span>选择磁盘&gt;p    <span class="hljs-regexp">//</span>查看分区表，记下要扩容分区的start数据&gt;d    <span class="hljs-regexp">//</span>删除分区&gt;<span class="hljs-number">3</span>    <span class="hljs-regexp">//</span>删除三号分区（视情况而定，删除要扩容的分区&gt;n    <span class="hljs-regexp">//</span>新建分区&gt;p    <span class="hljs-regexp">//</span>建立主分区&gt;<span class="hljs-number">3</span>    <span class="hljs-regexp">//</span>建立三号分区&gt;输入刚才记录的start数据&gt;     <span class="hljs-regexp">//</span>直接回车使用默认值，默认全部分配&gt;wq   <span class="hljs-regexp">//</span>保存并退出df -h <span class="hljs-regexp">//</span>看到分区大小依然没变resize2fs <span class="hljs-regexp">/dev/</span>sda0p3  <span class="hljs-regexp">//</span>改变分区大小df -h <span class="hljs-regexp">//</span>分区成功扩容</code></pre><h2 id="0x03-方法的原理与局限性"><a href="#0x03-方法的原理与局限性" class="headerlink" title="0x03 方法的原理与局限性"></a>0x03 方法的原理与局限性</h2><p>原理是：不改变扇区起始位置，只修改分区的扇区范围，原本扇区内的数据不会被修改。</p><ol><li>这个方法<strong>只适合扩展扇区位置最高的分区</strong>，而且只能在原来的分区后面追加新空间。</li><li>如果分区的扇区夹在其他几个分区之间，这个方法不适用。</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+      <tag>centos</tag>
+      
+      <tag>disk</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>3DLC 1.2 — 分析电影中橙青色调</title>
+    <link href="/2019/12/17/3DLC-1-2/"/>
+    <url>/2019/12/17/3DLC-1-2/</url>
+    
+    <content type="html"><![CDATA[<p><strong><a href="https://107cine.com/stream/83977/">为什么好莱坞大片偏爱“橙青色调”?</a>   &lt;–非常值得一读</strong><br>文章来自影视工业网，作者HomeBoy Cine Studio，一家电影调色公司。文章展示了大量运用橙青色调的镜头，讲述了橙青色调的起源与发展。这篇文章的重点放在如何利用颜色矢量示波器分析这种颜色风格。</p><h2 id="一、橙青色调的作用与历史"><a href="#一、橙青色调的作用与历史" class="headerlink" title="一、橙青色调的作用与历史"></a>一、橙青色调的作用与历史</h2><p>引用文章中几段精辟的话</p><p>1、橙青色调在电影制作中的优势：</p><blockquote><p>橙青色调的潮流是由对比色的关系所驱动的。如果你让演员肤色尽可能的呈现合理的暖橙色，同时使他们看上去相对自然，并且使影子和背景的颜色尽可能的偏蓝，这就会使你的画面充满活力，同时，也是一个相当互补的色调。就像Dan Seitz在色彩调色的分析中讲到的：</p></blockquote><blockquote><p>“其实这并不是偷懒，调色师为一部片长约为两小时的影片调色，有时需要逐帧的调，大约需要这样连续工作几个星期。你可以很快的就决定使用橙蓝色调，因为每个人都喜欢。”</p></blockquote><p>2、橙青色调之所以好看的原理：</p><blockquote><p>“不像其它的互补色组合，暖色调的橙色和冷色调的蓝色青色有着强烈的对比关系，例如火与冰，地面与天空，土地和海洋，日与夜，满满的人情味和优雅的冷漠对比，旧时尚和未来科技的对比。这是一个比喻，因为都是有目的性的使用，而且确实颇有成效。”</p></blockquote><h2 id="二、在矢量示波器上研究电影色调"><a href="#二、在矢量示波器上研究电影色调" class="headerlink" title="二、在矢量示波器上研究电影色调"></a>二、在矢量示波器上研究电影色调</h2><p>部分例子来自“<a href="https://107cine.com/stream/83977/">为什么好莱坞大片偏爱“橙青色调”?</a>”<br>1.科幻片《木星》<br><img src="https://img.timzhong.top/images/2019/12/17/lcTET4YIeYjDgGPC.png" alt="3"></p><p><img src="https://img.timzhong.top/images/2019/12/17/w5s7oa5Nph7ZQqYn.png" alt="4"></p><p>2.《疯狂麦克斯》（2015）预告片<br><img src="https://img.timzhong.top/images/2019/12/17/lEFvp5cf7PEJ002r.png" alt="4"></p><p><img src="https://img.timzhong.top/images/2019/12/17/IINQrEX1Og3gnKLP.png" alt="5"></p><p>这两个例子最大的特点：示波器显示颜色尽可能地分布在一条直线上，从橙色色相一直到青色色相，这种特征形成了强烈的视觉冲击。<br>当然，有些时候电影为了更好地叙事或者导演有强烈的个人风格，主角与背景之间并不会产生明显地颜色对比。例如it chapter two调色最大的特点就是画面整体偏向青绿色，让人物与场景融为一体。<br>3.《小丑回魂2》（2019）<br><img src="https://img.timzhong.top/images/2019/12/17/LXdQHUs6dcq0h22M.png" alt="5"></p><p><img src="https://img.timzhong.top/images/2019/12/17/MnyLOPWzO2TqqAEO.png" alt="8"></p><p>示波器显示颜色集中在左下角，即绿色，蓝色色相附近</p><h2 id="三、简单地调出类似橙青色调"><a href="#三、简单地调出类似橙青色调" class="headerlink" title="三、简单地调出类似橙青色调"></a>三、简单地调出类似橙青色调</h2><p>就以小丑回魂2为例，画面颜色通过简单的色相调整，呈现出从橙到青蓝色的波形，并且将波形延长来提升视觉冲击力。<br>example：<br><img src="https://img.timzhong.top/images/2019/12/17/P37a8t611dt4Jm42.png" alt="edited"></p><p>修改参数如下，在后续的文章中会介绍这个工具的使用方法。<br><img src="https://img.timzhong.top/images/2019/12/17/x7yN5PK6BDMIuvdA.png" alt="请输入图片描述"></p><p>感谢阅读，下一篇文章再见。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>PhotoEditing</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>3dLutsCreator</tag>
+      
+      <tag>3DLC</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>3DLC 1.1 — 矢量示波器 介绍</title>
+    <link href="/2019/12/16/3DLC-1-1/"/>
+    <url>/2019/12/16/3DLC-1-1/</url>
+    
+    <content type="html"><![CDATA[<p>这是3dLutCreate（简称3DLC）频道第一篇文章，看到矢量示波器别慌，不是那个keysight示波器，也跟向量没太多关系。本文将从新手角度<strong>直观地</strong>上手矢量示波器，无抽象难懂内容。</p><a id="more"></a><p>在实际动手修改图片之前，了解图片信息是不可或缺的一个关键步骤。前期拍摄中不控制好曝光拍出来的就是废片，后期调色不了解图像信息会给修片带来很多麻烦甚至调不出效果。就好像在前期拍摄中，及时检查直方图，开启斑马线标记出过曝区域一样。后期也需要类似的数据可视化工具，在这里首先要提的就是色彩矢量示波器。</p><h2 id="矢量示波器"><a href="#矢量示波器" class="headerlink" title="矢量示波器"></a>矢量示波器</h2><h3 id="1-矢量示波器是什么"><a href="#1-矢量示波器是什么" class="headerlink" title="1. 矢量示波器是什么"></a>1. 矢量示波器是什么</h3><p><img src="https://img.timzhong.top/images/2019/12/16/eqQvRy38k7CA71nK.png" alt="图像1矢量示波器截图"></p><p>第一次听说这词的时候博主也十分疑惑，一个极坐标系，边缘均匀分布着六个英文字母。导入一张照片，窗口内出现了点阵图（下称波形），从中间向四周延申。</p><p>先导入一张照片看看波形，很有新鲜感。</p><p><img src="https://img.timzhong.top/images/2019/12/16/WM3V6621CYCKwbkR.jpg" alt="照片"><br><img src="https://img.timzhong.top/images/2019/12/16/r4TBqlwpHI3XBSsD.png" alt="导入照片"></p><p>再导入一张纯色图片看看是什么波形。</p><p><img src="https://img.timzhong.top/images/2019/12/16/lAG9fa7MQtMTihgm.png" alt="纯色图片"></p><p>似乎只有一个离原点很远的点。<br>再导入一张鲜艳程度(饱和度)渐变的图片，再看看波形的变化。</p><p><img src="https://img.timzhong.top/images/2019/12/16/esxFFGcO5RRC1X8R.png" alt="渐变色图片"></p><p>出现了一串点，排列在从原点出发的一条直线上。</p><p>细心的读者看到这里应该大概可以直观地理解矢量示波器的含义，<strong>颜色越鲜艳(饱和度越高)，在分析器中产生的点离原点越远</strong>，颜色越淡，产生的点离原点越近。如果图像中一种颜色<strong>多且鲜艳</strong>，那么波形在某个方向就会延申地特别长，同时点也会更加密集。同理，如果图像中一种颜色<strong>少且淡</strong>，那么波形在某个方向就几乎没有延申，点也十分稀疏。</p><p>猜想一下，如果图像中一种颜色<strong>少但是特别鲜艳</strong>，波形会长成什么样？<br>不妨放一张图来试试：</p><p><img src="https://img.timzhong.top/images/2019/12/16/aiCF1TEaQiRqQY9t.png" alt="橙青对比，橙色鲜艳但是少"></p><h3 id="2-总结"><a href="#2-总结" class="headerlink" title="2. 总结"></a>2. 总结</h3><p>可以总结一下：</p><blockquote><p>一种颜色对应一种方向，<br>颜色在画面中多少 &lt;-&gt; 点的密集程度高低<br>颜色鲜艳程度     &lt;-&gt; 点离中心的距离远近</p></blockquote><p>那么问题又来了，怎么知道每个方向的颜色？怎么知道某种颜色对应的方向？</p><p>这里就需要引入新的概念，<strong>色相(hue)与色相环</strong>。<br>色相(hue)也称色调，色度。<br>色相直观地理解就是把所有颜色按一定规则映射到0°~360°上，<strong>每一个角度对应着一个颜色</strong>。<br><img src="https://img.timzhong.top/images/2019/12/16/050Q1aaB1BV9kpCq.png" alt="色相环"></p><p>就像他的名字一样，这是一个环状的图像。0°-360°分布着红到紫（覆盖可见光）的全部颜色。如果把矢量示波器叠加到色相环上，绿色的波形<strong>突出的方向</strong>正好<strong>对应色相环上绿色的位置</strong>。只要稍加记忆(雾)，就可以看方向说颜色，看颜色说方向了。</p><p><img src="https://img.timzhong.top/images/2019/12/16/LpV2mLwD9cRXGyn0.png" alt="波形叠加在色相环上"></p><p>(这个波形是开头照片的波形)<br>看完上面一大段文字。脑子：我懂了，手：我不懂。<br><strong>例题待更新</strong></p><p>例子：</p><p>1、在脑海中想象一下下面图片的波形。<br>![例题1][9]<br>答案链接：</p><p>2、在脑海中想象一下以下波形图对应着什么颜色的画面。<br>![例题2][10]<br>答案链接：</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>PhotoEditing</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>3dLutsCreator</tag>
+      
+      <tag>3DLC</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Tim的调色分析频道——简介</title>
+    <link href="/2019/12/16/3DLC-1-0/"/>
+    <url>/2019/12/16/3DLC-1-0/</url>
+    
+    <content type="html"><![CDATA[<p>最近博主在摸索3dLutsCreator（下称3DLC），在这之前相当长时间内我使用的主要调色工具是HSL。</p><p>频道文章思路/构架基于博主<strong>初次使用的体验</strong>到现在<strong>对这个工具的理解</strong>以及<strong>一些实际样例</strong>。正因博主正在初次接触很多功能，把这种体验转换为教程，希望更能引起读者共鸣。</p><h2 id="3DLC有什么特点？"><a href="#3DLC有什么特点？" class="headerlink" title="3DLC有什么特点？"></a>3DLC有什么特点？</h2><p>   3DLC的一个突出特点就是数据可视化，相比LR，PS等软件一是提供了更多的可视化工具，比如色相矢量图，平均值，波形图，曲线分析仪等更加专业化的工具，当然，不知道上述工具的用途甚至没听过这些工具，都不影响阅读频道内的文章。后续更新的文章会从博主个人第一次接触的体验开始，从0了解这些可视化工具。</p><p>   除了可视化工具，还有很多调整工具，从调整色相饱和度的蛛网图到调整白平衡与色调的网状图，这些工具初次接触可能会让人觉得很复杂，调整也毫无目的。</p><h2 id="3DLC解决了HSL什么问题？"><a href="#3DLC解决了HSL什么问题？" class="headerlink" title="3DLC解决了HSL什么问题？"></a>3DLC解决了HSL什么问题？</h2><ol><li><p>实现多维参数调整。HSL调整通常只能分开调整色相，饱和度，明度。要准确地调出期望的效果相对困难。另外，频繁切换三个选项卡的操作体验较差。3DLC调整工具将多维参数放到一个调整工具中，拖动平面中的点来同时实现多个参数修改，比如色相偏移+饱和度调整。</p></li><li><p>非线性调整。HSL对饱和度参数的调整是线性的，这种本身的缺陷需要引入其他工具来弥补，这个过程又增加了操作的难度与复杂度，降低了操作体验。</p></li></ol><h2 id="用3DLC与用PS，LR调照片不冲突"><a href="#用3DLC与用PS，LR调照片不冲突" class="headerlink" title="用3DLC与用PS，LR调照片不冲突"></a>用3DLC与用PS，LR调照片不冲突</h2><p>3DLC的主要作用是对颜色进行调整，并且输出luts。PS更加全能，可以对画面进行进一步的修饰与调整。另外PS可以直接加载luts，再进行细节修饰。所以3DLC更像是PS的辅助工具。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>PhotoEditing</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>3dLutsCreator</tag>
+      
+      <tag>3DLC</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>windows禁用IPV6临时地址的方法</title>
+    <link href="/2019/12/12/disable-Temporary-ipv6/"/>
+    <url>/2019/12/12/disable-Temporary-ipv6/</url>
+    
+    <content type="html"><![CDATA[<h2 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a>0x00</h2><p>最近想定制一下ipv6地址，成为宿舍最’臭’的ip，但是修改后发现地址仍然没有改变，于是想到禁用windows的ipv6临时地址。<br><img src="https://img.timzhong.top/images/2019/12/12/s565RQ57IWZjqvHi.png" alt="ipv6"></p><a id="more"></a><h2 id="0x01-禁用临时地址的方法"><a href="#0x01-禁用临时地址的方法" class="headerlink" title="0x01 禁用临时地址的方法"></a>0x01 禁用临时地址的方法</h2><ol><li><p>用管理员权限打开cmd，输入</p><pre><code class="hljs routeros">netsh<span class="hljs-built_in"> interface ipv6 </span><span class="hljs-builtin-name">set</span> privacy <span class="hljs-attribute">state</span>=disable</code></pre></li><li><p>重启网络</p></li></ol><h2 id="0x02-重新启用临时地址的方法"><a href="#0x02-重新启用临时地址的方法" class="headerlink" title="0x02 重新启用临时地址的方法"></a>0x02 重新启用临时地址的方法</h2><ol><li><p>用管理员权限打开cmd，输入</p><pre><code class="hljs routeros">netsh<span class="hljs-built_in"> interface ipv6 </span><span class="hljs-builtin-name">set</span> privacy <span class="hljs-attribute">state</span>=enable</code></pre></li><li><p>重启网络</p></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>Network</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>network</tag>
+      
+      <tag>ipv6</tag>
+      
+      <tag>windows</tag>
+      
+      <tag>新手教程</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>你知道你的wifi实际能跑多快吗？——iperf局域网测速工具简单介绍</title>
+    <link href="/2019/10/26/wifi-test-iperf/"/>
+    <url>/2019/10/26/wifi-test-iperf/</url>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>说到网速，许多人都知道打开<a href="https://speedtest.net/">https://speedtest.net</a> 就可以测试，但是这是测的宽带速度。有多少人知道你所在的局域网速度是多少呢？看路由器包装上标识的速率”1200M”，又或者打开wifi设置查看wifi连接速率……然而，这些方法并不能准确地测试网络速度。</p><a id="more"></a><h2 id="0x01-为什么普通方法测不准？"><a href="#0x01-为什么普通方法测不准？" class="headerlink" title="0x01 为什么普通方法测不准？"></a>0x01 为什么普通方法测不准？</h2><p>首先，路由器上标识的速率指的是理论协议速率，并不是实际速率，打个比方：高速公路的理论协议速率是120kmh，但是能不能跑到120还要看实际路况。<br>另外，wifi设置中的wifi连接速率只不过是将理论协议速度与当前信噪比进行机械运算而得到，还是不能反应真实的wifi速率。</p><h2 id="0x02-如何准确测量速率？"><a href="#0x02-如何准确测量速率？" class="headerlink" title="0x02 如何准确测量速率？"></a>0x02 如何准确测量速率？</h2><p>实践是检验真理的唯一标准，既然理论计算与实际速率有很大差异，那么就需要一款实实在在传输数据的软件：iperf3。工作原理也很简单，客户端向服务端发送数据包，测出最大速率。iperf3是一个支持ipv4与ipv6，支持tcp，udp，sctp协议的强大的跨平台测速工具。iperf官网：<a href="https://iperf.fr/">https://iperf.fr/</a></p><h2 id="0x03-iperf3使用教程"><a href="#0x03-iperf3使用教程" class="headerlink" title="0x03 iperf3使用教程"></a>0x03 iperf3使用教程</h2><h3 id="1-windows"><a href="#1-windows" class="headerlink" title="1. windows"></a>1. windows</h3><h4 id="bat脚本"><a href="#bat脚本" class="headerlink" title="bat脚本"></a>bat脚本</h4><p><a href="https://www.timzhong.top/iperf/latest.iperf1.3.0.0.zip">点击下载iperf3 windows版本</a></p><h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><ol><li>服务端 &amp; 客户端<br>按1然后设置端口号，启动服务端。<br>###客户端使用：<br>按2然后按提示操作即可进行测试。<br><img src="https://img.timzhong.top/images/2019/10/26/oLhe252E5VRIKpeV.png" alt="1.jpg"></li></ol><h3 id="2-android-ios"><a href="#2-android-ios" class="headerlink" title="2. android / ios"></a>2. android / ios</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><ol><li>ios：</li></ol><ul><li><a href="https://apps.apple.com/cn/app/iperf-3-wifi-speed-test/id1462260546">点击下载iperf3 ios客户端</a>  </li><li><a href="https://apps.apple.com/cn/app/wifiperf-endpoint/id909661121">点击下载iperf3 ios服务端</a></li></ul><ol start="2"><li>android：</li></ol><ul><li><a href="https://www.timzhong.top/iperf/Magic%20iPerf_1.0.apk">点击下载Magic iperf</a></li></ul><h4 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h4><ol><li><p>ios:</p><ol><li><p>客户端使用：<br>在Server address填写服务端的ip地址。<br>Stream选择5，进行5线程测试，更接近wifi最大速率。<br><img src="https://img.timzhong.top/images/2019/10/26/BaMInljKkXZdPcdZ.jpg" alt="2.jpg"></p></li><li><p>服务端使用：<br>直接打开，用客户端连接屏幕上显示的ip即可。<br><img src="https://img.timzhong.top/images/2019/10/26/gCuJU96ruKtPKjpS.jpg" alt="3.jpg"></p></li></ol></li><li><p>android:</p><ol><li><p>服务端使用：<br>填入-s 然后启动<br><img src="https://img.timzhong.top/images/2019/10/27/N4PSilugZxbV5M6l.png" alt="4.jpg"></p></li><li><p>客户端使用：<br>填入-c 服务端ip地址 -P 5 然后启动<br><img src="https://img.timzhong.top/images/2019/10/27/oX7khTCKlgDSss9p.png" alt="5.jpg"></p></li></ol></li></ol><h3 id="3-linux-OSX"><a href="#3-linux-OSX" class="headerlink" title="3. linux / OSX"></a>3. linux / OSX</h3><h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><ol><li>OSX：</li></ol><ul><li><a href="https://www.timzhong.top/blog/network_tools/iperf-3.1.3-macos-x86_64.zip">点击下载macos版本</a></li></ul><ol start="2"><li>linux:</li></ol><ul><li>yum，apt，okpg（openwrt）等软件源均可安装</li></ul><pre><code class="hljs apache"><span class="hljs-attribute">yum</span> install iperf<span class="hljs-number">3</span></code></pre><h4 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h4><p>常规测试<br>服务端</p><pre><code class="hljs nginx"><span class="hljs-attribute">iperf3</span> -s</code></pre><p>客户端</p><pre><code class="hljs angelscript">iperf3 -c 服务端ip -P <span class="hljs-number">5</span></code></pre><h2 id="0x06-使用文档"><a href="#0x06-使用文档" class="headerlink" title="0x06 使用文档"></a>0x06 使用文档</h2><h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a href="https://iperf.fr/iperf-doc.php">点击查看官方英文文档</a></p><h3 id="自翻译中文版"><a href="#自翻译中文版" class="headerlink" title="自翻译中文版"></a>自翻译中文版</h3><p><img src="https://img.timzhong.top/images/2019/11/03/KulqiXc4z9IH5kJl.png" alt="1"></p><p><img src="https://img.timzhong.top/images/2019/11/03/TNsrdhc7mbiy3wng.png" alt="2"></p><p><img src="https://img.timzhong.top/images/2019/11/03/Gl5kBq0vUhQdi0Sc.png" alt="3"></p><h2 id="0x07-如何提升wifi速度"><a href="#0x07-如何提升wifi速度" class="headerlink" title="0x07 如何提升wifi速度"></a>0x07 如何提升wifi速度</h2><p><strong>（期待下一篇文章）</strong></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Network</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>简单教程</tag>
+      
+      <tag>network</tag>
+      
+      <tag>新手教程</tag>
+      
+      <tag>iperf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>如何使用ipip tunnel</title>
+    <link href="/2019/10/22/ipip-tunnel/"/>
+    <url>/2019/10/22/ipip-tunnel/</url>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>小明是一名双一流带学的学生，有一天他发现自己的服务器ssh连不上了。他找到了舍友小俊，小俊拿出手机打开热点，ssh果然连上了。调试完服务器后，小明越想越不爽：每次调试都得开热点太麻烦了。第二天，<strong>小明不满大门口会堵车，当他骑车从隧道飞驰而过时他灵机一动</strong>，想到了一个解决方案。</p><a id="more"></a><h2 id="0x01-材料准备"><a href="#0x01-材料准备" class="headerlink" title="0x01 材料准备"></a>0x01 材料准备</h2><p><strong>1. 两台运行linux的机器（本文采用centos7</strong><br><strong>2. 脑子和手</strong></p><h2 id="0x02-开始部署"><a href="#0x02-开始部署" class="headerlink" title="0x02 开始部署"></a>0x02 开始部署</h2><p><strong>在其中一台执行以下命令，暂且命名1号机(请删除方括号[])</strong></p><pre><code class="hljs routeros">modprobe ipipifconfigip tun <span class="hljs-builtin-name">add</span> ipip0 mode ipip remote [2号机公网ip] local [1号机网卡ip(刚才ifconfig已经列出)] ttl 64ip link <span class="hljs-builtin-name">set</span> ipip0 upip addr <span class="hljs-builtin-name">add</span> 10.5.5.1<span class="hljs-built_in"> peer </span>10.5.5.2 dev ipip0ip<span class="hljs-built_in"> route </span><span class="hljs-builtin-name">add</span> 10.5.5.0/24 dev ipip0ping 10.5.5.2 -i 5 &amp;disown</code></pre><p><strong>在另台执行以下命令，暂且命名2号机(请删除方括号[])</strong></p><pre><code class="hljs routeros">modprobe ipipifconfigip tun <span class="hljs-builtin-name">add</span> ipip0 mode ipip remote [1号机公网ip] local [2号机网卡ip(刚才ifconfig已经列出)] ttl 64ip link <span class="hljs-builtin-name">set</span> ipip0 upip addr <span class="hljs-builtin-name">add</span> 10.5.5.2<span class="hljs-built_in"> peer </span>10.5.5.1 dev ipip0ip<span class="hljs-built_in"> route </span><span class="hljs-builtin-name">add</span> 10.5.5.0/24 dev ipip0ping 10.5.5.1 -i 5 &amp;disown</code></pre><h2 id="0x03-可能遇到的问题"><a href="#0x03-可能遇到的问题" class="headerlink" title="0x03 可能遇到的问题"></a>0x03 可能遇到的问题</h2><ol><li>modprobe报错<br>解决方案：内核缺少ipip模块，重新编译内核。</li><li>提示没有tun0设备<br>解决方案：输入ip tun查看是否有tun0，若无则重新执行modprobe ipip，问题仍不能解决请重新编译内核。</li><li>做完全部操作仍然不能连接<br>解决方案：检查安全组，对ipip进行放行(通常情况本地防火墙与安全组默认放行ipip)</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>Network</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+      <tag>network</tag>
+      
+      <tag>ipip</tag>
+      
+      <tag>ipip tunnel</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>从安卓探究Linux内核CPU调速器</title>
+    <link href="/2019/10/19/android-cpu-governor/"/>
+    <url>/2019/10/19/android-cpu-governor/</url>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>生活离不开手机，安卓占据了手机系统的半壁江山。手机cpu频率是手机性能的重要指标之一，目前顶级梯队的骁龙855芯片中“大核”频率已经达到了2.96GHz，即使它使用7nm工艺制造，运行在如此高频必然需要较高的核心电压，也同时会增加耗电。为了提高能耗比，除了物理上改进cpu设计，软件上优化软件算法……还有一个重要的措施————使用CPU调速器（Governor）。</p><a id="more"></a><h2 id="0x01-cpu如何手动调速"><a href="#0x01-cpu如何手动调速" class="headerlink" title="0x01 cpu如何手动调速"></a>0x01 cpu如何手动调速</h2><p>本文实验均在lineageOS进行(关闭高通热插拔与跳频设置)。本地化系统（如miui，flyme，emui等）或高通的热插拔技术可能会干预cpu频率，无法简单地进行手动调频。</p><pre><code class="hljs awk"><span class="hljs-regexp">//</span>对cpu0进行调整cd <span class="hljs-regexp">/sys/</span>devices<span class="hljs-regexp">/system/</span>cpu<span class="hljs-regexp">/cpu0/</span>cpufreq/<span class="hljs-regexp">//</span>调整cpu0最大频率echo <span class="hljs-number">2200000</span> &gt; scaling_max_freq<span class="hljs-regexp">//</span>调整cpu最小频率echo <span class="hljs-number">1596000</span> &gt; scaling_min_freq<span class="hljs-regexp">//</span>若将cpu最大最小频率设置为相同频率，即锁定cpu频率。</code></pre><h2 id="0x02-什么是cpu调速器"><a href="#0x02-什么是cpu调速器" class="headerlink" title="0x02 什么是cpu调速器"></a>0x02 什么是cpu调速器</h2><p>机器处在相对空闲的状态下，此时CPU不需要运行在高频率上，调速器会降低cpu频率从而省电。当机器需要进行大量计算时，调速器会升高cpu频率以防止应用出现卡顿。广义上讲，AI优化也是一种调速器，因为现在手机厂商所谓AI优化很大一部分优化效果归功于对cpu频率的精准控制（当然AI优化也不全是调速器，还有动态分辨率调整之类的其他技术）。<br>简单来说，调速器就是根据负载情况自动化调节cpu频率的工具。</p><h2 id="0x03-有哪些常见的cpu调速器"><a href="#0x03-有哪些常见的cpu调速器" class="headerlink" title="0x03 有哪些常见的cpu调速器"></a>0x03 有哪些常见的cpu调速器</h2><blockquote><p>【interactive】交互模式（在安卓使用最广泛的调速器）<br>【conservative】保守模式<br>【performance】高性能模式<br>【powersave】省电模式</p></blockquote><!--more--><blockquote><p>【Wheatley】惠特利模式<br>【lionheart】狮心模式<br>【smartass】聪明模式<br>【smartassV2】聪明V2模式</p></blockquote><h2 id="0x04-如何用好调速器"><a href="#0x04-如何用好调速器" class="headerlink" title="0x04 如何用好调速器"></a>0x04 如何用好调速器</h2><p><strong>（以interactive调速器为例）——调速器参数调整的学问</strong></p><h3 id="1-above-hispeed-delay"><a href="#1-above-hispeed-delay" class="headerlink" title="1.above_hispeed_delay:"></a>1.above_hispeed_delay:</h3><p>核心频率超过hispeed_freq时，升频延迟时间(above_hispeed_delay)(单位uS)<br>(example:40000 1400000:30000)<br>hispeed_freq&lt;频率&lt;1.4GHz，且连续40000uS达到目标负载，才进行升频。<br>频率&gt;1.4GHz，且连续30000uS达到目标负载，才进行升频。</p><h3 id="2-boost"><a href="#2-boost" class="headerlink" title="2.boost:"></a>2.<code>boost</code>:</h3><p>如果非0则将频率设定为hispeed_freq，用于应对瞬间大量任务。</p><h3 id="3-boostpulse-duration"><a href="#3-boostpulse-duration" class="headerlink" title="3.boostpulse_duration"></a>3.<code>boostpulse_duration</code></h3><p>boost时间限制(单位uS)</p><h3 id="4-go-hispeed-load"><a href="#4-go-hispeed-load" class="headerlink" title="4.go_hispeed_load:"></a>4.<code>go_hispeed_load</code>:</h3><p>example: (90)<br>在最低频状态，且负载达到 <code>go_hispeed_load</code> 即90%时，CPU直接提频到hispeed_freq。</p><h3 id="5-hispeed-freq"><a href="#5-hispeed-freq" class="headerlink" title="5.hispeed_freq:"></a>5.<code>hispeed_freq</code>:</h3><p>example:(1728000)(即1728MHz)<br>设定<code>hispeed_freq</code>。</p><h3 id="6-min-sample-time"><a href="#6-min-sample-time" class="headerlink" title="6.min_sample_time:"></a>6.<code>min_sample_time</code>:</h3><p>example: (40000)<br>需要保持当前频率多久才进行降频(单位uS)。</p><h3 id="7-sampling-down-factor"><a href="#7-sampling-down-factor" class="headerlink" title="7.sampling_down_factor:"></a>7.<code>sampling_down_factor</code>:</h3><p>example: (1(default))</p><h3 id="8-target-loads"><a href="#8-target-loads" class="headerlink" title="8.target_loads:"></a>8.<code>target_loads</code>:</h3><p>example: (85<br>         1200000:75<br>         1500000:85)<br>    负载达到85时进行升频。频率为1.2GHz-1.5GHz时负载75%进行升频。频率&gt;1.5GHz时负载85%进行升频。<br><img src="https://ae01.alicdn.com/kf/U203dd8a106004dcfb8ac9e73a1df0e8bu.png" alt="1.jpg"><br><img src="https://ae01.alicdn.com/kf/Udeb78d7d2fb34897a515bbaa72f478ae1.png" alt="2.jpg"></p><p><strong>注：<code>go_hispeed_load</code>优先级高于<code>target_loads</code>优先级。</strong></p><hr><h2 id="补充：实际案例"><a href="#补充：实际案例" class="headerlink" title="补充：实际案例"></a>补充：实际案例</h2><p><strong>用实际案例解释各个调速器参数</strong></p><h3 id="安卓手机打开软件时的cpu频率折线图"><a href="#安卓手机打开软件时的cpu频率折线图" class="headerlink" title="安卓手机打开软件时的cpu频率折线图"></a>安卓手机打开软件时的cpu频率折线图</h3><p><strong>(单位为0.1s)</strong><br><img src="https://img.timzhong.top/images/2019/10/23/JQuaCVNMZBWXXi3W.png" alt="3.jpg"></p><ul><li>上图为软件打开时的cpu频率曲线，可以看到cpu瞬间提频至1.7GHz(<code>hispeed_freq</code>)</li><li>但此时软件还在加载过程中，负载依然很高，延迟大约200ms(above_hispeed_delay)进行升频。升至最高频率1.98GHz</li><li>最终软件完全加载完毕，仍然保持当前频率(<code>min_sample_time</code>)，后降频至300MHz。</li><li>进入软件后进行滑动，ui绘制需要较多资源，cpu瞬间升至1.7GHz(<code>hispeed_freq</code>)。</li></ul><p><strong>个人见解：</strong></p><ol><li><p>为了省电：</p><ol><li>将<code>hispeed</code>降低，将<code>target_loads</code>提高(cpu快速进入一个较低的频率，然后缓慢升频)</li></ol></li><li><p>为了性能：</p><ol><li>一是提高<code>hispeed</code>，当负载升高时，cpu快速进入高频，保证响应速度(保证突发性能)。提高<code>target_load</code>和<code>above_hispeed_delay</code>防止过快升频，为省电考虑。</li><li>二是降低<code>hispeed</code>，降低<code>target_load</code>和<code>above_hispeed_delay</code>缓慢提升频率，保证正常升频。</li></ol></li></ol><p><strong>拓展：引入前台应用/时间/用户动作(如拿起手机，是否连续触摸)等多维度信息来调整调速器参数</strong></p><hr><p>2019-10-21更新</p><h2 id="0x05-调速器代码逻辑简析"><a href="#0x05-调速器代码逻辑简析" class="headerlink" title="0x05 调速器代码逻辑简析"></a>0x05 调速器代码逻辑简析</h2><p>——从代码理解调速器逻辑(<strong>博主能力有限，正在研究代码中，持续更新</strong></p><p>综合两文做了一些修改和补充，原文链接：<a href="https://blog.csdn.net/xujianqun/article/details/7681011">https://blog.csdn.net/xujianqun/article/details/7681011</a><br><a href="https://blog.csdn.net/u014089131/article/details/68490573">https://blog.csdn.net/u014089131/article/details/68490573</a></p><h3 id="如何判断跳频（跳到hispeed-freq的实现）"><a href="#如何判断跳频（跳到hispeed-freq的实现）" class="headerlink" title="如何判断跳频（跳到hispeed_freq的实现）"></a>如何判断跳频（跳到<code>hispeed_freq</code>的实现）</h3><pre><code class="hljs xl"><span class="hljs-function"><span class="hljs-title">if</span> (cpu_load &gt;= tunables-&gt;</span><span class="hljs-function"><span class="hljs-title">go_hispeed_load</span> || tunables-&gt;</span>boosted) &#123;<span class="hljs-function"><span class="hljs-title">if</span> (pcpu-&gt;</span><span class="hljs-function"><span class="hljs-title">policy</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">cur</span> &lt; tunables-&gt;</span>hispeed_freq &amp;&amp;    cpu_load &lt;= MAX_LOCAL_LOAD) &#123;<span class="hljs-comment">//当前频率未达到最大频率，可以直接设置为最大频率</span><span class="hljs-function"><span class="hljs-title">new_freq</span> = tunables-&gt;</span>hispeed_freq;&#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//此时需要选择比hispeed_freq更大的频率</span>new_freq = choose_freq(pcpu, loadadjfreq);<span class="hljs-function"><span class="hljs-title">if</span> (new_freq &lt; tunables-&gt;</span>hispeed_freq)<span class="hljs-function"><span class="hljs-title">new_freq</span> = tunables-&gt;</span>hispeed_freq;&#125;&#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//choose_freq 设定新的频率,此时需要降频处理</span>new_freq = choose_freq(pcpu, loadadjfreq);&#125;</code></pre><p><strong>把代码转换成语言描述就是</strong></p><p>1、如果负载超过阈值(或开启boost)，就直接升频到<code>hispeed</code>。<br>2、如果负载超过阈值,频率也大于<code>hispeed</code>(或开启boost)，就调用choose_freq确定目标频率”最大频率*负载”。<br>3、如果负载没有超过阈值(未开启boost)，需要降频，就调用choose_freq确定目标频率”当前频率负载”，至于判断是否执行降频请继续向下阅读。</p><h3 id="如何确定目标频率具体数值？-choose-freq的实现"><a href="#如何确定目标频率具体数值？-choose-freq的实现" class="headerlink" title="如何确定目标频率具体数值？(choose_freq的实现)"></a>如何确定目标频率具体数值？(choose_freq的实现)</h3><p>注：loadadjfreq算法</p><pre><code class="hljs zephir">cputime_speedadj = (u64)sched_get_busy(data) * pcpu-&gt;policy-&gt;cpuinfo.max_freq;loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>)cputime_speedadj * <span class="hljs-number">100</span>;<span class="hljs-comment">//内核不支持浮点运算</span>     <span class="hljs-comment">/*</span><span class="hljs-comment">     choose_freq函数用来选频，使选频后的系统workload小于或等于target load</span><span class="hljs-comment">     核心思想是：选择最小的频率来满足target load</span><span class="hljs-comment">     loadadjfreq一段时间内工作量</span><span class="hljs-comment">     */</span>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> choose_freq(struct cpufreq_interactive_cpuinfo *pcpu,<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> loadadjfreq)    &#123;<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> freq = pcpu-&gt;policy-&gt;cur;<span class="hljs-comment">//当前频率</span><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> prevfreq, freqmin, freqmax;<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> tl;<span class="hljs-comment">//target load</span><span class="hljs-keyword">int</span> index; freqmin = <span class="hljs-number">0</span>;freqmax = UINT_MAX; <span class="hljs-keyword">do</span> &#123;prevfreq = freq;<span class="hljs-comment">//计算当前频率对应的workload</span>tl = freq_to_targetload(pcpu-&gt;policy-&gt;governor_data, freq); <span class="hljs-comment">/*</span><span class="hljs-comment"> * Find the lowest frequency where the computed load is less</span><span class="hljs-comment"> * than or equal to the target load.</span><span class="hljs-comment"> */</span><span class="hljs-comment">//从freq_table中获取最优频率对应的index，取大于等于loadadjfreq / tl　(target freq)的最小值</span><span class="hljs-keyword">if</span> (cpufreq_frequency_table_target(    pcpu-&gt;policy, pcpu-&gt;freq_table, loadadjfreq / tl,    CPUFREQ_RELATION_L, &amp;index))<span class="hljs-keyword">break</span>;freq = pcpu-&gt;freq_table[index].frequency;<span class="hljs-comment">//**计算出的目标频率，调速器核心之一**</span> <span class="hljs-keyword">if</span> (freq &gt; prevfreq) &#123;<span class="hljs-comment">//需要提高频率</span><span class="hljs-comment">/* The previous frequency is too low. */</span>freqmin = prevfreq; <span class="hljs-keyword">if</span> (freq &gt;= freqmax) &#123;<span class="hljs-comment">//如果目标频率高于最大频率，取最大频率</span><span class="hljs-comment">/*</span><span class="hljs-comment"> * Find the highest frequency that is less</span><span class="hljs-comment"> * than freqmax.</span><span class="hljs-comment"> */</span><span class="hljs-keyword">if</span> (cpufreq_frequency_table_target(    pcpu-&gt;policy, pcpu-&gt;freq_table,    freqmax - <span class="hljs-number">1</span>, CPUFREQ_RELATION_H,    &amp;index))<span class="hljs-keyword">break</span>;freq = pcpu-&gt;freq_table[index].frequency; <span class="hljs-keyword">if</span> (freq == freqmin) &#123;<span class="hljs-comment">//这种情况就是锁频的情况，最大频率==最小频率</span><span class="hljs-comment">/*</span><span class="hljs-comment"> * The first frequency below freqmax</span><span class="hljs-comment"> * has already been found to be too</span><span class="hljs-comment"> * low.  freqmax is the lowest speed</span><span class="hljs-comment"> * we found that is fast enough.</span><span class="hljs-comment"> */</span>freq = freqmax;<span class="hljs-keyword">break</span>;&#125;&#125;&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (freq &lt; prevfreq) &#123;<span class="hljs-comment">//需要降低频率</span><span class="hljs-comment">/* The previous frequency is high enough. */</span>freqmax = prevfreq; <span class="hljs-keyword">if</span> (freq &lt;= freqmin) &#123;<span class="hljs-comment">//目标频率比最低频率还小，取最小频率</span><span class="hljs-comment">/*</span><span class="hljs-comment"> * Find the lowest frequency that is higher</span><span class="hljs-comment"> * than freqmin.</span><span class="hljs-comment"> */</span><span class="hljs-keyword">if</span> (cpufreq_frequency_table_target(    pcpu-&gt;policy, pcpu-&gt;freq_table,    freqmin + <span class="hljs-number">1</span>, CPUFREQ_RELATION_L,    &amp;index))<span class="hljs-keyword">break</span>;freq = pcpu-&gt;freq_table[index].frequency; <span class="hljs-comment">/*</span><span class="hljs-comment"> * If freqmax is the first frequency above</span><span class="hljs-comment"> * freqmin then we have already found that</span><span class="hljs-comment"> * this speed is fast enough.</span><span class="hljs-comment"> */</span><span class="hljs-keyword">if</span> (freq == freqmax)<span class="hljs-comment">//锁频的情况，最大频率==最小频率</span><span class="hljs-keyword">break</span>;&#125;&#125; <span class="hljs-comment">/* If same frequency chosen as previous then done. */</span>&#125; <span class="hljs-keyword">while</span> (freq != prevfreq); <span class="hljs-keyword">return</span> freq;    &#125;</code></pre><h2 id="待更新：-在应用频率前，调速器还做了那些事？"><a href="#待更新：-在应用频率前，调速器还做了那些事？" class="headerlink" title="待更新： 在应用频率前，调速器还做了那些事？"></a>待更新： 在应用频率前，调速器还做了那些事？</h2><p><strong>2019-10-21待更新</strong></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>android</tag>
+      
+      <tag>linux</tag>
+      
+      <tag>governor</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>如何开通并使用Cloudflare SSL证书</title>
+    <link href="/2019/10/18/cloudflare-Edge-SSL/"/>
+    <url>/2019/10/18/cloudflare-Edge-SSL/</url>
+    
+    <content type="html"><![CDATA[<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>很多人都会使用cloudflare提供的dns服务，他家也同时有免费/付费的cdn服务，许多国外网站都会选择使用cloudflare cdn，(本文不讨论cloudflare大陆版)…</p><a id="more"></a><p>虽然国内访问能连到哪个节点很玄学，不同节点之间速度差异也比较大，但是对于低成本个人网站，他家的cdn能提供一定的防护，能减轻服务器压力，还是利大于弊的。</p><p>本文将介绍如何开通并使用Cloudflare SSL证书。</p><h2 id="0x01-Cloudflare-CDN的四种策略"><a href="#0x01-Cloudflare-CDN的四种策略" class="headerlink" title="0x01 Cloudflare CDN的四种策略"></a>0x01 Cloudflare CDN的四种策略</h2><p><img src="https://img.timzhong.top/images/2019/10/19/prccy7qqSi0FIyRI.png" alt="off.png"></p><h3 id="1-Off策略"><a href="#1-Off策略" class="headerlink" title="1. Off策略"></a>1. Off策略</h3><p> | 用户 | &lt;-&gt; | cloudflare服务器 | 不强制https |<br> | cloudflare服务器 | &lt;-&gt; | 服务器 | 不强制https | </p><p><img src="https://img.timzhong.top/images/2019/10/19/52VzJHVyOJPRVaw6.png" alt="flex"></p><h3 id="2-Flexible策略"><a href="#2-Flexible策略" class="headerlink" title="2. Flexible策略"></a>2. Flexible策略</h3><blockquote><p>用户       &lt;-&gt; cloudflare服务器  强制https<br>cloudflare服务器 &lt;-&gt; 服务器            不强制https</p></blockquote><p><img src="https://img.timzhong.top/images/2019/10/19/a8YcmXw11tNyX3s8.png" alt="full"></p><h3 id="3-Full策略"><a href="#3-Full策略" class="headerlink" title="3. Full策略"></a>3. Full策略</h3><blockquote><p>用户       &lt;-&gt; cloudflare服务器  强制https<br>cloudflare服务器 &lt;-&gt; 服务器            强制https(任何证书)</p></blockquote><p><img src="https://img.timzhong.top/images/2019/10/19/fxQgEjXYNpfV7TtZ.png" alt="fullstrict"></p><h3 id="4-Full-strict-策略"><a href="#4-Full-strict-策略" class="headerlink" title="4. Full (strict)策略"></a>4. Full (strict)策略</h3><blockquote><p>用户       &lt;-&gt; cloudflare服务器  强制https<br>cloudflare服务器 &lt;-&gt; 服务器            强制https(受认证证书，或Cloudflare自家证书(即本文教程))</p></blockquote><h2 id="0x02-如何申请Cloudflare自家证书"><a href="#0x02-如何申请Cloudflare自家证书" class="headerlink" title="0x02 如何申请Cloudflare自家证书"></a>0x02 如何申请Cloudflare自家证书</h2><p><strong>1. 点击“SSL/TLS” -&gt; 点击Origin Server</strong><br><strong>2. 点击Create Certificate</strong><br><img src="https://img.timzhong.top/images/2019/10/19/40SVpSxgnzAfSYIS.png" alt="step1.png"><br><strong>3. 填写hostname，点击Next</strong><br><img src="https://img.timzhong.top/images/2019/10/19/hFo3iKyWhfUuicCb.png" alt="howtosreate.png"></p><p><strong>4. 记得保存密钥，忘了就得重新申请证书。只有pem证书才能多次下载。</strong></p><h2 id="0x03-如何使用Cloudflare证书"><a href="#0x03-如何使用Cloudflare证书" class="headerlink" title="0x03 如何使用Cloudflare证书"></a>0x03 如何使用Cloudflare证书</h2><p><strong>1. 点击”Overview”，将模式改为Full (strict)</strong><br><strong>2. 将刚才的获取的证书应用到服务器上(挖坑：nginx如何使用https</strong><br><strong>3. 点击DNS，把要开cdn的解析Proxy status点上</strong></p><h2 id="0x04-开始使用吧"><a href="#0x04-开始使用吧" class="headerlink" title="0x04 开始使用吧"></a>0x04 开始使用吧</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>Network</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>cloudflare</tag>
+      
+      <tag>web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>

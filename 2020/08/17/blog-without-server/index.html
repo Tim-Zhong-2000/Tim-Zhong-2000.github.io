@@ -1,0 +1,407 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>低至2元/年！搭建个人博客 - TimZhong&#39;s Blog</title>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+  
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link  rel="stylesheet" href="/css/main.css" />
+<!-- 自定义样式保持在最底部 -->
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-17 12:57">
+      2020年8月17日 下午
+    </time>
+  </div>
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+  
+  
+</div>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    
+      
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>博主目前的博客每年总成本预计在30元以内，因此本篇文章就来分享一下低成本且访问快的博客搭建方法。</p>
+<a id="more"></a>
+<p>面向读者：刚入门的博客新手，觉得现有博客成本太高的博主，觉得现有博客维护麻烦的博主。</p>
+<h2 id="选用静态博客"><a href="#选用静态博客" class="headerlink" title="选用静态博客"></a>选用静态博客</h2><p>博客可以分为静态博客和动态博客。静态博客是将博客提前转换成HTML CSS JS静态文件的博客构建形式。动态博客是指使用php，nodejs等服务端软件提供博客页面的博客构建形式。</p>
+<p>静态博客与动态博客各有优缺点<br>动态博客优点：功能强大，提供注册登录评论等等功能。<br>动态博客缺点：需要服务器成本高，服务器维护比较伤脑筋。<br>静态博客优点：成本低，最低可以做到0元。性能强大+安全+省心，放在腾讯或者阿里云的对象存储上，就算百万pv也丝毫不卡。<br>静态博客缺点：功能相比动态博客弱，评论等功能仍然需要服务器。</p>
+<p>本篇文章的目的是低成本构建访问快的博客，所以选择静态博客肯定是最佳选择。常见的静态博客有<strong>Jekyll</strong>(推荐!),<strong>Hexo</strong>(推荐!),Octopress,Hugo,Middleman……本博客使用Hexo构建。</p>
+<h2 id="购买低价域名"><a href="#购买低价域名" class="headerlink" title="购买低价域名"></a>购买低价域名</h2><p>阿里云，腾讯云等平台购买域名首年都相当便宜，很多1元/年的自选域名可供选择。</p>
+<h2 id="使用对象存储代替服务器"><a href="#使用对象存储代替服务器" class="headerlink" title="使用对象存储代替服务器"></a>使用对象存储代替服务器</h2><p>在构建低成本博客中，对象存储的作用与服务器比较相似，它负责存储博客的文件，有点类似网盘的作用。但是网盘只能存储文件，不能通过链接直接访问文件，更加不能绑定一个域名让读者访问时显示一个网页。对象存储还负责提供静态网站的访问功能，把文件上传到对象存储，并且配置静态网页托管，此时博客就已经可以正常访问了。</p>
+<p>光说不做有点抽象，本文使用阿里云OSS展示如何使用对象存储搭建个人博客。</p>
+<ol>
+<li>打开阿里云官网，注册登录。</li>
+<li>搜索OSS，并且开通OSS服务。</li>
+<li>点击创建Bucket，输入<code>名称</code>，<code>区域</code>选择中国香港，<code>存储类型</code>设为标准储存，<code>同城冗余存储</code>设为关闭，<code>版本控制</code>设为不开通，<code>读写权限</code>设置为公共读，<code>服务端加密方式</code>设为无，<code>实时日志查询</code>设为不开通，<code>定时备份</code>设为不开通。然后确定。</li>
+<li>点击进入新建的Bucket的概览页，上传本地已经构建好的静态博客。</li>
+<li>设置域名访问，进入<code>传输管理</code>页，点击<code>绑定域名</code>，把自己的域名输入进去。如果是在阿里云购买的域名可以打开下面<code>自动添加CNAME记录</code>的开关。如果是其他地方购买的域名可以手动添加一条CNAME解析，阿里云提供了详细的教程。</li>
+<li>开启SSL(可选) 给域名购买一个免费证书，然后点击<code>域名管理页</code>的<code>证书托管</code>，把买的证书填入。</li>
+<li>进入<code>基础设置</code>页，启用<code>静态页面</code>。</li>
+</ol>
+<p>大功告成，直接访问你的域名，就可以看到博客了。</p>
+<h2 id="使用CDN加速同时降低成本"><a href="#使用CDN加速同时降低成本" class="headerlink" title="使用CDN加速同时降低成本"></a>使用CDN加速同时降低成本</h2><p>如果域名完成了备案可以使用中国大陆区域CDN进一步提高速度降低成本。如果没有备案不建议使用CDN，成本可能会增加，速度提升也很有限。</p>
+<p>以中国大陆区域的OSS和CDN为例，OSS的流量费为0.5元/GB，而且速度有时不时很理想。使用CDN后的费用为0.15元/GB的OSS回源流量费用（只有博客更新时可能产生回源费用）+0.29元/GB的CDN费用，总体来看1GB流量的价格为0.29-0.44之间，而且速度相当快。</p>
+<p>就阿里云来说，CDN的使用相当简单，按照操作可以一键绑定OSS，这里就不做教程演示了。</p>
+<h2 id="成本核算"><a href="#成本核算" class="headerlink" title="成本核算"></a>成本核算</h2><p>以一年4GB流量计算：</p>
+<ol>
+<li>域名1元/年</li>
+<li>对象存储使用阿里云OSS中国香港地区，每个月有5GB免费流量和5GB免费存储，相当于0元/年</li>
+<li>CDN使用阿里云CDN，中国大陆加速0.29/GB，4G需要1.16元。<br>总计2.16元/年，我并不是标题党，这种比较正常的使用量的确可以做到2元一年。</li>
+</ol>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>博客的精髓是文章而不是博客本身，如果你是一个不想折腾，不想花太多钱，想偶尔记录一下自己的想法，想产出一些能帮助读者的优秀文章的博主或者准博主，很可以试试这套方案。</p>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Hexo/">Hexo</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/OSS/">OSS</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Object-Storage/">Object Storage</a>
+                    
+                      <a class="hover-with-bg" href="/tags/CDN/">CDN</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Hexo/">Hexo</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Blog/">Blog</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/09/27/pve-direct-pcie/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">pve-direct-pcie</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/15/WebRTC-1-0/">
+                        <span class="hidden-mobile">WebRTC入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+      </div>
+    
+  </div>
+</div>
+<!-- Custom -->
+    
+  </main>
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+    
+    
+  </div>
+</footer>
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+<!-- Plugins -->
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "低至2元/年！搭建个人博客&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+</body>
+</html>

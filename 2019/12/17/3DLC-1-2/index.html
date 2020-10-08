@@ -1,0 +1,395 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>3DLC 1.2 — 分析电影中橙青色调 - TimZhong&#39;s Blog</title>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+  
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link  rel="stylesheet" href="/css/main.css" />
+<!-- 自定义样式保持在最底部 -->
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-12-17 13:28">
+      2019年12月17日 下午
+    </time>
+  </div>
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      742 字
+    </span>
+  
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7
+       分钟
+    </span>
+  
+  
+  
+</div>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    
+      
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p><strong><a target="_blank" rel="noopener" href="https://107cine.com/stream/83977/">为什么好莱坞大片偏爱“橙青色调”?</a>   &lt;–非常值得一读</strong><br>文章来自影视工业网，作者HomeBoy Cine Studio，一家电影调色公司。文章展示了大量运用橙青色调的镜头，讲述了橙青色调的起源与发展。这篇文章的重点放在如何利用颜色矢量示波器分析这种颜色风格。</p>
+<h2 id="一、橙青色调的作用与历史"><a href="#一、橙青色调的作用与历史" class="headerlink" title="一、橙青色调的作用与历史"></a>一、橙青色调的作用与历史</h2><p>引用文章中几段精辟的话</p>
+<p>1、橙青色调在电影制作中的优势：</p>
+<blockquote>
+<p>橙青色调的潮流是由对比色的关系所驱动的。如果你让演员肤色尽可能的呈现合理的暖橙色，同时使他们看上去相对自然，并且使影子和背景的颜色尽可能的偏蓝，这就会使你的画面充满活力，同时，也是一个相当互补的色调。就像Dan Seitz在色彩调色的分析中讲到的：</p>
+</blockquote>
+<blockquote>
+<p>“其实这并不是偷懒，调色师为一部片长约为两小时的影片调色，有时需要逐帧的调，大约需要这样连续工作几个星期。你可以很快的就决定使用橙蓝色调，因为每个人都喜欢。”</p>
+</blockquote>
+<p>2、橙青色调之所以好看的原理：</p>
+<blockquote>
+<p>“不像其它的互补色组合，暖色调的橙色和冷色调的蓝色青色有着强烈的对比关系，例如火与冰，地面与天空，土地和海洋，日与夜，满满的人情味和优雅的冷漠对比，旧时尚和未来科技的对比。这是一个比喻，因为都是有目的性的使用，而且确实颇有成效。”</p>
+</blockquote>
+<h2 id="二、在矢量示波器上研究电影色调"><a href="#二、在矢量示波器上研究电影色调" class="headerlink" title="二、在矢量示波器上研究电影色调"></a>二、在矢量示波器上研究电影色调</h2><p>部分例子来自“<a target="_blank" rel="noopener" href="https://107cine.com/stream/83977/">为什么好莱坞大片偏爱“橙青色调”?</a>”<br>1.科幻片《木星》<br><img src="https://img.timzhong.top/images/2019/12/17/lcTET4YIeYjDgGPC.png" srcset="/img/loading.gif" alt="3"></p>
+<p><img src="https://img.timzhong.top/images/2019/12/17/w5s7oa5Nph7ZQqYn.png" srcset="/img/loading.gif" alt="4"></p>
+<p>2.《疯狂麦克斯》（2015）预告片<br><img src="https://img.timzhong.top/images/2019/12/17/lEFvp5cf7PEJ002r.png" srcset="/img/loading.gif" alt="4"></p>
+<p><img src="https://img.timzhong.top/images/2019/12/17/IINQrEX1Og3gnKLP.png" srcset="/img/loading.gif" alt="5"></p>
+<p>这两个例子最大的特点：示波器显示颜色尽可能地分布在一条直线上，从橙色色相一直到青色色相，这种特征形成了强烈的视觉冲击。<br>当然，有些时候电影为了更好地叙事或者导演有强烈的个人风格，主角与背景之间并不会产生明显地颜色对比。例如it chapter two调色最大的特点就是画面整体偏向青绿色，让人物与场景融为一体。<br>3.《小丑回魂2》（2019）<br><img src="https://img.timzhong.top/images/2019/12/17/LXdQHUs6dcq0h22M.png" srcset="/img/loading.gif" alt="5"></p>
+<p><img src="https://img.timzhong.top/images/2019/12/17/MnyLOPWzO2TqqAEO.png" srcset="/img/loading.gif" alt="8"></p>
+<p>示波器显示颜色集中在左下角，即绿色，蓝色色相附近</p>
+<h2 id="三、简单地调出类似橙青色调"><a href="#三、简单地调出类似橙青色调" class="headerlink" title="三、简单地调出类似橙青色调"></a>三、简单地调出类似橙青色调</h2><p>就以小丑回魂2为例，画面颜色通过简单的色相调整，呈现出从橙到青蓝色的波形，并且将波形延长来提升视觉冲击力。<br>example：<br><img src="https://img.timzhong.top/images/2019/12/17/P37a8t611dt4Jm42.png" srcset="/img/loading.gif" alt="edited"></p>
+<p>修改参数如下，在后续的文章中会介绍这个工具的使用方法。<br><img src="https://img.timzhong.top/images/2019/12/17/x7yN5PK6BDMIuvdA.png" srcset="/img/loading.gif" alt="请输入图片描述"></p>
+<p>感谢阅读，下一篇文章再见。</p>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/PhotoEditing/">PhotoEditing</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/3dLutsCreator/">3dLutsCreator</a>
+                    
+                      <a class="hover-with-bg" href="/tags/3DLC/">3DLC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/12/centos-resize-disk/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CentOS调整分区大小</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/12/16/3DLC-1-1/">
+                        <span class="hidden-mobile">3DLC 1.1 — 矢量示波器 介绍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+      </div>
+    
+  </div>
+</div>
+<!-- Custom -->
+    
+  </main>
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+    
+    
+  </div>
+</footer>
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+<!-- Plugins -->
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "3DLC 1.2 — 分析电影中橙青色调&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+</body>
+</html>

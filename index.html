@@ -1,0 +1,666 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>TimZhong&#39;s Blog</title>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link  rel="stylesheet" href="/css/main.css" />
+<!-- 自定义样式保持在最底部 -->
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <header style="height: 90vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+            
+          </div>
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/09/27/pve-direct-pcie/">pve-direct-pcie</a>
+      <a href="/2020/09/27/pve-direct-pcie/" class="index-excerpt">
+        
+        
+          
+        
+        <div>pve虚拟机pcie直通教程1. 开启iommu
+先进入bios打开VT-d虚拟化选项。
+修改启动参数
+编辑/etc/default/grub
+nano /etc/default/grub
+找到：GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet&quot;替换为GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet intel_iommu=on&</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Proxmox-VE/">Proxmox VE</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/direct-pcie/">direct pcie</a>
+            
+              <a href="/tags/iommu/">iommu</a>
+            
+              <a href="/tags/pve/">pve</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/08/17/blog-without-server/">低至2元/年！搭建个人博客</a>
+      <a href="/2020/08/17/blog-without-server/" class="index-excerpt">
+        
+        
+          
+        
+        <div>前言博主目前的博客每年总成本预计在30元以内，因此本篇文章就来分享一下低成本且访问快的博客搭建方法。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-17
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Hexo/">Hexo</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/OSS/">OSS</a>
+            
+              <a href="/tags/Object-Storage/">Object Storage</a>
+            
+              <a href="/tags/CDN/">CDN</a>
+            
+              <a href="/tags/Hexo/">Hexo</a>
+            
+              <a href="/tags/Blog/">Blog</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/08/15/WebRTC-1-0/">WebRTC入门</a>
+      <a href="/2020/08/15/WebRTC-1-0/" class="index-excerpt">
+        
+        
+          
+        
+        <div>引言WebRTC的全称是Web Real-Time Communication，Web实时通讯。这个API可以让浏览器与服务器甚至两个浏览器之间建立实时通信信道。WebRTC允许两个浏览器不经过服务器互相传输数据，因此WebRTC可以轻松做到低延迟与高可用。本文将简单介绍这个强大的API。实时通讯大家应该都不陌生，从QQ到直播弹幕到在线网络游戏，都有实时通讯技术的身影。大家都用过的peer to </div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-15
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/WebRTC/">WebRTC</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/WebRTC/">WebRTC</a>
+            
+              <a href="/tags/NodeJS/">NodeJS</a>
+            
+              <a href="/tags/%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">简单教程</a>
+            
+              <a href="/tags/%E5%BE%AE%E8%BD%AF%E5%AD%A6%E7%94%9F%E4%BF%B1%E4%B9%90%E9%83%A8%E6%96%87%E7%AB%A0/">微软学生俱乐部文章</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/08/07/TChat-diary/">T Chat开发日记</a>
+      <a href="/2020/08/07/TChat-diary/" class="index-excerpt">
+        
+        
+          
+        
+        <div>2020-07-20   这是第一次更新开发日记，经过大约10天开发，目前前端后端基本功能已经可以正常使用。基础的多媒体传输，大文件传输，文本传输，以及成员列表同步已经完成。
+   主要问题主要是软件效率以及兼容性方面，因为没有选择使用框架，浏览器兼容特别是safari兼容让人一言难尽，这两天引入的hammerjs触屏库在safari也没能正常工作。
+   后端主要问题在内存占用方面，聊天服务器内</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-07
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%97%A5%E8%AE%B0/">日记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/diary/">diary</a>
+            
+              <a href="/tags/T-Chat/">T Chat</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/08/06/first-hexo-blog/">第一篇Hexo博客</a>
+      <a href="/2020/08/06/first-hexo-blog/" class="index-excerpt">
+        
+        
+          
+        
+        <div>1. 升级缘由第一次使用Hexo，在github上搜索hexo-theme，最终选择了一个美观的主题Fluid。原本使用的博客是typecho，更换Hexo的原因也很简单，Hexo部署与维护比typecho方便很多。当然升级也需要一段时间把原来的博文迁移到Hexo…</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-06
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Hexo/">Hexo</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Hexo/">Hexo</a>
+            
+              <a href="/tags/Blog/">Blog</a>
+            
+              <a href="/tags/Fluid/">Fluid</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/02/vscode-c-cpp-config/">VSCode 基础C/C++调试环境配置</a>
+      <a href="/2020/07/02/vscode-c-cpp-config/" class="index-excerpt">
+        
+        
+          
+        
+        <div>0x00 前言现在的新版本VSCode在启动C/C++调试的时候不会自动创建tasks.json，会出现提示找不到xxx.exe或者xxx.out的问题。本文从0开始配置vscode的C/C++调试配置。linux与windows都有相应教程。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-02
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/unknown-categories/">unknown categories</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+            
+              <a href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">开发环境</a>
+            
+              <a href="/tags/vscode/">vscode</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/01/my-ubuntu-env/">WSL Ubuntu18.04个人环境配置</a>
+      <a href="/2020/07/01/my-ubuntu-env/" class="index-excerpt">
+        
+        
+          
+        
+        <div>我的ubuntu环境前言随着开发工具增多，windows的响应速度相比linux要低不少，因此使用wsl折衷方案，但是wsl的备份相对虚拟机就麻烦许多，所以开这篇文章更新我需要用到的常用依赖和工具。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-01
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/linux/">linux</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">linux</a>
+            
+              <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+            
+              <a href="/tags/ubuntu/">ubuntu</a>
+            
+              <a href="/tags/wsl/">wsl</a>
+            
+              <a href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">开发环境</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/03/25/Synology-active-backup-pack/">群晖本地激活Active Backup for Business</a>
+      <a href="/2020/03/25/Synology-active-backup-pack/" class="index-excerpt">
+        
+        
+          
+        
+        <div>0x00#数据无价，本文介绍的方法仅用于测试！生产环境部署请支持正版。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-03-25
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BE%A4%E8%BE%89/">群辉</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BE%A4%E8%BE%89/">群辉</a>
+            
+              <a href="/tags/Backup-for-Business/">Backup for Business</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/02/27/centos-dhclient/">如何解决Centos最小镜像安装后无法联网</a>
+      <a href="/2020/02/27/centos-dhclient/" class="index-excerpt">
+        
+        
+          
+        
+        <div>虚拟机安装centos后无法联网往往不是虚拟机网卡设置问题，而是centos没有默认dhcp获取ip。只需要一行代码启动dhcp。
+手动运行
+dhclient
+临时获取ip，正常联网，记得有空把网口配置一下。
+</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-02-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/linux/">linux</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">linux</a>
+            
+              <a href="/tags/centos/">centos</a>
+            
+              <a href="/tags/network/">network</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/02/25/raspbian-armv8-kernel/">树莓派raspbian切换armv8内核</a>
+      <a href="/2020/02/25/raspbian-armv8-kernel/" class="index-excerpt">
+        
+        
+          
+        
+        <div>官方raspbian-buster镜像（2020-2-13）已经自带了armv8内核，但默认载入armv7内核。只需要在config.txt末尾添加两行代码就可以切换成64位内核。</div>
+      </a>
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-02-25
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux/">Linux</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">linux</a>
+            
+              <a href="/tags/raspbian/">raspbian</a>
+            
+              <a href="/tags/raspberry/">raspberry</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+    
+    
+  </div>
+</footer>
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+<!-- Plugins -->
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "TimZhong's Blog powered by Hexo&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>3DLC 1.1 — 矢量示波器 介绍 - TimZhong&#39;s Blog</title>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+  
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link  rel="stylesheet" href="/css/main.css" />
+<!-- 自定义样式保持在最底部 -->
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-12-16 17:02">
+      2019年12月16日 下午
+    </time>
+  </div>
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      884 字
+    </span>
+  
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9
+       分钟
+    </span>
+  
+  
+  
+</div>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    
+      
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>这是3dLutCreate（简称3DLC）频道第一篇文章，看到矢量示波器别慌，不是那个keysight示波器，也跟向量没太多关系。本文将从新手角度<strong>直观地</strong>上手矢量示波器，无抽象难懂内容。</p>
+<a id="more"></a>
+<p>在实际动手修改图片之前，了解图片信息是不可或缺的一个关键步骤。前期拍摄中不控制好曝光拍出来的就是废片，后期调色不了解图像信息会给修片带来很多麻烦甚至调不出效果。就好像在前期拍摄中，及时检查直方图，开启斑马线标记出过曝区域一样。后期也需要类似的数据可视化工具，在这里首先要提的就是色彩矢量示波器。</p>
+<h2 id="矢量示波器"><a href="#矢量示波器" class="headerlink" title="矢量示波器"></a>矢量示波器</h2><h3 id="1-矢量示波器是什么"><a href="#1-矢量示波器是什么" class="headerlink" title="1. 矢量示波器是什么"></a>1. 矢量示波器是什么</h3><p><img src="https://img.timzhong.top/images/2019/12/16/eqQvRy38k7CA71nK.png" srcset="/img/loading.gif" alt="图像1矢量示波器截图"></p>
+<p>第一次听说这词的时候博主也十分疑惑，一个极坐标系，边缘均匀分布着六个英文字母。导入一张照片，窗口内出现了点阵图（下称波形），从中间向四周延申。</p>
+<p>先导入一张照片看看波形，很有新鲜感。</p>
+<p><img src="https://img.timzhong.top/images/2019/12/16/WM3V6621CYCKwbkR.jpg" srcset="/img/loading.gif" alt="照片"><br><img src="https://img.timzhong.top/images/2019/12/16/r4TBqlwpHI3XBSsD.png" srcset="/img/loading.gif" alt="导入照片"></p>
+<p>再导入一张纯色图片看看是什么波形。</p>
+<p><img src="https://img.timzhong.top/images/2019/12/16/lAG9fa7MQtMTihgm.png" srcset="/img/loading.gif" alt="纯色图片"></p>
+<p>似乎只有一个离原点很远的点。<br>再导入一张鲜艳程度(饱和度)渐变的图片，再看看波形的变化。</p>
+<p><img src="https://img.timzhong.top/images/2019/12/16/esxFFGcO5RRC1X8R.png" srcset="/img/loading.gif" alt="渐变色图片"></p>
+<p>出现了一串点，排列在从原点出发的一条直线上。</p>
+<p>细心的读者看到这里应该大概可以直观地理解矢量示波器的含义，<strong>颜色越鲜艳(饱和度越高)，在分析器中产生的点离原点越远</strong>，颜色越淡，产生的点离原点越近。如果图像中一种颜色<strong>多且鲜艳</strong>，那么波形在某个方向就会延申地特别长，同时点也会更加密集。同理，如果图像中一种颜色<strong>少且淡</strong>，那么波形在某个方向就几乎没有延申，点也十分稀疏。</p>
+<p>猜想一下，如果图像中一种颜色<strong>少但是特别鲜艳</strong>，波形会长成什么样？<br>不妨放一张图来试试：</p>
+<p><img src="https://img.timzhong.top/images/2019/12/16/aiCF1TEaQiRqQY9t.png" srcset="/img/loading.gif" alt="橙青对比，橙色鲜艳但是少"></p>
+<h3 id="2-总结"><a href="#2-总结" class="headerlink" title="2. 总结"></a>2. 总结</h3><p>可以总结一下：</p>
+<blockquote>
+<p>一种颜色对应一种方向，<br>颜色在画面中多少 &lt;-&gt; 点的密集程度高低<br>颜色鲜艳程度     &lt;-&gt; 点离中心的距离远近</p>
+</blockquote>
+<p>那么问题又来了，怎么知道每个方向的颜色？怎么知道某种颜色对应的方向？</p>
+<p>这里就需要引入新的概念，<strong>色相(hue)与色相环</strong>。<br>色相(hue)也称色调，色度。<br>色相直观地理解就是把所有颜色按一定规则映射到0°~360°上，<strong>每一个角度对应着一个颜色</strong>。<br><img src="https://img.timzhong.top/images/2019/12/16/050Q1aaB1BV9kpCq.png" srcset="/img/loading.gif" alt="色相环"></p>
+<p>就像他的名字一样，这是一个环状的图像。0°-360°分布着红到紫（覆盖可见光）的全部颜色。如果把矢量示波器叠加到色相环上，绿色的波形<strong>突出的方向</strong>正好<strong>对应色相环上绿色的位置</strong>。只要稍加记忆(雾)，就可以看方向说颜色，看颜色说方向了。</p>
+<p><img src="https://img.timzhong.top/images/2019/12/16/LpV2mLwD9cRXGyn0.png" srcset="/img/loading.gif" alt="波形叠加在色相环上"></p>
+<p>(这个波形是开头照片的波形)<br>看完上面一大段文字。脑子：我懂了，手：我不懂。<br><strong>例题待更新</strong></p>
+<p>例子：</p>
+<p>1、在脑海中想象一下下面图片的波形。<br>![例题1][9]<br>答案链接：</p>
+<p>2、在脑海中想象一下以下波形图对应着什么颜色的画面。<br>![例题2][10]<br>答案链接：</p>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/PhotoEditing/">PhotoEditing</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/3dLutsCreator/">3dLutsCreator</a>
+                    
+                      <a class="hover-with-bg" href="/tags/3DLC/">3DLC</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/12/17/3DLC-1-2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">3DLC 1.2 — 分析电影中橙青色调</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/12/16/3DLC-1-0/">
+                        <span class="hidden-mobile">Tim的调色分析频道——简介</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+      </div>
+    
+  </div>
+</div>
+<!-- Custom -->
+    
+  </main>
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+    
+    
+  </div>
+</footer>
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+<!-- Plugins -->
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "3DLC 1.1 — 矢量示波器 介绍&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+</body>
+</html>
