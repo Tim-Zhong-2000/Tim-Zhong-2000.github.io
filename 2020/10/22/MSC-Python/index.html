@@ -1,0 +1,755 @@
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>MSC-Python - TimZhong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://aes.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                aes在线混淆
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://h5ai.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                文件服务
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-10-22 10:10">
+      2020年10月22日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      32
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="Python题-版本3-8-6"><a href="#Python题-版本3-8-6" class="headerlink" title="Python题 版本3.8.6"></a>Python题 版本3.8.6</h1><h2 id="1-简单-函数-实现简单计算器"><a href="#1-简单-函数-实现简单计算器" class="headerlink" title="1. (简单 函数) 实现简单计算器"></a>1. (简单 函数) 实现简单计算器</h2><p>完成函数cal(num1,operater,num2)，实现’+’ ‘-‘ ‘*’ ‘/‘计算</p>
+<p>answer:</p>
+<pre><code class="hljs kotlin">def cal(num1,operater,num2):
+    <span class="hljs-keyword">if</span> operater==<span class="hljs-string">&#x27;+&#x27;</span>:
+        <span class="hljs-keyword">return</span> num1+num2
+    <span class="hljs-keyword">if</span> operater==<span class="hljs-string">&#x27;-&#x27;</span>:
+        <span class="hljs-keyword">return</span> num1-num2
+    <span class="hljs-keyword">if</span> operater==<span class="hljs-string">&#x27;*&#x27;</span>:
+        <span class="hljs-keyword">return</span> num1*num2
+    <span class="hljs-keyword">if</span> operater==<span class="hljs-string">&#x27;/&#x27;</span>:
+        <span class="hljs-keyword">return</span> num1/num2</code></pre>
+
+
+<h2 id="2-简单-循环-编写程序按以下顺序输出数字"><a href="#2-简单-循环-编写程序按以下顺序输出数字" class="headerlink" title="2. (简单 循环) 编写程序按以下顺序输出数字"></a>2. (简单 循环) 编写程序按以下顺序输出数字</h2><p>output:<br>1 1 1<br>1 1 2<br>1 2 1<br>1 2 2<br>2 1 1<br>2 1 2<br>2 2 1<br>2 2 2 </p>
+<p>answer:</p>
+<pre><code class="hljs angelscript"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>):
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>):
+        <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>):
+            print i,j,k</code></pre>
+
+<h2 id="3-简单-模块调用"><a href="#3-简单-模块调用" class="headerlink" title="3. (简单 模块调用)"></a>3. (简单 模块调用)</h2><p>test.py:</p>
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_func</span>(<span class="hljs-params"> par </span>):</span>
+   <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;Hello : &quot;</span>, par
+   <span class="hljs-keyword">return</span></code></pre>
+
+<p>请导入test模块并使用其中的方法打印Hello : World</p>
+<p>answer:</p>
+<pre><code class="hljs cmake">import <span class="hljs-keyword">test</span>
+<span class="hljs-keyword">test</span>.print_func(<span class="hljs-string">&quot;World&quot;</span>)</code></pre>
+
+<h2 id="4-简单-函数-编写程序计算工资"><a href="#4-简单-函数-编写程序计算工资" class="headerlink" title="4. (简单 函数) 编写程序计算工资"></a>4. (简单 函数) 编写程序计算工资</h2><p>为了减少内卷，增加工作效率，某公司启用动态工资制度。细节如下：每天规定工作时间8小时，8小时内时薪为100%，加班时间工资随加班时间递减，每加班1小时，时薪减少25%。输入一个标准时薪n和当天该员工工作时间t，计算该员工本日工资。同时，如果未工作满8小时，不足部分每小时扣1.5倍时薪。注：比如标准时薪为200，工作了10小时，工资为：8小时 x 200 + 1小时 x (200 x 0.75) + 1小时 x (200 x 0.75 x 0.75)。 </p>
+<p>answer:</p>
+<pre><code class="hljs apache"><span class="hljs-attribute">def</span> solution(n, t):
+    <span class="hljs-comment"># 工作时间小于8小时</span>
+    <span class="hljs-attribute">if</span> t &lt;= <span class="hljs-number">8</span>:
+        <span class="hljs-attribute">return</span> n * t - <span class="hljs-number">1</span>.<span class="hljs-number">5</span> * n * (t - <span class="hljs-number">8</span>)
+    <span class="hljs-comment"># 加班</span>
+    <span class="hljs-attribute">overWorking</span> = t - <span class="hljs-number">8</span>
+    <span class="hljs-attribute">result</span> = n * <span class="hljs-number">8</span>
+    
+    <span class="hljs-comment"># 倍率</span>
+    <span class="hljs-attribute">temp</span> = <span class="hljs-number">0</span>.<span class="hljs-number">75</span> 
+    
+    <span class="hljs-attribute">while</span> (overWorking &gt; <span class="hljs-number">0</span>):
+        <span class="hljs-attribute">result</span> += temp * n
+        <span class="hljs-attribute">temp</span> *= <span class="hljs-number">0</span>.<span class="hljs-number">75</span>
+        <span class="hljs-attribute">overWorking</span> -= <span class="hljs-number">1</span>
+    
+    <span class="hljs-attribute">return</span> result</code></pre>
+
+<h2 id="5-中等-简单算法-编写函数输出斐波那契数列"><a href="#5-中等-简单算法-编写函数输出斐波那契数列" class="headerlink" title="5. (中等 简单算法) 编写函数输出斐波那契数列"></a>5. (中等 简单算法) 编写函数输出斐波那契数列</h2><p>返回一个参数n，代表找到第n个数字。（考虑如果数字很大怎么办）<br>注：斐波那契数列：0、1、1、2、3、5、8、13、21、34……<br>def fib(n):</p>
+<p>answer:<br>递归法：</p>
+<pre><code class="hljs angelscript">def fib(n):
+    <span class="hljs-keyword">if</span> n==<span class="hljs-number">1</span>: 
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+    <span class="hljs-keyword">if</span> n==<span class="hljs-number">2</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> fib(n<span class="hljs-number">-1</span>)+fib(n<span class="hljs-number">-2</span>) </code></pre>
+<p>循环数组：</p>
+<pre><code class="hljs angelscript">def fib(n):
+    <span class="hljs-keyword">if</span> n == <span class="hljs-number">1</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+    arr = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]
+    times = n - <span class="hljs-number">2</span>
+    <span class="hljs-keyword">while</span> times &gt; <span class="hljs-number">0</span>:
+        nextNum = arr[<span class="hljs-number">0</span>] + arr[<span class="hljs-number">1</span>]
+        arr[<span class="hljs-number">0</span>] = arr[<span class="hljs-number">1</span>]
+        arr[<span class="hljs-number">1</span>] = nextNum
+        times -= <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> arr[<span class="hljs-number">1</span>]</code></pre>
+
+<h2 id="6-中等-异常处理"><a href="#6-中等-异常处理" class="headerlink" title="6. (中等 异常处理)"></a>6. (中等 异常处理)</h2><p>假设以下场景，程序需要打开一个名为null.bin的文件，但是这个文件不存在。<br>请改写以下代码，添加以下功能：</p>
+<ol>
+<li>处理读取文件失败的异常</li>
+<li>若读取成功输出文件的内容</li>
+</ol>
+<p>answer:</p>
+<pre><code class="hljs arduino"><span class="hljs-keyword">try</span>:
+    fh = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;testfile&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>)
+    fh.<span class="hljs-built_in">write</span>(<span class="hljs-string">&quot;这是一个测试文件，用于测试异常!!&quot;</span>)
+except IOError:
+    <span class="hljs-built_in">print</span> <span class="hljs-string">&quot;Error: 没有找到文件或读取文件失败&quot;</span>
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-built_in">print</span>(fh.<span class="hljs-built_in">read</span>())
+    fh.<span class="hljs-built_in">close</span>()</code></pre>
+
+<h2 id="7-中等-python进程库的使用"><a href="#7-中等-python进程库的使用" class="headerlink" title="7. (中等 python进程库的使用)"></a>7. (中等 python进程库的使用)</h2><p>Python多线程的意义不大，Python全局解释器锁锁保证了同一时间只有同一线程在运行，所以多线程并不能很好地调用多核cpu。但是使用多进程可以充分使用多核cpu的性能。</p>
+<h2 id="9-可能有点困难-调用接口-（可以现场学"><a href="#9-可能有点困难-调用接口-（可以现场学" class="headerlink" title="9. (可能有点困难 调用接口) （可以现场学"></a>9. (可能有点困难 调用接口) （可以现场学</h2><p>import http.client<br>文档：<a target="_blank" rel="noopener" href="https://docs.python.org/3.4/library/http.client.html">https://docs.python.org/3.4/library/http.client.html</a></p>
+<p>实现程序调用<code>http://sysu.timzhong.top:26666</code>下的两个api。调用成功会返回一个密码，你需要记录下这个密码。如果调用失败会返回fail。</p>
+<p>api文档：<br>GET：/getapi<br>Parameters: </p>
+<ul>
+<li>id type:number</li>
+<li>name type:string</li>
+</ul>
+<p>POST：/postapi<br>Parameters:</p>
+<ul>
+<li>body:<br>{<br>  “id”: “xxx”<br>  “name”: “xxx”,<br>}</li>
+</ul>
+<p>answer:</p>
+<pre><code class="hljs routeros">import http.client
+import json
+
+<span class="hljs-comment"># GET</span>
+myurl = <span class="hljs-string">&#x27;/getapi&#x27;</span>\
+    + <span class="hljs-string">&#x27;?id=xxx&#x27;</span>\
+    + <span class="hljs-string">&#x27;&amp;name=name&#x27;</span>
+httpClient = http.client.HTTPConnection(<span class="hljs-string">&#x27;sysu.timzhong.top:26666&#x27;</span>)
+httpClient.request(<span class="hljs-string">&#x27;GET&#x27;</span>, myurl)
+response = httpClient.getresponse()
+<span class="hljs-builtin-name">print</span>(response.read().decode(<span class="hljs-string">&quot;utf-8&quot;</span>))
+
+<span class="hljs-comment"># POST</span>
+myurl = <span class="hljs-string">&#x27;/postapi&#x27;</span>
+httpClient = http.client.HTTPConnection(<span class="hljs-string">&#x27;sysu.timzhong.top:26666&#x27;</span>)
+headers = &#123;<span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span>&#125;
+body = &#123;<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;xxx&quot;</span>, <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;xxx&quot;</span>&#125;
+body = json.dumps(body)
+
+httpClient.request(<span class="hljs-string">&#x27;POST&#x27;</span>, myurl, <span class="hljs-attribute">body</span>=body, <span class="hljs-attribute">headers</span>=headers)
+response = httpClient.getresponse()
+<span class="hljs-builtin-name">print</span>(response.read().decode(<span class="hljs-string">&quot;utf-8&quot;</span>))
+</code></pre>
+
+
+
+<h2 id="11-困难-手写数字识别"><a href="#11-困难-手写数字识别" class="headerlink" title="11. (困难 手写数字识别)"></a>11. (困难 手写数字识别)</h2><p>补全实现手写数字识别的knn算法。数据集分为测试集与训练集，预测函数根据训练集判断一个测试样本的数字。<br>基础的文件读取与向量转换函数已经写好。直接运行python会进行算法测试，在测试完毕后显示当前算法的准确率。</p>
+<p>目录结构:<br>|–trainingDigits -&lt;目录&gt;<br>|  |–xxx.txt     -&lt;文件&gt;<br>|  |–…         -&lt;文件&gt;<br>|-testDigits      -&lt;目录&gt;<br>|  |–xxx.txt     -&lt;文件&gt;<br>|  |–…         -&lt;文件&gt;<br>|–main.py        -&lt;文件&gt;（需要完成的部分）</p>
+<p>例子：<br>输入：一个01串，是数字0的手写样本的向量。<br>输出：数字0<br>00000000000001111000000000000000<br>00000000000011111110000000000000<br>00000000001111111111000000000000<br>00000001111111111111100000000000<br>00000001111111011111100000000000<br>00000011111110000011110000000000<br>00000011111110000000111000000000<br>00000011111110000000111100000000<br>00000011111110000000011100000000<br>00000011111110000000011100000000<br>00000011111100000000011110000000<br>00000011111100000000001110000000<br>00000011111100000000001110000000<br>00000001111110000000000111000000<br>00000001111110000000000111000000<br>00000001111110000000000111000000<br>00000001111110000000000111000000<br>00000011111110000000001111000000<br>00000011110110000000001111000000<br>00000011110000000000011110000000<br>00000001111000000000001111000000<br>00000001111000000000011111000000<br>00000001111000000000111110000000<br>00000001111000000001111100000000<br>00000000111000000111111000000000<br>00000000111100011111110000000000<br>00000000111111111111110000000000<br>00000000011111111111110000000000<br>00000000011111111111100000000000<br>00000000001111111110000000000000<br>00000000000111110000000000000000<br>00000000000011000000000000000000</p>
+<p>你只需要阅读完成预测函数。该函数的基本思路比较简单（看情况加不加）：<br>你首先需要计算待判断向量和数据集中其他向量的距离（tips：用欧氏距离），<br>然后选择距离最小的k个点，找出出现最多的标签，就得到了待判断向量最可能对应的手写数字。<br>请编写最邻近算法实现对输入向量的预测，返回待判断的点的最邻近预测（即对应的数字）。</p>
+<p>题目代码：</p>
+<pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span>
+
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> operator
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> listdir
+
+<span class="hljs-comment"># knn实现</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">classify</span>(<span class="hljs-params">inputPoint,dataSet,labels,k</span>):</span>
+    <span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">    inputPoint:待判断的点集（手写数字向量）</span>
+<span class="hljs-string">    dataSet:训练集</span>
+<span class="hljs-string">    labels:标签向量，维数和dataSet行数相同，比如labels[1]代表dataSet[1]的类别</span>
+<span class="hljs-string">    k:邻居数量</span>
+<span class="hljs-string">    输出：inputPoint的标签</span>
+<span class="hljs-string">    &#x27;&#x27;&#x27;</span>
+    <span class="hljs-comment"># <span class="hljs-doctag">TODO:</span> 实现手写数字识别</span>
+
+<span class="hljs-comment"># 将图片矩阵转换为向量</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">img2vector</span>(<span class="hljs-params">filename</span>):</span>
+    <span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">    filename:文件名字</span>
+<span class="hljs-string">    将这个文件的所有数据按照顺序写成一个一维向量并返回</span>
+<span class="hljs-string">    &#x27;&#x27;&#x27;</span>
+    returnVect = []
+    fr = open(filename)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">32</span>):
+        lineStr = fr.readline() 
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">32</span>):
+            returnVect.append(int(lineStr[j]))
+    <span class="hljs-keyword">return</span> returnVect
+
+<span class="hljs-comment"># 从文件名中解析分类数字</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">classnumCut</span>(<span class="hljs-params">fileName</span>):</span>
+    <span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">    filename:文件名</span>
+<span class="hljs-string">    返回这个文件数据代表的实际数字</span>
+<span class="hljs-string">    &#x27;&#x27;&#x27;</span>
+    fileStr = fileName.split(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]
+    classNumStr = int(fileStr.split(<span class="hljs-string">&#x27;_&#x27;</span>)[<span class="hljs-number">0</span>])
+    <span class="hljs-keyword">return</span> classNumStr
+
+<span class="hljs-comment"># 构建训练集数据向量及对应分类标签向量</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">trainingDataSet</span>():</span>
+    <span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">    从trainingDigits文件夹下面读取所有数据文件，返回：</span>
+<span class="hljs-string">    trainingMat：所有训练数据，每一行代表一个数据文件中的内容</span>
+<span class="hljs-string">    hwLabels：每一项表示traningMat中对应项的数据到底代表数字几</span>
+<span class="hljs-string">    &#x27;&#x27;&#x27;</span>
+    hwLabels = []
+    <span class="hljs-comment"># 获取目录traningDigits内容(即数据集文件名)，并储存在一个list中</span>
+    trainingFileList = listdir(<span class="hljs-string">&#x27;trainingDigits&#x27;</span>)   
+    m = len(trainingFileList) <span class="hljs-comment">#当前目录文件数</span>
+    <span class="hljs-comment"># 初始化m维向量的训练集，每个向量1024维</span>
+    trainingMat = np.zeros((m,<span class="hljs-number">1024</span>))                  
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(m):
+        fileNameStr = trainingFileList[i]
+        <span class="hljs-comment"># 从文件名中解析分类数字，作为分类标签</span>
+        hwLabels.append(classnumCut(fileNameStr))  
+        <span class="hljs-comment"># 将图片矩阵转换为向量并储存在新的矩阵中</span>
+        trainingMat[i,:] = img2vector(<span class="hljs-string">&#x27;trainingDigits/%s&#x27;</span> % fileNameStr)
+    <span class="hljs-keyword">return</span> hwLabels,trainingMat
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">createDataSet</span>(<span class="hljs-params">dir</span>):</span>
+    <span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">    从trainingDigits文件夹下面读取所有数据文件，返回：</span>
+<span class="hljs-string">    trainingMat：所有训练数据，每一行代表一个数据文件中的内容</span>
+<span class="hljs-string">    hwLabels：每一项表示traningMat中对应项的数据到底代表数字几</span>
+<span class="hljs-string">    &#x27;&#x27;&#x27;</span>
+    Labels = []
+
+    <span class="hljs-comment"># 获取目录内容(即数据集文件名)，并储存在一个list中</span>
+    FileList = listdir(dir)   
+    m = len(FileList)   <span class="hljs-comment">#当前目录文件数</span>
+
+    <span class="hljs-comment"># 初始化m维向量的训练集，每个向量1024维</span>
+    dataMat = np.zeros((m,<span class="hljs-number">1024</span>))                  
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(m):
+
+        fileNameStr = FileList[i]
+
+        <span class="hljs-comment"># 从文件名中解析分类数字，作为分类标签</span>
+        Labels.append(classnumCut(fileNameStr))  
+
+        <span class="hljs-comment"># 将图片矩阵转换为向量并储存在新的矩阵中</span>
+        dataMat[i,:] = img2vector(<span class="hljs-string">&#x27;%s/%s&#x27;</span> % (dir,fileNameStr))
+    <span class="hljs-keyword">return</span> dataMat,Labels
+
+<span class="hljs-comment"># 测试函数</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">handwritingTest</span>():</span>
+   
+    <span class="hljs-comment"># 构建训练集</span>
+    hwLabels,trainingMat = trainingDataSet()    
+
+    <span class="hljs-comment">#从testDigits里面拿到测试集</span>
+    testFileList = listdir(<span class="hljs-string">&#x27;testDigits&#x27;</span>)
+
+    <span class="hljs-comment"># 错误数</span>
+    errorCount = <span class="hljs-number">0.0</span>                           
+
+    <span class="hljs-comment"># 测试集总样本数</span>
+    mTest = len(testFileList)                  
+
+    <span class="hljs-comment"># 获取程序运行到此处的时间（开始测试）</span>
+    t1 = time.time()
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(mTest):
+
+        <span class="hljs-comment"># 得到当前文件名</span>
+        fileNameStr = testFileList[i]
+
+        <span class="hljs-comment"># 从文件名中解析分类数字</span>
+        classNumStr = classnumCut(fileNameStr)  
+
+        <span class="hljs-comment"># 将图片矩阵转换为向量</span>
+        vectorUnderTest = img2vector(<span class="hljs-string">&#x27;testDigits/%s&#x27;</span> % fileNameStr)  
+
+        <span class="hljs-comment"># 调用knn算法进行测试</span>
+        classifierResult = classify(vectorUnderTest, trainingMat, hwLabels, <span class="hljs-number">5</span>)
+        <span class="hljs-keyword">print</span> (<span class="hljs-string">&quot;the classifier came back with: %d, the real answer is: %d&quot;</span> % (classifierResult, classNumStr))
+
+        <span class="hljs-comment"># 预测结果不一致，则错误数+1</span>
+        <span class="hljs-keyword">if</span> (classifierResult != classNumStr): errorCount += <span class="hljs-number">1.0</span>      
+
+    print(<span class="hljs-string">&quot;\nthe total number of tests is: %d&quot;</span> % mTest)               
+    print(<span class="hljs-string">&quot;the total number of errors is: %d&quot;</span> % errorCount )          
+    print(<span class="hljs-string">&quot;the total error rate is: %f&quot;</span> % (errorCount/float(mTest)))  
+
+    <span class="hljs-comment"># 获取程序运行到此处的时间（结束测试）</span>
+    t2 = time.time()
+
+    <span class="hljs-comment"># 测试耗时</span>
+    <span class="hljs-keyword">print</span> (<span class="hljs-string">&quot;Cost time: %.2fmin, %.4fs.&quot;</span>%((t2-t1)//<span class="hljs-number">60</span>,(t2-t1)%<span class="hljs-number">60</span>) )     
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    handwritingTest()
+</code></pre>
+
+<p>answer:</p>
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">classify</span>(<span class="hljs-params">inputPoint,dataSet,labels,k</span>):</span>
+    <span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">    inputPoint:待判断的点</span>
+<span class="hljs-string">    dataSet:数据集合</span>
+<span class="hljs-string">    labels:标签向量，维数和dataSet行数相同，比如labels[1]代表dataSet[1]的类别</span>
+<span class="hljs-string">    k:邻居数量</span>
+<span class="hljs-string">    输出：inputPoint的标签</span>
+<span class="hljs-string">    &#x27;&#x27;&#x27;</span>
+    <span class="hljs-comment"># dataSetSize = dataSet.shape[0]     </span>
+
+    <span class="hljs-comment"># # 先用tile函数将输入点拓展成与训练集相同维数的矩阵，再计算欧氏距离</span>
+    <span class="hljs-comment"># diffMat = np.tile(inputPoint,(dataSetSize,1))-dataSet  </span>
+    <span class="hljs-comment"># sqDiffMat = diffMat ** 2                   </span>
+
+    <span class="hljs-comment"># # 计算每一行元素之和</span>
+    <span class="hljs-comment"># sqDistances = sqDiffMat.sum(axis=1)         </span>
+
+    <span class="hljs-comment"># # 开方得到欧拉距离矩阵</span>
+    <span class="hljs-comment"># distances = sqDistances ** 0.5              </span>
+
+    <span class="hljs-comment"># # argsort返回的是数组从小到大的元素的索引</span>
+    <span class="hljs-comment"># # 按distances中元素进行升序排序后得到的对应下标的列表</span>
+    <span class="hljs-comment"># sortedDistIndicies = distances.argsort()    </span>
+
+    <span class="hljs-comment"># # 选择距离最小的k个点，统计每个类别的点的个数</span>
+    <span class="hljs-comment"># classCount = &#123;&#125;</span>
+    <span class="hljs-comment"># for i in range(k):</span>
+    <span class="hljs-comment">#     voteIlabel = labels[ sortedDistIndicies[i] ]</span>
+    <span class="hljs-comment">#     classCount[voteIlabel] = classCount.get(voteIlabel,0)+1</span>
+
+    <span class="hljs-comment"># # 按classCount字典的第2个元素（即类别出现的次数）从大到小排序</span>
+    <span class="hljs-comment"># sortedClassCount = sorted(classCount.items(), key = operator.itemgetter(1), reverse = True)</span>
+    <span class="hljs-comment"># return sortedClassCount[0][0]</span></code></pre>
+
+
+
+
+
+<h1 id="备选"><a href="#备选" class="headerlink" title="备选"></a>备选</h1><ol>
+<li>py数组的骚操作</li>
+<li>numpy？</li>
+<li>搞多点算法？</li>
+<li></li>
+</ol>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "MSC-Python&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

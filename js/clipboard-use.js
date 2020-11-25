@@ -28,6 +28,7 @@
       }, 2000);
     });
   }
+
   function getBgClass() {
     var ele = $('div.hljs, pre');
     if (ele.length === 0) {
@@ -38,9 +39,11 @@
     var color = (0.213 * rgbArr[0]) + (0.715 * rgbArr[1]) + (0.072 * rgbArr[2]) > 255 / 2;
     return color ? 'copy-btn-dark' : 'copy-btn-light';
   }
+
   var oldLoadCb = window.onload;
   window.onload = function() {
     oldLoadCb && oldLoadCb();
+
     initCopyCode();
   };
 })(window, document);

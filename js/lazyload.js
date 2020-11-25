@@ -2,10 +2,12 @@
 !(function(window, document) {
   var runningOnBrowser = typeof window !== 'undefined';
   var supportsIntersectionObserver = runningOnBrowser && 'IntersectionObserver' in window;
+
   var images = Array.prototype.slice.call(document.querySelectorAll('img[srcset]'));
   if (!images || images.length === 0) {
     return;
   }
+
   if (supportsIntersectionObserver) {
     var io = new IntersectionObserver(function(changes) {
       changes.forEach(({ target, isIntersecting }) => {
@@ -26,6 +28,7 @@
       var top = rect.top;
       return (top >= 0 && top <= height * 3) || (top <= 0 && top <= -(height * 2) - rect.height);
     }
+
     // eslint-disable-next-line no-inner-declarations
     function loadImage(el, fn) {
       var img = new Image();
@@ -36,8 +39,10 @@
       };
       img.srcset = src;
     }
+
     // eslint-disable-next-line no-undef
     var lazyLoader = new Debouncer(processImages);
+
     // eslint-disable-next-line no-inner-declarations
     function processImages() {
       for (var i = 0; i < images.length; i++) {
@@ -57,7 +62,9 @@
         window.removeEventListener('scroll', lazyLoader, false);
       }
     }
+
     window.addEventListener('scroll', lazyLoader, false);
     lazyLoader.handleEvent();
   }
+
 })(window, document);

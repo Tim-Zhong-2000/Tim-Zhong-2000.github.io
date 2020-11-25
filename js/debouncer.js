@@ -1,4 +1,5 @@
 window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
+
 /**
  * Handles debouncing of events via requestAnimationFrame
  * @see http://www.html5rocks.com/en/tutorials/speed/animations/
@@ -10,6 +11,7 @@ function Debouncer(callback) {
 }
 Debouncer.prototype = {
   constructor: Debouncer,
+
   /**
    * dispatches the event to the supplied callback
    * @private
@@ -18,6 +20,7 @@ Debouncer.prototype = {
     this.callback && this.callback();
     this.ticking = false;
   },
+
   /**
    * ensures events don't get stacked
    * @private
@@ -28,6 +31,7 @@ Debouncer.prototype = {
       this.ticking = true;
     }
   },
+
   /**
    * Attach this as the event listeners
    */

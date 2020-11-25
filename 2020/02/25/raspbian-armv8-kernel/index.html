@@ -1,4 +1,9 @@
 <html lang="zh-CN">
+
+
+
+
+
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
@@ -14,31 +19,51 @@
   <meta name="author" content="TimZhong">
   <meta name="keywords" content="program photo">
   <title>树莓派raspbian切换armv8内核 - TimZhong&#39;s Blog</title>
+
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
   <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
   
     <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
   
+
   
+
+
 <!-- 主题依赖的图标库，不要自行修改 -->
+
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
 <link  rel="stylesheet" href="/css/main.css" />
+
 <!-- 自定义样式保持在最底部 -->
+
+
   <script  src="/js/utils.js" ></script>
 <meta name="generator" content="Hexo 5.0.0"></head>
+
+
 <body>
   <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
        href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
+
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto text-center">
@@ -84,9 +109,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
               </a>
             </li>
           
@@ -96,9 +121,21 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
+              <a class="nav-link" target="_blank" rel="noopener" href="https://aes.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                aes在线混淆
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://h5ai.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                文件服务
               </a>
             </li>
           
@@ -113,6 +150,7 @@
     </div>
   </div>
 </nav>
+
     <div class="view intro-2" id="background" parallax=true
          style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
@@ -122,6 +160,7 @@
             <span class="h2" id="subtitle">
               
             </span>
+
             
               
   <div class="mt-3 post-meta">
@@ -130,6 +169,8 @@
       2020年2月25日 晚上
     </time>
   </div>
+
+
 <div class="mt-1">
   
     
@@ -138,6 +179,7 @@
       86 字
     </span>
   
+
   
     
     <span class="post-meta mr-2">
@@ -148,19 +190,24 @@
        分钟
     </span>
   
+
   
   
 </div>
+
             
           </div>
+
           
         </div>
       </div>
     </div>
   </header>
+
   <main>
     
       
+
 <div class="container-fluid">
   <div class="row">
     <div class="d-none d-lg-block col-lg-2"></div>
@@ -172,14 +219,19 @@
             <article class="markdown-body">
               <p>官方raspbian-buster镜像（2020-2-13）已经自带了armv8内核，但默认载入armv7内核。只需要在config.txt末尾添加两行代码就可以切换成64位内核。</p>
 <a id="more"></a>
+
 <pre><code class="hljs jboss-cli"><span class="hljs-keyword">cd</span> <span class="hljs-string">/boot</span>
 vim config.txt</code></pre>
+
 <p>**然后在文件末尾添加</p>
 <pre><code class="hljs ini"><span class="hljs-attr">arm_64bit</span>=<span class="hljs-number">1</span>
 <span class="hljs-attr">kernel</span>=kernel8.img**</code></pre>
+
 <p>退出，重启后执行</p>
 <pre><code class="hljs ebnf"><span class="hljs-attribute">uname -a</span></code></pre>
+
 <p>有aarch64字样说明切换成功。</p>
+
             </article>
             <hr>
             <div>
@@ -233,6 +285,7 @@ vim config.txt</code></pre>
                 </div>
               
             </div>
+
             
           </div>
         </div>
@@ -244,18 +297,24 @@ vim config.txt</code></pre>
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
   <div id="tocbot"></div>
 </div>
+
       </div>
     
   </div>
 </div>
+
 <!-- Custom -->
+
+
     
   </main>
+
   
     <a id="scroll-top-button" href="#" role="button">
       <i class="iconfont icon-arrowup" aria-hidden="true"></i>
     </a>
   
+
   
     <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
@@ -279,8 +338,11 @@ vim config.txt</code></pre>
   </div>
 </div>
   
+
   
+
   
+
   <footer class="mt-5">
   <div class="text-center py-3">
     <div>
@@ -290,26 +352,43 @@ vim config.txt</code></pre>
         <span>Fluid</span></a>
     </div>
     
+
     
+
     
   </div>
 </footer>
+
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 <script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
+
 <!-- Plugins -->
+
+
   
     <script  src="/js/lazyload.js" ></script>
   
+
+
+
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
   <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
   <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
       var boardCtn = $('#board-ctn');
       var boardTop = boardCtn.offset().top;
+
       tocbot.init({
         tocSelector: '#tocbot',
         contentSelector: 'article.markdown-body',
@@ -328,6 +407,9 @@ vim config.txt</code></pre>
       }
     });
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
   <script>
     var typed = new Typed('#subtitle', {
@@ -345,6 +427,9 @@ vim config.txt</code></pre>
       typed.start();
     });
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
   <script>
     anchors.options = {
@@ -359,6 +444,9 @@ vim config.txt</code></pre>
     }
     anchors.add(res.join(", "))
   </script>
+
+
+
   <script  src="/js/local-search.js" ></script>
   <script>
     var path = "/local-search.xml";
@@ -368,8 +456,12 @@ vim config.txt</code></pre>
       this.onclick = null
     }
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
   <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
   <script>
     $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
       function () {
@@ -380,5 +472,25 @@ vim config.txt</code></pre>
       }
     );
   </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

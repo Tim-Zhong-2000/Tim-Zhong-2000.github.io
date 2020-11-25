@@ -1,0 +1,560 @@
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TimZhong">
+  <meta name="keywords" content="program photo">
+  <title>MIPS指令集 课程笔记 - TimZhong&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://aes.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                aes在线混淆
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://h5ai.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                文件服务
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-25 10:15">
+      2020年9月25日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      846 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>第二章：指令集 课程笔记</p>
+<a id="more"></a>
+<h2 id="2020-9-25"><a href="#2020-9-25" class="headerlink" title="2020-9-25"></a>2020-9-25</h2><h3 id="1-浮点数转换"><a href="#1-浮点数转换" class="headerlink" title="1.浮点数转换"></a>1.浮点数转换</h3><p>例子：20 的转换</p>
+<ol>
+<li>十进制转换二进制。$$20_(10)=10100_(2)$$</li>
+<li>归一化，化为小数点在第一位数后的形式。$$10100_(2)=1.0100*2^4$$</li>
+<li>计算阶数，取出上式 2 的次方数<strong>4</strong>加上<strong>127</strong>。$$127+4 = 131_(10)$$把 131 转换为二进制数。$$131_(10) = 10000011_(2)$$</li>
+<li>补上符号位，20 是正数符号位为 0。<br>$$0 10000011 0100…0$$<h3 id="2-指令集入门"><a href="#2-指令集入门" class="headerlink" title="2.指令集入门"></a>2.指令集入门</h3>两种架构：哈佛架构，冯诺依曼架构(平常是用的电脑)。<br>指令组成：寄存器，内存，操作符，常量</li>
+</ol>
+<p>add $t0 $t1 1<br>符号 |含义<br>:—-:|:—-:<br>addi | 操作符<br>$t0  | 寄存器<br>$t1 | 寄存器<br>1 | 常量</p>
+<p>常用寄存器映射<br>寄存器 | 映射 | 含义<br>:—-:|:—-:|:—-:<br>$0 | 无 |  常量0<br>$16 ~ $23 | $s0 $s7  |用于存储变量<br>$8 ~ $15 | $t0 $t7 |用于存储临时数据</p>
+<h2 id="2020-10-06"><a href="#2020-10-06" class="headerlink" title="2020-10-06"></a>2020-10-06</h2><h3 id="或与操作"><a href="#或与操作" class="headerlink" title="或与操作"></a>或与操作</h3><p>或与作用：置0与取1<br>比如：<br>取出低两位并且对其他位置0<br>0101 and 0011 = 0001<br>取出低两位并且对其他位置1<br>0101 or 1100 = 1101</p>
+<p>课堂题目：寄存器$t1第七位置1，第六位清零，保存在$t2<br>ori $t2 $t1 0x00000080<br>andi $t2 $t2 0xFFFFFFDF</p>
+<h2 id="2020-10-9"><a href="#2020-10-9" class="headerlink" title="2020-10-9"></a>2020-10-9</h2><h3 id="练习1-装载一个32bit立即数A"><a href="#练习1-装载一个32bit立即数A" class="headerlink" title="练习1.装载一个32bit立即数A"></a>练习1.装载一个32bit立即数A</h3><p>因为指令为定长32位，留给立即数的宽度只有16位。要加载32位立即数<br>（HA为立即数A的高16位，LA为立即数A的高16位）</p>
+<pre><code class="hljs mipsasm"><span class="hljs-keyword">lui </span>$<span class="hljs-built_in">t0</span> HA
+<span class="hljs-keyword">ori </span>$<span class="hljs-built_in">t0</span> $<span class="hljs-built_in">t0</span> LA</code></pre>
+
+<h3 id="练习2-判断奇偶性"><a href="#练习2-判断奇偶性" class="headerlink" title="练习2.判断奇偶性"></a>练习2.判断奇偶性</h3><p>假设数字存在$t0</p>
+<pre><code class="hljs awk">    andi <span class="hljs-variable">$t1</span> <span class="hljs-variable">$t0</span> <span class="hljs-number">0</span>x1 <span class="hljs-comment"># 将t0与上000...001(0x1)，取出数字的最低位装入$t1。</span>
+    beq <span class="hljs-variable">$t1</span> <span class="hljs-variable">$zero</span> C0 <span class="hljs-comment"># 若最低位为0说明是偶数</span>
+    j C1
+C0: 
+    <span class="hljs-comment"># 是偶数</span>
+    j <span class="hljs-keyword">exit</span>
+C1: 
+    <span class="hljs-comment"># 是奇数</span>
+    j <span class="hljs-keyword">exit</span>
+<span class="hljs-keyword">exit</span>: 
+    xxxx</code></pre>
+
+<h3 id="练习3-计算斐波那契数列"><a href="#练习3-计算斐波那契数列" class="headerlink" title="练习3.计算斐波那契数列"></a>练习3.计算斐波那契数列</h3><p>(输入参数为n存在$a0)</p>
+<pre><code class="hljs mipsasm">
+<span class="hljs-symbol">fib:</span>
+  <span class="hljs-keyword">addi </span>$<span class="hljs-built_in">sp</span> $<span class="hljs-built_in">sp</span> -<span class="hljs-number">12</span>    <span class="hljs-comment"># 创建栈空间</span>
+  <span class="hljs-keyword">sw </span>$<span class="hljs-built_in">a0</span> <span class="hljs-number">0</span>($<span class="hljs-built_in">sp</span>)       <span class="hljs-comment"># a0存入栈空间</span>
+  <span class="hljs-keyword">sw </span>$<span class="hljs-built_in">s0</span> <span class="hljs-number">4</span>($<span class="hljs-built_in">sp</span>)       <span class="hljs-comment"># s0存入栈</span>
+  <span class="hljs-keyword">sw </span>$<span class="hljs-built_in">ra</span> <span class="hljs-number">8</span>($<span class="hljs-built_in">sp</span>)       <span class="hljs-comment"># ra存入栈</span>
+  <span class="hljs-keyword">slt </span>$<span class="hljs-built_in">t0</span> $<span class="hljs-built_in">a0</span> $<span class="hljs-built_in">zero</span>   <span class="hljs-comment"># t0=(a0==0) tips: n是否等于0</span>
+  <span class="hljs-keyword">beq </span>$<span class="hljs-built_in">t0</span> $<span class="hljs-built_in">zero</span> test2 <span class="hljs-comment"># if(t0==true) jump-&gt;test2 (test2处理n==1的情况以及n&gt;1的情况)</span>
+  <span class="hljs-keyword">add </span>$<span class="hljs-built_in">v0</span> $<span class="hljs-built_in">zero</span> $<span class="hljs-built_in">zero</span> <span class="hljs-comment"># v0是返回值。相当于return 0</span>
+  <span class="hljs-keyword">j </span>rtn
+
+<span class="hljs-symbol">test2:</span>
+  <span class="hljs-keyword">addi </span>$<span class="hljs-built_in">t0</span> $<span class="hljs-built_in">zero</span> <span class="hljs-number">1</span>    <span class="hljs-comment"># t0=1</span>
+  <span class="hljs-keyword">bne </span> $to $<span class="hljs-built_in">a0</span> gen    <span class="hljs-comment"># if(n!=1) jump-&gt;gen</span>
+  <span class="hljs-keyword">add </span> $<span class="hljs-built_in">v0</span> $<span class="hljs-built_in">zero</span> $<span class="hljs-built_in">t0</span>  <span class="hljs-comment"># v0是返回值。相当于return t0</span>
+  <span class="hljs-keyword">j </span>rtn
+<span class="hljs-symbol">gen:</span>
+  <span class="hljs-keyword">subi </span>$<span class="hljs-built_in">a0</span> $<span class="hljs-built_in">a0</span> <span class="hljs-number">1</span>      <span class="hljs-comment"># a0-- （此时a0是n-1）</span>
+  <span class="hljs-keyword">jal </span>fib             <span class="hljs-comment"># 调用fib(n-1)，返回值在$v0</span>
+  <span class="hljs-keyword">add </span>$<span class="hljs-built_in">s0</span> $<span class="hljs-built_in">v0</span> $<span class="hljs-built_in">zero</span>   <span class="hljs-comment"># s0=v0+0 也就是保存fib(n-1)的返回值</span>
+  <span class="hljs-keyword">sub </span><span class="hljs-built_in">a0</span> <span class="hljs-built_in">a0</span> <span class="hljs-number">1</span>         <span class="hljs-comment"># a0-- （此时a0是n-2）</span>
+  <span class="hljs-keyword">jal </span>fib             <span class="hljs-comment"># 调用fib(n-2)，返回值在$v0</span>
+  <span class="hljs-keyword">add </span><span class="hljs-built_in">v0</span> <span class="hljs-built_in">v0</span> <span class="hljs-built_in">s0</span>        <span class="hljs-comment"># v0=v0+s0 也就是v0=fib(n-2)+fib(n-1)</span>
+  <span class="hljs-keyword">j </span>rtn
+<span class="hljs-symbol">rtn:</span>
+  xxx</code></pre>
+
+<h3 id="练习4-双层循环"><a href="#练习4-双层循环" class="headerlink" title="练习4.双层循环"></a>练习4.双层循环</h3><pre><code class="hljs matlab"><span class="hljs-keyword">for</span>(<span class="hljs-built_in">i</span>=<span class="hljs-number">0</span>;<span class="hljs-built_in">i</span>&lt;a;<span class="hljs-built_in">i</span>++)
+  <span class="hljs-keyword">for</span>(<span class="hljs-built_in">j</span>=<span class="hljs-number">0</span>;<span class="hljs-built_in">j</span>&lt;b;<span class="hljs-built_in">j</span>++)
+    D[<span class="hljs-number">4</span>*<span class="hljs-built_in">j</span>]=<span class="hljs-built_in">i</span>+<span class="hljs-built_in">j</span></code></pre>
+<p><strong>坑点：4j一次会增加四个索引号，而int32本身是4个byte，所以需要移动16位</strong><br>给定以下关系<br>a-&gt;s0<br>b-&gt;s1<br>i-&gt;t0<br>j-&gt;t1<br>D-&gt;s2</p>
+<p>function as follow：</p>
+<pre><code class="hljs mipsasm">  <span class="hljs-keyword">lw </span> $<span class="hljs-built_in">s0</span> a             <span class="hljs-comment"># $s0=a</span>
+  <span class="hljs-keyword">lw </span> $<span class="hljs-built_in">s1</span> <span class="hljs-keyword">b </span>            <span class="hljs-comment"># $s1=b</span>
+  <span class="hljs-keyword">add </span>$<span class="hljs-built_in">t0</span> $<span class="hljs-built_in">zero</span> $<span class="hljs-built_in">zero</span>   <span class="hljs-comment"># $t0=0 也就是i=0</span>
+<span class="hljs-symbol">loop1:</span>
+  <span class="hljs-keyword">slt </span>$<span class="hljs-built_in">t2</span> $<span class="hljs-built_in">s0</span> $<span class="hljs-built_in">t0</span>       <span class="hljs-comment"># 比较$s0(a) $t0(i)</span>
+  <span class="hljs-keyword">bnq </span>$<span class="hljs-built_in">t2</span> $<span class="hljs-built_in">zero</span> exit1   <span class="hljs-comment"># if(i&gt;=a)</span>
+  <span class="hljs-keyword">add </span>$<span class="hljs-built_in">t1</span> $<span class="hljs-built_in">zero</span> $<span class="hljs-built_in">zero</span>
+<span class="hljs-symbol">loop2:</span>
+  <span class="hljs-keyword">slt </span>$<span class="hljs-built_in">t2</span> $<span class="hljs-built_in">s1</span> $<span class="hljs-built_in">t1</span>
+  <span class="hljs-keyword">bnq </span>$<span class="hljs-built_in">t2</span> $<span class="hljs-built_in">zero</span> exit2
+  <span class="hljs-keyword">add </span>$<span class="hljs-built_in">t3</span> $<span class="hljs-built_in">t0</span> $<span class="hljs-built_in">t1</span>       <span class="hljs-comment"># temp0=i+j</span>
+  <span class="hljs-keyword">sll </span>$<span class="hljs-built_in">t4</span> $<span class="hljs-built_in">t1</span> <span class="hljs-number">4</span>         <span class="hljs-comment"># 关键位置 $t4=($t1)x16 就是temp1=j*4*4 左移4位（乘16）</span>
+  <span class="hljs-keyword">add </span>$<span class="hljs-built_in">t4</span> $<span class="hljs-built_in">t4</span> $<span class="hljs-built_in">s2</span>       <span class="hljs-comment"># 用上一句计算出的偏移量，对D进行偏移</span>
+  <span class="hljs-keyword">sw </span> $<span class="hljs-built_in">t3</span> <span class="hljs-number">0</span>($<span class="hljs-built_in">t4</span>)        <span class="hljs-comment"># D[4*j]=temp0</span>
+<span class="hljs-symbol">exit2:</span>
+  <span class="hljs-keyword">addi </span>$<span class="hljs-built_in">t1</span> $<span class="hljs-built_in">t1</span> <span class="hljs-number">1</span>
+  <span class="hljs-keyword">j </span>loop2
+<span class="hljs-symbol">exit1:</span>
+  <span class="hljs-keyword">addi </span>$<span class="hljs-built_in">t0</span> $<span class="hljs-built_in">t0</span> <span class="hljs-number">1</span>
+  <span class="hljs-keyword">j </span>loop1</code></pre>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E4%B8%8E%E8%AE%BE%E8%AE%A1/">计算机组成原理与设计</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/09/27/pve-direct-pcie/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">pve虚拟机显卡直通教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/17/blog-without-server/">
+                        <span class="hidden-mobile">低至2元/年！搭建个人博客</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "MIPS指令集 课程笔记&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 60,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

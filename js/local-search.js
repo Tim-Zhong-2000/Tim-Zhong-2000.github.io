@@ -17,6 +17,7 @@
 // 02110-1301 USA
 //
 // Updated by Rook1e <https://github.com/0x2E>
+
 // eslint-disable-next-line no-unused-vars
 var searchFunc = function(path, search_id, content_id) {
   // 0x00. environment initialization
@@ -38,6 +39,7 @@ var searchFunc = function(path, search_id, content_id) {
         };
       }).get();
       $resultContent.innerHTML = '';
+
       $input.addEventListener('input', function() {
         // 0x03. parse query to keywords list
         var str = '';
@@ -65,6 +67,7 @@ var searchFunc = function(path, search_id, content_id) {
             keywords.forEach(function(keyword, i) {
               index_title = data_title.indexOf(keyword);
               index_content = data_content.indexOf(keyword);
+
               if (index_title < 0 && index_content < 0) {
                 isMatch = false;
               } else {
@@ -88,21 +91,27 @@ var searchFunc = function(path, search_id, content_id) {
               // cut out 100 characters
               var start = first_occur - 20;
               var end = first_occur + 80;
+
               if (start < 0) {
                 start = 0;
               }
+
               if (start === 0) {
                 end = 100;
               }
+
               if (end > content.length) {
                 end = content.length;
               }
+
               var match_content = content.substring(start, end);
+
               // highlight all keywords
               keywords.forEach(function(keyword) {
                 var regS = new RegExp(keyword, 'gi');
                 match_content = match_content.replace(regS, '<span class=\'pink-text\'>' + keyword + '</span>');
               });
+
               str += '<p class=\'search-list-content\'>' + match_content + '...</p>';
             }
           }

@@ -5,6 +5,7 @@ function listenScroll(callback) {
   window.addEventListener('scroll', dbc, false);
   dbc.handleEvent();
 }
+
 // 滚动到指定元素
 function scrollToElement(target, offset) {
   var scroll_offset = $(target).offset();
@@ -13,6 +14,7 @@ function scrollToElement(target, offset) {
     easing   : 'swing'
   });
 }
+
 // 顶部菜单的监听事件
 function navbarScrollEvent() {
   var navbar = $('#navbar');
@@ -41,6 +43,7 @@ function navbarScrollEvent() {
     $('#navbar').toggleClass('navbar-col-show');
   });
 }
+
 // 头图视差的监听事件
 function parallaxEvent() {
   var target = $('#background[parallax="true"]');
@@ -57,6 +60,7 @@ function parallaxEvent() {
       '-ms-transform'    : 'translate3d(0,' + oVal + 'px,0)',
       '-o-transform'     : 'translate3d(0,' + oVal + 'px,0)'
     });
+
     var toc = $('#toc');
     if (toc) {
       $('#toc-ctn').css({
@@ -68,12 +72,14 @@ function parallaxEvent() {
     listenScroll(parallax);
   }
 }
+
 // 向下滚动箭头的监听事件
 function scrollDownArrowEvent() {
   $('.scroll-down-bar').on('click', function() {
     scrollToElement('#board', -$('#navbar').height());
   });
 }
+
 // 向顶部滚动箭头的监听事件
 function scrollTopArrowEvent() {
   var topArrow = $('#scroll-top-button');
@@ -112,6 +118,7 @@ function scrollTopArrowEvent() {
     });
   });
 }
+
 $(document).ready(function() {
   navbarScrollEvent();
   parallaxEvent();

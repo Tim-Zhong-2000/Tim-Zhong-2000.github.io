@@ -1,4 +1,9 @@
 <html lang="zh-CN">
+
+
+
+
+
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
@@ -14,31 +19,51 @@
   <meta name="author" content="TimZhong">
   <meta name="keywords" content="program photo">
   <title>从安卓探究Linux内核CPU调速器 - TimZhong&#39;s Blog</title>
+
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
   <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
   
     <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
   
+
   
+
+
 <!-- 主题依赖的图标库，不要自行修改 -->
+
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
 <link  rel="stylesheet" href="/css/main.css" />
+
 <!-- 自定义样式保持在最底部 -->
+
+
   <script  src="/js/utils.js" ></script>
 <meta name="generator" content="Hexo 5.0.0"></head>
+
+
 <body>
   <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
        href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
+
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto text-center">
@@ -84,9 +109,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
               </a>
             </li>
           
@@ -96,9 +121,21 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
+              <a class="nav-link" target="_blank" rel="noopener" href="https://aes.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                aes在线混淆
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://h5ai.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                文件服务
               </a>
             </li>
           
@@ -113,6 +150,7 @@
     </div>
   </div>
 </nav>
+
     <div class="view intro-2" id="background" parallax=true
          style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
@@ -122,6 +160,7 @@
             <span class="h2" id="subtitle">
               
             </span>
+
             
               
   <div class="mt-3 post-meta">
@@ -130,6 +169,8 @@
       2019年10月19日 下午
     </time>
   </div>
+
+
 <div class="mt-1">
   
     
@@ -138,6 +179,7 @@
       1.9k 字
     </span>
   
+
   
     
     <span class="post-meta mr-2">
@@ -148,19 +190,24 @@
        分钟
     </span>
   
+
   
   
 </div>
+
             
           </div>
+
           
         </div>
       </div>
     </div>
   </header>
+
   <main>
     
       
+
 <div class="container-fluid">
   <div class="row">
     <div class="d-none d-lg-block col-lg-2"></div>
@@ -172,6 +219,7 @@
             <article class="markdown-body">
               <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>生活离不开手机，安卓占据了手机系统的半壁江山。手机cpu频率是手机性能的重要指标之一，目前顶级梯队的骁龙855芯片中“大核”频率已经达到了2.96GHz，即使它使用7nm工艺制造，运行在如此高频必然需要较高的核心电压，也同时会增加耗电。为了提高能耗比，除了物理上改进cpu设计，软件上优化软件算法……还有一个重要的措施————使用CPU调速器（Governor）。</p>
 <a id="more"></a>
+
 <h2 id="0x01-cpu如何手动调速"><a href="#0x01-cpu如何手动调速" class="headerlink" title="0x01 cpu如何手动调速"></a>0x01 cpu如何手动调速</h2><p>本文实验均在lineageOS进行(关闭高通热插拔与跳频设置)。本地化系统（如miui，flyme，emui等）或高通的热插拔技术可能会干预cpu频率，无法简单地进行手动调频。</p>
 <pre><code class="hljs awk"><span class="hljs-regexp">//</span>对cpu0进行调整
 cd <span class="hljs-regexp">/sys/</span>devices<span class="hljs-regexp">/system/</span>cpu<span class="hljs-regexp">/cpu0/</span>cpufreq/
@@ -180,6 +228,7 @@ echo <span class="hljs-number">2200000</span> &gt; scaling_max_freq
 <span class="hljs-regexp">//</span>调整cpu最小频率
 echo <span class="hljs-number">1596000</span> &gt; scaling_min_freq
 <span class="hljs-regexp">//</span>若将cpu最大最小频率设置为相同频率，即锁定cpu频率。</code></pre>
+
 <h2 id="0x02-什么是cpu调速器"><a href="#0x02-什么是cpu调速器" class="headerlink" title="0x02 什么是cpu调速器"></a>0x02 什么是cpu调速器</h2><p>机器处在相对空闲的状态下，此时CPU不需要运行在高频率上，调速器会降低cpu频率从而省电。当机器需要进行大量计算时，调速器会升高cpu频率以防止应用出现卡顿。广义上讲，AI优化也是一种调速器，因为现在手机厂商所谓AI优化很大一部分优化效果归功于对cpu频率的精准控制（当然AI优化也不全是调速器，还有动态分辨率调整之类的其他技术）。<br>简单来说，调速器就是根据负载情况自动化调节cpu频率的工具。</p>
 <h2 id="0x03-有哪些常见的cpu调速器"><a href="#0x03-有哪些常见的cpu调速器" class="headerlink" title="0x03 有哪些常见的cpu调速器"></a>0x03 有哪些常见的cpu调速器</h2><blockquote>
 <p>【interactive】交互模式（在安卓使用最广泛的调速器）<br>【conservative】保守模式<br>【performance】高性能模式<br>【powersave】省电模式</p>
@@ -232,6 +281,7 @@ echo <span class="hljs-number">1596000</span> &gt; scaling_min_freq
 		<span class="hljs-function"><span class="hljs-title">new_freq</span> = tunables-&gt;</span>hispeed_freq;
 	&#125; <span class="hljs-keyword">else</span> &#123;<span class="hljs-comment">//此时需要选择比hispeed_freq更大的频率</span>
 		new_freq = choose_freq(pcpu, loadadjfreq);
+
 		<span class="hljs-function"><span class="hljs-title">if</span> (new_freq &lt; tunables-&gt;</span>hispeed_freq)
 			<span class="hljs-function"><span class="hljs-title">new_freq</span> = tunables-&gt;</span>hispeed_freq;
 	&#125;
@@ -243,6 +293,7 @@ echo <span class="hljs-number">1596000</span> &gt; scaling_min_freq
 <h3 id="如何确定目标频率具体数值？-choose-freq的实现"><a href="#如何确定目标频率具体数值？-choose-freq的实现" class="headerlink" title="如何确定目标频率具体数值？(choose_freq的实现)"></a>如何确定目标频率具体数值？(choose_freq的实现)</h3><p>注：loadadjfreq算法</p>
 <pre><code class="hljs zephir">cputime_speedadj = (u64)sched_get_busy(data) * pcpu-&gt;policy-&gt;cpuinfo.max_freq;
 loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>)cputime_speedadj * <span class="hljs-number">100</span>;<span class="hljs-comment">//内核不支持浮点运算</span>
+
      <span class="hljs-comment">/*</span>
 <span class="hljs-comment">     choose_freq函数用来选频，使选频后的系统workload小于或等于target load</span>
 <span class="hljs-comment">     核心思想是：选择最小的频率来满足target load</span>
@@ -333,7 +384,9 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
  
 	<span class="hljs-keyword">return</span> freq;
     &#125;</code></pre>
+
 <h2 id="待更新：-在应用频率前，调速器还做了那些事？"><a href="#待更新：-在应用频率前，调速器还做了那些事？" class="headerlink" title="待更新： 在应用频率前，调速器还做了那些事？"></a>待更新： 在应用频率前，调速器还做了那些事？</h2><p><strong>2019-10-21待更新</strong></p>
+
             </article>
             <hr>
             <div>
@@ -387,6 +440,7 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
                 </div>
               
             </div>
+
             
           </div>
         </div>
@@ -398,18 +452,24 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
   <div id="tocbot"></div>
 </div>
+
       </div>
     
   </div>
 </div>
+
 <!-- Custom -->
+
+
     
   </main>
+
   
     <a id="scroll-top-button" href="#" role="button">
       <i class="iconfont icon-arrowup" aria-hidden="true"></i>
     </a>
   
+
   
     <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
@@ -433,8 +493,11 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
   </div>
 </div>
   
+
   
+
   
+
   <footer class="mt-5">
   <div class="text-center py-3">
     <div>
@@ -444,26 +507,43 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
         <span>Fluid</span></a>
     </div>
     
+
     
+
     
   </div>
 </footer>
+
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 <script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
+
 <!-- Plugins -->
+
+
   
     <script  src="/js/lazyload.js" ></script>
   
+
+
+
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
   <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
   <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
       var boardCtn = $('#board-ctn');
       var boardTop = boardCtn.offset().top;
+
       tocbot.init({
         tocSelector: '#tocbot',
         contentSelector: 'article.markdown-body',
@@ -482,6 +562,9 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
       }
     });
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
   <script>
     var typed = new Typed('#subtitle', {
@@ -499,6 +582,9 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
       typed.start();
     });
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
   <script>
     anchors.options = {
@@ -513,6 +599,9 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
     }
     anchors.add(res.join(", "))
   </script>
+
+
+
   <script  src="/js/local-search.js" ></script>
   <script>
     var path = "/local-search.xml";
@@ -522,8 +611,12 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
       this.onclick = null
     }
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
   <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
   <script>
     $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
       function () {
@@ -534,5 +627,25 @@ loadadjfreq = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyw
       }
     );
   </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

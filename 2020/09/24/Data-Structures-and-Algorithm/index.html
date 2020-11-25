@@ -1,4 +1,9 @@
 <html lang="zh-CN">
+
+
+
+
+
 <head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
@@ -14,31 +19,51 @@
   <meta name="author" content="TimZhong">
   <meta name="keywords" content="program photo">
   <title>Data Structures and Algorithm 课堂笔记 - TimZhong&#39;s Blog</title>
+
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
   <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
   
     <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
   
+
   
+
+
 <!-- 主题依赖的图标库，不要自行修改 -->
+
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
 <link  rel="stylesheet" href="/css/main.css" />
+
 <!-- 自定义样式保持在最底部 -->
+
+
   <script  src="/js/utils.js" ></script>
 <meta name="generator" content="Hexo 5.0.0"></head>
+
+
 <body>
   <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
        href="/">&nbsp;<strong>T Blog</strong>&nbsp;</a>
+
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
+
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto text-center">
@@ -84,9 +109,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
               </a>
             </li>
           
@@ -96,9 +121,21 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
+              <a class="nav-link" target="_blank" rel="noopener" href="https://aes.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                aes在线混淆
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://h5ai.timzhong.top">
+                <i class="iconfont icon-link-fill"></i>
+                文件服务
               </a>
             </li>
           
@@ -113,6 +150,7 @@
     </div>
   </div>
 </nav>
+
     <div class="view intro-2" id="background" parallax=true
          style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
@@ -122,6 +160,7 @@
             <span class="h2" id="subtitle">
               
             </span>
+
             
               
   <div class="mt-3 post-meta">
@@ -130,37 +169,45 @@
       2020年9月24日 上午
     </time>
   </div>
+
+
 <div class="mt-1">
   
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      178 字
+      1.4k 字
     </span>
   
+
   
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      15
        分钟
     </span>
   
+
   
   
 </div>
+
             
           </div>
+
           
         </div>
       </div>
     </div>
   </header>
+
   <main>
     
       
+
 <div class="container-fluid">
   <div class="row">
     <div class="d-none d-lg-block col-lg-2"></div>
@@ -172,6 +219,82 @@
             <article class="markdown-body">
               <h2 id="2020-9-24"><a href="#2020-9-24" class="headerlink" title="2020.9.24"></a>2020.9.24</h2><h3 id="算法设计的考量"><a href="#算法设计的考量" class="headerlink" title="算法设计的考量"></a>算法设计的考量</h3><p>internal运算即操作的数据在内存中，需要更多考虑到运算量。<br>操作的数据在硬盘中需要更多考虑IO数，因为<strong>IO远比运算耗费资源</strong>。</p>
 <h3 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h3><p><strong>优势：更小的查找次数，在比较操作很费资源的情况有明显优势</strong><br>递归操作：取中点，判断查找的数据在左还是右边。<br>终止条件：搜索范围为1，判断是否等于目标值。搜索范围为0或者负数(下面注意提到)就认为没有搜索到。<br>注意点：可能出现开始比终止小的时候，需要单独写一个判断。</p>
+<h3 id="2020-10-8"><a href="#2020-10-8" class="headerlink" title="2020.10.8"></a>2020.10.8</h3><p>基于比较的排序算法复杂度下界：$n\log_2n$<br>拆分并重组思路的排序：归并排序(重点是重组)、快速排序(重点是拆分)<br>归并排序：链式结构排序首选<br>快速排序：数组结构排序首选</p>
+<h2 id="2020-10-13"><a href="#2020-10-13" class="headerlink" title="2020.10.13"></a>2020.10.13</h2><p>快速排序</p>
+<p>数据结构：堆<br>若编号从0开始。编号为k的节点，左右两个孩子的编号分别是2k+1和2k+2。<br>若编号从1开始。两个孩子分别是2k和2k+1</p>
+<p>大(小)顶堆：父节点值比子节点大(小)</p>
+<p>内存中的堆与数据结构中的堆没有半毛钱关系</p>
+<p>算法：堆排序<br>原理与选择排序相似，思路都是：</p>
+<ol>
+<li>选择最大值</li>
+<li>移出当前最大值</li>
+<li>寻找下一个最大值…</li>
+</ol>
+<p>堆排序有几个典型操作：</p>
+<ol>
+<li>建堆(初始化)复杂度O(nlog(n))<ol>
+<li>父节点与两个子节点，三数比较，选出最大数放入父节点。</li>
+<li>进入子节点重复操作</li>
+</ol>
+</li>
+</ol>
+<ol start="2">
+<li><p>选择最大值<br>对于数组：<br> 取出最后一位 temp<br> 把arr[0]移动到最后一位</p>
+</li>
+<li><p>重建<br>此时arr[0]没有元素</p>
+<ol>
+<li>对比0的子节点1，2，游离节点（假设1大），选出最大的节点1放入0</li>
+<li>对比1的子节点3，4，游离节点（假设3大），选出最大的节点3放入1</li>
+<li>反复操作<pre><code class="hljs pgsql">rebuild(<span class="hljs-keyword">current</span>, <span class="hljs-keyword">start</span>, <span class="hljs-keyword">end</span>)&#123;
+    <span class="hljs-type">int</span> leaf = <span class="hljs-number">2</span>*<span class="hljs-keyword">start</span>+<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span>(leaf &lt;= <span class="hljs-keyword">end</span>)&#123;
+        // 比较相邻的节点,选中大的那一个
+        <span class="hljs-keyword">if</span>(leaf&amp;lt;<span class="hljs-keyword">end</span> &amp;&amp; entry[leaf]&amp;lt;entry[leaf+<span class="hljs-number">1</span>])&#123;
+            leaf++;
+        &#125;
+        <span class="hljs-keyword">if</span>(entry[leaf]&amp;lt;<span class="hljs-keyword">current</span>)&#123;
+            //<span class="hljs-keyword">current</span>最大所以放在根节点
+            entry[<span class="hljs-keyword">start</span>]=<span class="hljs-keyword">current</span>;
+            break;
+        &#125;
+        // 把大的一个节点移动到根节点
+        entry[<span class="hljs-keyword">start</span>] = entry[leaf];
+        // 进入以leaf为根的更小的树
+        start = leaf;
+        leaf = leaf*<span class="hljs-number">2</span> + <span class="hljs-number">1</span>;
+    &#125;
+&#125;</code></pre>
+
+</li>
+</ol>
+</li>
+</ol>
+<p>堆排序中选择最大值操作简单，直接从堆顶取元素可以得到最大值，复杂度为O(1)<br>移出堆顶后需要维护自身，使得第二大的数置于堆顶，复杂度为O(log(n))…</p>
+<p>算法效率分析：不考虑建堆时间，对于n个元素，需要做n次选择，每次维护复杂度O(log(n))，所以恒为O(nlog(n))。</p>
+<h2 id="2020-10-15"><a href="#2020-10-15" class="headerlink" title="2020-10-15"></a>2020-10-15</h2><p>主题：突破nlog(n)的排序算法</p>
+<h3 id="计数排序-counting-sort"><a href="#计数排序-counting-sort" class="headerlink" title="计数排序 (counting sort)"></a>计数排序 (counting sort)</h3><p>假设n个元素都是正整数，最大值为m</p>
+<p>把元素插入对应下标位置，只需要O(n)，需要m空间<br>合并成连续数组时需要扫描m长度的数组，复杂度为O(m)</p>
+<p>排序复杂度为O(m+n)<br>优势：当n很大m很小时，很有优势<br>劣势：如果数据非常离散m大n小，不如快排等O(nlog(n))排序算法</p>
+<h3 id="radix-sort"><a href="#radix-sort" class="headerlink" title="radix sort"></a>radix sort</h3><p>假设最大的数有k位，(10001有5位)<br>先对个位进行counting sort，得到第一轮结果<br>再对十位进行counting sort，得到第二轮结果<br>…<br>得到最终结果</p>
+<p>复杂度O(kn)</p>
+<h2 id="2020-10-20"><a href="#2020-10-20" class="headerlink" title="2020-10-20"></a>2020-10-20</h2><h3 id="散列表-哈希表"><a href="#散列表-哈希表" class="headerlink" title="散列表(哈希表)"></a>散列表(哈希表)</h3><p>问题：如何存储100个手机号码（13511111111，13512341234……）对应的余额等信息，提供比较高效的查找速度。</p>
+<p>散列表思路：将100个手机号码映射到100个不同的下标。假设这个从手机号到下标的转换函数为<code>hashFunction</code>。</p>
+<p>|  —-    |     —-    |     —-    | —- |<br>| 手机号码 | 13511111111 | 13512341234 |  ……  |<br>| 数组下标 | 0           | 1           |  ……  |<br>| 余额     | 100         | 200         |  ……  |</p>
+<p>可能出现的问题：哈希函数可能发生冲突，比如号码13511111111与号码1361111111经过哈希函数计算，结果都为0，都指向数组0号元素。因为哈希函数原理上会减少原来的信息量，所以哈希函数的冲突不可避免。但是改进哈希函数可以降低冲突发生的概率。</p>
+<p>既然存在冲突，可以考虑让一个位置存放多个元素。先用哈希表确定下标，再从这个下标的有限个元素中搜索出要找的元素。</p>
+<h2 id="2020-10-22"><a href="#2020-10-22" class="headerlink" title="2020-10-22"></a>2020-10-22</h2><h3 id="二次哈希"><a href="#二次哈希" class="headerlink" title="二次哈希"></a>二次哈希</h3><p>在空间足够的时候，表现很好</p>
+<p>增：<br>插入的时候如果发生冲突就进行二次哈希。</p>
+<p>删：<br>存在的问题：删除元素可能会导致无法查找，因为二次哈希逆向查找时会一个个找，找到空的时候认为无法命中。<br>解决方案：删除时在删除元素处做记号。</p>
+<p>改：<br>没什么好说的，直接改</p>
+<p>查：</p>
+<h2 id="2020-11-12"><a href="#2020-11-12" class="headerlink" title="2020-11-12"></a>2020-11-12</h2><p>二叉搜索树<br>删除节点：找出</p>
+<ol>
+<li>大于左树顶的节点</li>
+<li>小于右数的节点<br>伪代码实现：<br>查找子树最大元素(root)<br> max = root<br> while(max右节点 != nullptr)<pre><code> max = max右节点</code></pre>
+ return max</li>
+</ol>
+<p>删除节点(root)<br> // 有右子树<br>    max = 查找子树最大元素（root）<br>    root数据=max数据<br>    删除max节点<br> // 无右子树<br>    parent直接指向左子树<br> // 无子树<br>    直接删除节点</p>
+
             </article>
             <hr>
             <div>
@@ -198,6 +321,7 @@
               
               
             </div>
+
             
           </div>
         </div>
@@ -209,18 +333,24 @@
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
   <div id="tocbot"></div>
 </div>
+
       </div>
     
   </div>
 </div>
+
 <!-- Custom -->
+
+
     
   </main>
+
   
     <a id="scroll-top-button" href="#" role="button">
       <i class="iconfont icon-arrowup" aria-hidden="true"></i>
     </a>
   
+
   
     <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
@@ -244,8 +374,11 @@
   </div>
 </div>
   
+
   
+
   
+
   <footer class="mt-5">
   <div class="text-center py-3">
     <div>
@@ -255,26 +388,43 @@
         <span>Fluid</span></a>
     </div>
     
+
     
+
     
   </div>
 </footer>
+
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
 <script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
+
 <!-- Plugins -->
+
+
   
     <script  src="/js/lazyload.js" ></script>
   
+
+
+
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
   <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
   <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
       var boardCtn = $('#board-ctn');
       var boardTop = boardCtn.offset().top;
+
       tocbot.init({
         tocSelector: '#tocbot',
         contentSelector: 'article.markdown-body',
@@ -293,6 +443,9 @@
       }
     });
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
   <script>
     var typed = new Typed('#subtitle', {
@@ -310,6 +463,9 @@
       typed.start();
     });
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
   <script>
     anchors.options = {
@@ -324,6 +480,9 @@
     }
     anchors.add(res.join(", "))
   </script>
+
+
+
   <script  src="/js/local-search.js" ></script>
   <script>
     var path = "/local-search.xml";
@@ -333,8 +492,12 @@
       this.onclick = null
     }
   </script>
+
+
+
   <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
   <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
   <script>
     $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
       function () {
@@ -345,5 +508,25 @@
       }
     );
   </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

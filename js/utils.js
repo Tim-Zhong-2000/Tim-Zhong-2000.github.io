@@ -19,6 +19,7 @@ function createObserver(func, obid) {
     func();
   }
 }
+
 // eslint-disable-next-line no-unused-vars
 function addScript(url, onload) {
   var s = document.createElement('script');
@@ -44,6 +45,7 @@ function addScript(url, onload) {
     || document.head || document.documentElement;
   e.parentNode.insertBefore(s, e);
 }
+
 // eslint-disable-next-line no-unused-vars
 function addCssLink(url) {
   var l = document.createElement('link');
